@@ -35,8 +35,8 @@ import com.google.gwt.http.client.URL;
  * 		Abstract class. 
  * Connect and execute a command on WebDAV server.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public abstract class WdHttpMethod {

@@ -43,8 +43,8 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * The application contains 3 panels (top, center, bottom).
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class CenterPanelAdmin extends CenterPanel{
@@ -69,11 +69,11 @@ public class CenterPanelAdmin extends CenterPanel{
 
 
 	/**
-	 * add the image to the table.
+	 * adds the image to the table.
 	 */
 	@Override
 	protected void showImg(String imagesPath){
-		cellID = 0;
+/*		cellID = 0;
 		for(int h=0;h<3;h++){
 			for(int w=0;w<3;w++){
 				if(cellID<imgCountLimit){
@@ -101,7 +101,7 @@ public class CenterPanelAdmin extends CenterPanel{
 				}
 			}
 		}
-		addClickEvent();
+		addClickEvent();*/
 	}
 	
 	
@@ -113,7 +113,7 @@ public class CenterPanelAdmin extends CenterPanel{
 	 */
 	@Override
 	protected void showPopUpImg(int id){
-		new PopUpImgShowAdmin(id-1, imgPath, pictures).show();
+//		new PopUpImgShowAdmin(id-1, imgPath, pictures).show();
 	}
 	
 	

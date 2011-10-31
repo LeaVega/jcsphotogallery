@@ -1,5 +1,5 @@
 /*	
- * 	File    : PanelBottom.java
+ * 	File    : AlbumsCategory.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,31 +22,33 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.client;
 
-import javax.swing.JPanel;
+import java.util.ArrayList;
 
 /**
- * This class .
+ * Class to keep albums' index for each category name.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class PanelBottom extends JPanel{
-
-	private GalleryExport albumsList;
-
-	private void initialize() {
+public class AlbumsCategory {
+	
+	private ArrayList<Integer> albums = new ArrayList<Integer>();
+	private String categoryString;
+	private int position;
+	
+	public AlbumsCategory(String categoryString,
+			int position, int albumIndex) {
+		super();
+		this.categoryString = categoryString;
+		this.position = position;
+		addAlbumToCategory(albumIndex);
 	}
-
-	public void savechanges() {
-	}
-
-	public void nextPictureButton() {
-	}
-
-	public void previousPictureButton() {
+	
+	public void addAlbumToCategory(int albumIndex){
+		albums.add(albumIndex);
 	}
 
 }

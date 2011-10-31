@@ -34,15 +34,15 @@ import com.google.gwt.user.client.ui.ListBox;
  * This class create the TOP panel.
  * The application contains 3 panels (top, center, bottom).
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class TopPanel extends AbsolutePanel{
 
-	Jcsphotogallery pg;
-	ListBox sortAlbums;
-	HTML homePage;
+	private Jcsphotogallery pg;
+	private ListBox sortAlbums;
+	private HTML homePage;
 
 	public TopPanel(Jcsphotogallery pg, String homeLink){
 		this.pg = pg;

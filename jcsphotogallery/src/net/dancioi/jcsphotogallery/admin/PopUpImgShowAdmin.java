@@ -27,6 +27,12 @@ package net.dancioi.jcsphotogallery.admin;
 import net.dancioi.jcsphotogallery.client.PictureBean;
 import net.dancioi.jcsphotogallery.client.PopUpImgShow;
 
+/**
+ * 	PopUp image.
+ *  
+ * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ */
 public class PopUpImgShowAdmin extends PopUpImgShow{
 
 	public PopUpImgShowAdmin(int imgStart, String imgPath, PictureBean[] pictures) {

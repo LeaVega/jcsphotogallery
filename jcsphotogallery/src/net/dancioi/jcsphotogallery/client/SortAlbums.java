@@ -29,21 +29,21 @@ import java.util.ArrayList;
 /**
  * The class to sort the albums by categories.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class SortAlbums {
 
-	Jcsphotogallery pg;
+	private Jcsphotogallery pg;
 
-	String[] albumCat1;		// first category selection
-	String[] albumCat2;		// second category selection
+	private String[] albumCat1;		// first category selection
+	private String[] albumCat2;		// second category selection
 
-	ArrayList<SortItem> item1 = new ArrayList<SortItem>();
-	ArrayList<SortItem> item2 = new ArrayList<SortItem>();
+	private ArrayList<SortItem> item1 = new ArrayList<SortItem>();
+	private ArrayList<SortItem> item2 = new ArrayList<SortItem>();
 
-	boolean[] albumVisible;
+	private boolean[] albumVisible;
 
 	public SortAlbums(Jcsphotogallery pg){
 		this.pg = pg;	
@@ -60,10 +60,10 @@ public class SortAlbums {
 		albumVisible = new boolean[albumCat1.length];
 		sort1(albumCat1);
 		sort2(albumCat2);
-		pg.topPanel.setSortedCat(getResult());
+		pg.addSortedCategories(getResult());
 	}
 
-	public void sortAlbums(String[][] categories){
+	public void sortAllAlbums(String[][] categories){
 		sortAlbums(categories[0], categories[1]);
 	}
 	
@@ -173,7 +173,7 @@ public class SortAlbums {
 
 
 	/**
-	 * This class keep the categories sort results.
+	 * This class keeps the sort categories' results.
 	 *
 	 */
 	class SortItem{

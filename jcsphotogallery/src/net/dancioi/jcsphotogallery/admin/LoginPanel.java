@@ -41,8 +41,8 @@ import com.google.gwt.user.client.ui.TextBox;
  * The Login Panel. 
  * Check the Username and Password to login on WebDAV.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 

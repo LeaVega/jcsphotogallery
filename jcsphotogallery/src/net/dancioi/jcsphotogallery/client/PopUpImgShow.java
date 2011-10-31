@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.Label;
  * This class shows the selected image 
  * (from the center panel) on a PopUp panel.
  *  
- * @version 1.3 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class PopUpImgShow extends PopupGeneric{

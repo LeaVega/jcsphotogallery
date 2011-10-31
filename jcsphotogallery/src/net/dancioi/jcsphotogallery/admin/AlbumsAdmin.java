@@ -24,14 +24,13 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.AlbumBean;
 import net.dancioi.jcsphotogallery.client.Albums;
 
 /**
  * 	The admin album class.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class AlbumsAdmin extends Albums{
@@ -39,7 +38,7 @@ public class AlbumsAdmin extends Albums{
 	
 	public void showAll(){
 		addAlbumOpt();
-		setVisibleAlbums();
+		setVisibleAllAlbums();
 	}
 	
 	private void addAlbumOpt(){

@@ -1,5 +1,5 @@
 /*	
- * 	File    : PanelBottom.java
+ * 	File    : AlbumsDataAccess.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,31 +22,22 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
-
-import javax.swing.JPanel;
+package net.dancioi.jcsphotogallery.client;
 
 /**
- * This class .
- *  
+ * Interface for Gallery's Albums data access.
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
+public interface AlbumsDataAccess {
 
-public class PanelBottom extends JPanel{
-
-	private GalleryExport albumsList;
-
-	private void initialize() {
-	}
-
-	public void savechanges() {
-	}
-
-	public void nextPictureButton() {
-	}
-
-	public void previousPictureButton() {
-	}
-
+	public void setGalleryName(String galleryName, String nameHomePage);
+	
+	public void attachAllAlbums(AlbumBean[] photoAlbums);
+	
+	public void attachAlbumPhotos(String curentImgPath, PictureBean[] pictures);
+	
+	public void readsAlbumPhotos(boolean photosFlag);
+	
 }

@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * This class is a generic for PopUp panel. 
  * Define the center position. 
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class PopupGeneric extends PopupPanel{
@@ -43,7 +43,7 @@ public class PopupGeneric extends PopupPanel{
 	private int browserWindowH;	// browser window size on Y
 	
 	/**
-	 * Constructor.
+	 * 
 	 * @param sizeX
 	 * @param sizeY
 	 */

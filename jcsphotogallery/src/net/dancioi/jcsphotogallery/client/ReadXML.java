@@ -1,7 +1,7 @@
 /*	
  * 	File    : ReadXML.java
  * 
- * 	Copyright (C) 2010 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2010-2011 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -36,27 +36,26 @@ import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.impl.DOMParseException;
 
 /**
- * The class to read the XML files from the web server.
+ * Reads the XML files from the web server.
  *  
- * @version 1.0.2 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class ReadXML extends ReadXMLGeneric{
 
-	Jcsphotogallery pg;
-	boolean albumsFlag = true;		// flag to read the albums xml file just once.
-	String curentImgPath;
-	String currentXMLFile;
+	private AlbumsDataAccess albumsDataAccess;
+	private boolean albumsFlag = true;				// flag to read the albums xml file just once.
+	private String curentImgPath;
+	private String currentXMLFile;
 
-	public ReadXML(Jcsphotogallery pg){
-		this.pg = pg;
-		// read the xml file where the albums parameters are.
-		getXML("gallery/albums.xml", "gallery/");
+	public ReadXML(AlbumsDataAccess albumsDataAccess){
+		this.albumsDataAccess = albumsDataAccess;
+		getXML("gallery/albums.xml", "gallery/"); 	// read the xml file where the albums parameters are.
 	}
 
 	/**
-	 * Method to get the XML file from http server.
+	 * Gets the XML file from http server.
 	 */
 	@Override
 	public void getXML(String file, String imgPath){
@@ -88,7 +87,7 @@ public class ReadXML extends ReadXMLGeneric{
 	}
 
 	/**
-	 * Method that sets the current XML file.  
+	 * Sets the current XML file.  
 	 * @param currentFile
 	 */
 	private void setCurrentXMLFile(String currentFile){
@@ -96,7 +95,7 @@ public class ReadXML extends ReadXMLGeneric{
 	}
 
 	/**
-	 * Method to get the current XML file.
+	 * Gets the current XML file.
 	 * @return String
 	 */
 	private String getCurrentXMLFile(){
@@ -104,7 +103,7 @@ public class ReadXML extends ReadXMLGeneric{
 	}
 
 	/**
-	 * Method to get the albums' items' list.
+	 * Gets the albums' items' list.
 	 * Parse the XML string.
 	 * @param xmlText String.
 	 */
@@ -119,32 +118,26 @@ public class ReadXML extends ReadXMLGeneric{
 
 			String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
 			String nameHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
-			pg.setGalleryName(galleryName, nameHomePage);
+			albumsDataAccess.setGalleryName(galleryName, nameHomePage);
 
 			albumsFlag = false;
-//TODO add a file version and an element with categories number;
-			String[] categories = new String[2];
-			
+
+			String[] categories = null;
+
 			NodeList albums = element.getElementsByTagName("album");
 			int albumsCount = albums.getLength();
-			AlbumBean[] album = new AlbumBean[albumsCount];
-
-			pg.initializeAlbums();
+			AlbumBean[] photoAlbums = new AlbumBean[albumsCount];
 
 			for (int i = 0; i < albumsCount; i++) {
 				Element elAlbum = (Element) albums.item(i);
-				
-				categories[0] = elAlbum.getAttribute("cat1");
-				categories[1] = elAlbum.getAttribute("cat2");
-				album[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), 
+
+				String allCategories = elAlbum.getAttribute("category");
+				categories = allCategories.split(",");
+				photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), 
 						elAlbum.getAttribute("name"), categories);
 			}
-			
-			pg.albums.setAlbums(album);
-			pg.albums.showAll();		// at the beginning shows all albums.
-			pg.center.prepareImg("gallery/", pg.albums.getNrAlbums(), pg.albums.getAlbumsVisible(), false);
-			
-			pg.sA.sortAlbums(pg.albums.getAlbumsCategories());
+
+			albumsDataAccess.attachAllAlbums(photoAlbums);
 		}
 		catch(DOMParseException de){
 			new ReadException("File "+getCurrentXMLFile()+" parse exception. Use a XML editor to avoid syntax errors in xml file.");
@@ -152,7 +145,7 @@ public class ReadXML extends ReadXMLGeneric{
 	}
 
 	/**
-	 * Method to get the album's images list.
+	 * Gets the album's images list.
 	 */
 	@Override
 	public void readAlbum(String xmlText){
@@ -160,9 +153,9 @@ public class ReadXML extends ReadXMLGeneric{
 		try{
 			document = XMLParser.parse(xmlText);
 
-			pg.albumsFlag = false;
-			
-			
+			albumsDataAccess.readsAlbumPhotos(true);
+
+
 			Element element = document.getDocumentElement();
 			XMLParser.removeWhitespace(element);
 
@@ -170,7 +163,7 @@ public class ReadXML extends ReadXMLGeneric{
 			int imgCount = images.getLength();
 
 			PictureBean[] pictures = new PictureBean[imgCount]; 
-			
+
 			for (int i = 0; i < images.getLength(); i++) {
 				Element elAlbum = (Element) images.item(i);
 
@@ -178,8 +171,7 @@ public class ReadXML extends ReadXMLGeneric{
 						elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
 			}
 
-			
-			pg.center.prepareImg(curentImgPath, pictures.length, pictures, true);
+			albumsDataAccess.attachAlbumPhotos(curentImgPath, pictures);
 		}
 		catch(DOMParseException de){
 			new ReadException("File "+getCurrentXMLFile()+" parse exception. Use a XML editor to avoid syntax errors in xml file.");

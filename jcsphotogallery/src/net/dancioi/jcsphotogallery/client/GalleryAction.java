@@ -1,5 +1,5 @@
 /*	
- * 	File    : PanelBottom.java
+ * 	File    : GalleryAction.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,31 +22,20 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
-
-import javax.swing.JPanel;
+package net.dancioi.jcsphotogallery.client;
 
 /**
- * This class .
- *  
+ * Interface for gallery actions.
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
+public interface GalleryAction {
 
-public class PanelBottom extends JPanel{
-
-	private GalleryExport albumsList;
-
-	private void initialize() {
-	}
-
-	public void savechanges() {
-	}
-
-	public void nextPictureButton() {
-	}
-
-	public void previousPictureButton() {
-	}
-
+	public void previousPageEvent();
+	
+	public void nextPageEvent();
+	
+	public void upToAlbumsEvent();
+	
 }

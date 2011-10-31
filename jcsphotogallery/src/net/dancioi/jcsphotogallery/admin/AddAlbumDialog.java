@@ -42,8 +42,8 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * 	The album dialog to create a new album.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class AddAlbumDialog  extends PopupGeneric{
@@ -129,8 +129,7 @@ public class AddAlbumDialog  extends PopupGeneric{
 	    // Add an event handler to the form.
 	    fp.addSubmitHandler(new FormPanel.SubmitHandler() {
 	      public void onSubmit(SubmitEvent event) {
-	        // This event is fired just before the form is submitted. We can take
-	        // this opportunity to perform validation.
+	        // This event is fired just before the form is submitted. 
 	        if (folder.getText().length() == 0) {
 	          Window.alert("The text box must not be empty");
 	          event.cancel();
@@ -140,10 +139,7 @@ public class AddAlbumDialog  extends PopupGeneric{
 	    
 	    fp.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 	      public void onSubmitComplete(SubmitCompleteEvent event) {
-	        // When the form submission is successfully completed, this event is
-	        // fired. Assuming the service returned a response of type text/html,
-	        // we can get the result text here (see the FormPanel documentation for
-	        // further explanation).
+	        // When the form submission is successfully completed, this event is fired. 
 	        Window.alert(event.getResults());
 	      }
 	    });

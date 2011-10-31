@@ -30,8 +30,8 @@ import net.dancioi.jcsphotogallery.client.AlbumBean;
 /**
  * This class .
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class Album extends AlbumBean implements AlbumNode {

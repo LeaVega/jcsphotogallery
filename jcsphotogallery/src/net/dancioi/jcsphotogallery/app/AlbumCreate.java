@@ -26,8 +26,8 @@ package net.dancioi.jcsphotogallery.app;
 /**
  * This class .
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class AlbumCreate {

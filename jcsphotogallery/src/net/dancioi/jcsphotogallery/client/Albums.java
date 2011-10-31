@@ -24,17 +24,21 @@
 
 package net.dancioi.jcsphotogallery.client;
 
+import java.util.ArrayList;
+
 /**
  * The class to keep the albums data.
  *  
- * @version 1.2 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 public class Albums {
 	
 	private AlbumBean[] albums;
-	private AlbumBean[] albumsVisible;
-	private int nrAlbumsVisible;					
+	private int nrAlbumsVisible;	
+	
+	private ArrayList<String> categoryString = new ArrayList<String>();
+	private ArrayList<AlbumsCategory> categories = new ArrayList<AlbumsCategory>();
 	
 	public Albums(){
 		
@@ -62,13 +66,9 @@ public class Albums {
 
 		nrAlbumsVisible = count;
 
-		albumsVisible = new AlbumBean[count];
-		int in=0;
 		for(int i=0;i<visible.length;i++){
 			if(visible[i]){				
-				albumsVisible[in] = new AlbumBean(albums[i].getImgThumbnail(), 
-						albums[i].getFolderName(), albums[i].getName(), null);
-				in++;
+//				albums[i].setVisible(true);
 			}
 		}
 	}
@@ -77,18 +77,12 @@ public class Albums {
 	 * Show all albums.
 	 */
 	public void showAll(){
-		setVisibleAlbums();
+		setVisibleAllAlbums();
 	}
 
-	protected void setVisibleAlbums(){
-		nrAlbumsVisible = albums.length;
-	
-		albumsVisible = new AlbumBean[nrAlbumsVisible];
-		
-		for(int i=0;i<nrAlbumsVisible;i++){
-			albumsVisible[i] = new AlbumBean(albums[i].getImgThumbnail(), 
-					albums[i].getFolderName(), albums[i].getName(), null);
-		}
+	protected void setVisibleAllAlbums(){
+	//	for(int i=0;i<albums.length;i++)
+	//		albums[i].setVisible(true);
 	}
 	
 
@@ -105,17 +99,36 @@ public class Albums {
 	}
 	
 	
-	public AlbumBean[] getAlbumsVisible(){
-		return albumsVisible;
+	public AlbumBean[] getVisibleAlbums(){
+		return albums;
 	}
 	
 	public String getAlbumFolderName(int a){
-		return albumsVisible[a].getFolderName();
+		return albums[a].getFolderName();
 	}
 	
 	public String getAlbumName(int a){
-		return albumsVisible[a].getName();
+		return albums[a].getName();
 	}
+	
+	/*
+	 * gets the album's index for each category string.
+	 */
+	private void getAllCategories(){
+		for(int i=0;i<albums.length;i++){
+			String[] albumCategories = albums[i].getCategory();
+			for(int albumIndex=0;albumIndex<albumCategories.length;albumIndex++){
+				if(categoryString.contains(albumCategories[albumIndex])){
+					int index = categoryString.indexOf(albumCategories[albumIndex]); 
+					categories.get(index).addAlbumToCategory(albumIndex);
+				}
+				else{
+					categories.add(new AlbumsCategory(albumCategories[albumIndex], categories.size(), albumIndex));
+				}
+			}
+		}
+	}
+	
 	
 	/**
 	 * Method to get the albums categories.

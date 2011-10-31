@@ -43,8 +43,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  * For a demo of this project see the following web page:
  * http://www.dancioi.net/projects/jcsphotogallery/demo/
  * 
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class JcsPhotoGalleryAdmin extends Jcsphotogallery{
@@ -61,19 +61,19 @@ public class JcsPhotoGalleryAdmin extends Jcsphotogallery{
 	
 	
 	/**
-	 * Method to add the center panel.
+	 * Adds the center panel.
 	 */
 	protected void addCenterPanel(){
-		center = new CenterPanelAdmin(this);
-		RootPanel.get("images").add(center); 
+		centerPanel = new CenterPanelAdmin(this);
+		RootPanel.get("images").add(centerPanel); 
 	}
 	
 	
 	/**
-	 * Method to add the bottom panel.
+	 * Adds the bottom panel.
 	 */
 	protected void addBottomPanel(){
-		bottomPanel = new BottomPanelAdmin(this);
+		bottomPanel = new BottomPanelAdmin(getGalleryVersion(), this);
 		RootPanel.get("bottomPanel").add(bottomPanel);
 	}
 	
@@ -95,19 +95,13 @@ public class JcsPhotoGalleryAdmin extends Jcsphotogallery{
 	}
 		
 	public void loginTrue(){
-		//Window.alert("Succesfully login");
+
 	}
 	
-	
-	
-	@Override
-	public void initializeAlbums(){
-		albums = new AlbumsAdmin();
-	}
 
 	
 	/**
-	 * Method to get the selected album parameters.
+	 * Gets the selected album parameters.
 	 * @param nr
 	 */
 	@Override
@@ -124,7 +118,7 @@ public class JcsPhotoGalleryAdmin extends Jcsphotogallery{
 	
 	
 	private void showAddAlbumDialog(){
-		//Window.alert("show add album");
+
 		new AddAlbumDialog().show();
 	
 	}

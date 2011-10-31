@@ -1,7 +1,7 @@
 /*	
  * 	File    : CenterPanel.java
  * 
- * 	Copyright (C) 2010 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2010-2011 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -36,24 +36,24 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * The application contains 3 panels (top, center, bottom).
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class CenterPanel extends Grid{
 
-	Jcsphotogallery pg;
-	protected int imgId = 0;
-	protected int cellID = 0;
-	protected Image []cell = new Image[9];	// 3x3 matrix.
-	protected boolean []cellOn = new boolean[9];	// flag to know which cells have images attached
-	protected int imgCountLimit = 9;
-	protected int imgCount;					// how many albums there are to know the size of  the array.
-	protected PictureBean[] pictures;
-	protected Thumbnails[] thumbnails;
-	protected String imgPath;
-	int page = 1;					// current page.
-	int pages;						// numbers of pages.
+	private Jcsphotogallery pg;
+	private int imgId = 0;
+	private int cellID = 0;
+	private Image []cell = new Image[9];		// 3x3 matrix.
+	private boolean []cellOn = new boolean[9];	// flag to know which cells have images attached
+	private int imgCountLimit = 9;
+	private int imgCount;						// how many albums.
+	private PictureBean[] pictures;
+	private Thumbnails[] thumbnails;
+	private String imgPath;
+	private int page = 1;						// current page.
+	private int pages;							// numbers of pages.
 
 	public CenterPanel(Jcsphotogallery pg){
 		super(3, 3);
@@ -89,7 +89,7 @@ public class CenterPanel extends Grid{
 
 
 	/**
-	 * Method to prepare the album images (thumbnails and whole pictures).  
+	 * Prepares the album images (thumbnails and whole pictures).  
 	 * 
 	 * @param imagesPath the images path
 	 * @param imgagesCount how many images are in the album
@@ -99,13 +99,13 @@ public class CenterPanel extends Grid{
 	 * @param imageComment image comment
 	 */
 	public void prepareImg(String imagesPath, int imgagesCount, PictureBean[] pictures){
-		pg.bottomPanel.setBupVisible(true);
+		pg.bottomPanel.setUpButtonVisible(true);
 		this.pictures = pictures;
 		prepareImg(imagesPath, imgagesCount, pictures, true);
 	}
 
 	/**
-	 * Method to show the thumbnails on the center panel (table 3x3).
+	 * Shows the thumbnails on the center panel (table 3x3).
 	 * 
 	 * @param imagesPath the albums thumbnails path.
 	 * @param imagesCount how many images are in the album
@@ -116,13 +116,13 @@ public class CenterPanel extends Grid{
 		this.thumbnails = thumbnails;
 		imgCountLimit = 9;
 		if(imagesCount>9){
-			pg.bottomPanel.setBrightVisible(true);
+			pg.bottomPanel.setRightButtonVisible(true);
 			pages = Math.round(imagesCount/9)+((float)imagesCount/9==(float)Math.round(imagesCount/9) ? 0:1);
 			showPageNr(1,pages);
 		}
 		else{
-			pg.bottomPanel.setBrightVisible(false);
-			pg.bottomPanel.setBleftVisible(false);
+			pg.bottomPanel.setRightButtonVisible(false);
+			pg.bottomPanel.setLeftButtonVisible(false);
 			showPageNr(0,0);
 		}
 		imgCount = imagesCount;
@@ -134,33 +134,33 @@ public class CenterPanel extends Grid{
 	}
 
 	/**
-	 * Method to show the next page.
+	 * Shows the next page.
 	 */
 	public void nextPage(){	
 		imgId=page*9;
 		imgCountLimit = imgCount-page*9;
 		page++;
 		showImg(imgPath);
-		pg.bottomPanel.setBleftVisible(true);
-		if(pages==page)pg.bottomPanel.setBrightVisible(false);
+		pg.bottomPanel.setLeftButtonVisible(true);
+		if(pages==page)pg.bottomPanel.setRightButtonVisible(false);
 		showPageNr(page,pages);
 	}
 
 	/**
-	 * Method to show the previous page.
+	 * Shows the previous page.
 	 */
 	public void previousPage(){
 		page--;
 		imgId=page*9-9;
 		imgCountLimit = 9;
 		showImg(imgPath);
-		pg.bottomPanel.setBrightVisible(true);
-		if(page==1)pg.bottomPanel.setBleftVisible(false);
+		pg.bottomPanel.setRightButtonVisible(true);
+		if(page==1)pg.bottomPanel.setLeftButtonVisible(false);
 		showPageNr(page,pages);
 	}
 
 	/**
-	 * Method to show the the actual/total pages 
+	 * Shows the the actual/total pages 
 	 * @param page actual page
 	 * @param pages number of pages
 	 */
@@ -170,7 +170,7 @@ public class CenterPanel extends Grid{
 	}
 
 	/**
-	 * add the image to the table.
+	 * Adds the image to the table.
 	 */
 	protected void showImg(String imagesPath){
 		cellID = 0;
@@ -199,9 +199,9 @@ public class CenterPanel extends Grid{
 
 
 	/**
-	 * add click event to each cell of the table.
+	 * Adds click event to each cell of the table.
 	 */
-	public void addClickEvent(){
+	private void addClickEvent(){
 		cell[0].addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(cellOn[0])popupImg(1);}} );
@@ -242,11 +242,11 @@ public class CenterPanel extends Grid{
 
 
 	/**
-	 * Method to pop up the PopUP panel to show image one by one.
+	 * Shows the PopUP panel to show image one by one.
 	 * @param id the image id selected
 	 */
 	public void popupImg(int id){
-		if(pg.albumsFlag){
+		if(pg.isShowingAlbums()){
 			resetCount();
 			pg.getAlbumNr(getID(id)-1);
 			pg.bottomPanel.setAlbumLabel(pg.albums.getAlbumName(getID(id)-1));
@@ -257,7 +257,7 @@ public class CenterPanel extends Grid{
 	}
 	
 	/**
-	 * Method that shows the popUp with the selected image.
+	 * Shows the popUp with the selected image.
 	 * @param id
 	 */
 	protected void showPopUpImg(int id){
@@ -265,7 +265,7 @@ public class CenterPanel extends Grid{
 	}
 
 	/**
-	 * Method to the image id.
+	 * Gets the image id.
 	 */
 	private int getID(int id){
 		return id+page*9-9;

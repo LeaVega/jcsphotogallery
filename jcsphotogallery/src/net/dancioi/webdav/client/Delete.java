@@ -28,8 +28,8 @@ package net.dancioi.webdav.client;
  * 		Delete a folder/file. 
  * All children from the path will be deleted.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class Delete extends WdHttpMethod{

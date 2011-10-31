@@ -1,7 +1,7 @@
 /*	
  * 	File    : BottomPanel.java
  * 
- * 	Copyright (C) 2010 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2010-2011 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -31,65 +31,67 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
-
 /**
  * This class create the Bottom Panel. 
  * 
  * The application contains 3 panels (top, center, bottom).
  *  
- * @version 1.1 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 public class BottomPanel extends AbsolutePanel{
 
-	String jcsPhotoGalleryLinkString;
-	Jcsphotogallery pg;
-	Label pageNr;		// page number label.
-	Label albumLabel;	// album label.
+	private GalleryAction galleryControll;
+	private String jcsPhotoGalleryLinkString;
+	private String galleryVersion;
+	private Label pageNr;		// page number label.
+	private Label albumLabel;	// album label.
 
-	Image bLeft;
-	Image bRight;
-	Image bUp;
+	private Image buttonIconLeft;
+	private Image buttonIconRight;
+	private Image buttonIconUp;
 	
 	String adminLink = "<div> <a href=\"JcsphotogalleryAdmin.html\"><font size=\"1\">Admin</font></a> </div>";
 	
-	public BottomPanel(Jcsphotogallery pg){
-		this.pg = pg;
+	
+	public BottomPanel(String galleryVersion, GalleryAction galleryControll){
+		this.galleryVersion = galleryVersion;
+		this.galleryControll = galleryControll;
 		addVersionNr();
 		initialize();
 	}
 
-	/**
-	 * Show the project name and version number.
+	/*
+	 * Shows the project name and version number.
 	 */
-	public void addVersionNr(){
+	private void addVersionNr(){
 		jcsPhotoGalleryLinkString = 
 			"<div> <a href=\"http://www.dancioi.net/projects/jcsphotogallery/\"><font size=\"1\">jcsPhotoGallery "
-			+pg.galleryVersion+"</font></a> </div>";
+			+galleryVersion+"</font></a> </div>";
 	}
 
-	/**
+	/*
 	 * Initialize.
 	 */
-	public void initialize(){
+	private void initialize(){
 		setSize("800px", "70px");
-		bLeft = new Image("ext/previous.gif");		// PREVIOUS button
-		bLeft.addClickHandler(new ClickHandler() {
+		buttonIconLeft = new Image("ext/previous.gif");			// PREVIOUS button
+		buttonIconLeft.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				bLeftClicked();}} );
-		add(bLeft, 610, 5);
+				leftButtonClicked();}} );
+		add(buttonIconLeft, 610, 5);
 		
-		bRight = new Image("ext/next.gif");	// NEXT button
-		bRight.addClickHandler(new ClickHandler() {
+		buttonIconRight = new Image("ext/next.gif");			// NEXT button
+		buttonIconRight.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				bRightClicked();}} );
-		add(bRight, 660, 5);
+				rightButtonClicked();}} );
+		add(buttonIconRight, 660, 5);
 		
-		bUp = new Image("ext/albums.gif");		// BACK to albums
-		bUp.addClickHandler(new ClickHandler() {
+		buttonIconUp = new Image("ext/albums.gif");				// BACK to albums
+		buttonIconUp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				bUpClicked();}} );
-		add(bUp, 767, 5);
+				upButtonClicked();}} );
+		add(buttonIconUp, 767, 5);
 
 		pageNr = new Label();
 		add(pageNr, 370, 10);
@@ -106,7 +108,7 @@ public class BottomPanel extends AbsolutePanel{
 	}
 	
 	/**
-	 * Method to add the album label.
+	 * Adds the album label.
 	 */
 	protected void addAlbumLabel(){
 		albumLabel = new Label("");
@@ -115,53 +117,53 @@ public class BottomPanel extends AbsolutePanel{
 	}
 	
 	
-	/**
-	 * Method to handle PREVIOUS button.
+	/*
+	 * PREVIOUS button action.
 	 */
-	public void bLeftClicked(){
-		pg.center.previousPage();
+	private void leftButtonClicked(){
+		galleryControll.previousPageEvent();
+	}
+
+	/*
+	 * NEXT button action.
+	 */
+	private void rightButtonClicked(){
+		galleryControll.nextPageEvent();
+	}
+
+	/*
+	 * BACK to Albums button action.
+	 */
+	private void upButtonClicked(){
+		galleryControll.upToAlbumsEvent();
 	}
 
 	/**
-	 * Method to handle NEXT button.
-	 */
-	public void bRightClicked(){
-		pg.center.nextPage();
-	}
-
-	/**
-	 * Method to handle BACK to Albums button.
-	 */
-	public void bUpClicked(){
-		pg.backToAlbums();
-	}
-
-	/**
-	 * Method to set enable/disable the PREVIOUS button.
+	 * Sets enable/disable the PREVIOUS button.
 	 * @param v boolean
 	 */
-	public void setBleftVisible(boolean v){
-		bLeft.setVisible(v);
+	public void setLeftButtonVisible(boolean v){
+		buttonIconLeft.setVisible(v);
 	}
 
 	/**
-	 * Method to set enable/disable the NEXT button.
+	 * Sets enable/disable the NEXT button.
 	 * @param v boolean
 	 */
-	public void setBrightVisible(boolean v){
-		bRight.setVisible(v);
+	public void setRightButtonVisible(boolean v){
+		buttonIconRight.setVisible(v);
 	}
 
 	/**
-	 * Method to set enable/disable the BACK to Albums button.
+	 * Sets enable/disable the BACK to Albums button.
 	 * @param v boolean
 	 */
-	public void setBupVisible(boolean v){
-		bUp.setVisible(v);
+	public void setUpButtonVisible(boolean v){
+		buttonIconUp.setVisible(v);
 	}
 
 	/**
-	 * Method to set the page number.
+	 * Sets the page number.
 	 * @param pn page number string
 	 */
 	public void setPageNr(String pn){
@@ -169,7 +171,7 @@ public class BottomPanel extends AbsolutePanel{
 	}
 
 	/**
-	 * Method to set the album name 
+	 * Sets the album name 
 	 * (shown on the bottom left corner)
 	 * @param album album name
 	 */
@@ -178,12 +180,12 @@ public class BottomPanel extends AbsolutePanel{
 	}
 
 	/**
-	 * Method to disable all buttons on the bottom panel.
+	 * Disables all buttons on the bottom panel.
 	 */
 	public void allOff(){
-		setBleftVisible(false);
-		setBrightVisible(false);
-		setBupVisible(false);
+		setLeftButtonVisible(false);
+		setRightButtonVisible(false);
+		setUpButtonVisible(false);
 		setPageNr("");
 		setAlbumLabel("");
 	}

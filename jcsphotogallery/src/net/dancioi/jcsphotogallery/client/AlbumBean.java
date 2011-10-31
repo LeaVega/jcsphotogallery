@@ -26,10 +26,10 @@ package net.dancioi.jcsphotogallery.client;
 
 
 /**
- * This class .
+ * Album bean.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class AlbumBean implements Thumbnails{
@@ -38,7 +38,7 @@ public class AlbumBean implements Thumbnails{
 	private String folderName;
 	private String name;
 	private String[] category;
-	
+
 	/**
 	 * Default constructor.
 	 */

@@ -25,7 +25,7 @@
 package net.dancioi.jcsphotogallery.admin;
 
 import net.dancioi.jcsphotogallery.client.BottomPanel;
-import net.dancioi.jcsphotogallery.client.Jcsphotogallery;
+import net.dancioi.jcsphotogallery.client.GalleryAction;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,12 +34,12 @@ import com.google.gwt.user.client.ui.TextBox;
 
 
 /**
- * This class create the Bottom Panel. 
+ * Creates the Bottom Panel. 
  * 
  * The application contains 3 panels (top, center, bottom).
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 public class BottomPanelAdmin extends BottomPanel{
 
@@ -49,17 +49,16 @@ public class BottomPanelAdmin extends BottomPanel{
 	private TextBox albumLabelTextBox;
 	
 	/**
-	 * Constructor.
 	 * @param pg
 	 */
-	public BottomPanelAdmin(Jcsphotogallery pg){
-		super(pg); 
+	public BottomPanelAdmin(String galleryVersion, GalleryAction galleryControll){
+		super(galleryVersion, galleryControll); 
 		ini();
 	}
 	
 
 	/**
-	 * Method that add delete, move up buttons.
+	 * Adds delete, move up buttons.
 	 */
 	private void ini(){
 
@@ -98,7 +97,7 @@ public class BottomPanelAdmin extends BottomPanel{
 	}
 	
 	/**
-	 * Method to add the album label.
+	 * Adds the album label.
 	 * TextBox here.
 	 */
 	@Override
@@ -111,7 +110,7 @@ public class BottomPanelAdmin extends BottomPanel{
 	
 	
 	/**
-	 * Method to set the album name 
+	 * Sets the album name 
 	 * (shown on the bottom left corner)
 	 * @param album album name
 	 */

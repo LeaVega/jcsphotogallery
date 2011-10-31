@@ -9,12 +9,12 @@
 
 <!-- For "folderName" element don't use space -->	
 
-<album img="album1.jpg" folderName="albumname" name="First album in the gallery" cat1="Europe" cat2="Trip"></album>
-<album img="album2.jpg" folderName="secondalbum" name="Second album" cat1="Europe" cat2="Event"></album>
-<album img="album3.jpg" folderName="albumnr3" name="Album from a garden" cat1="USA" cat2="Trip"></album>
-<album img="album4.jpg" folderName="album4" name="Album from a event" cat1="USA" cat2="Event"></album>
-<album img="album5.jpg" folderName="albumfive" name="Somewhere in Europe" cat1="Europe" cat2="Trip"></album>
-<album img="album6.jpg" folderName="lastalbum" name="The most recent album" cat1="Europe" cat2="Trip"></album>
+<album img="album1.jpg" folderName="albumname" name="First album in the gallery" category="Europe,Trip"></album>
+<album img="album2.jpg" folderName="secondalbum" name="Second album" category="Europe,Event"></album>
+<album img="album3.jpg" folderName="albumnr3" name="Album from a garden" category="USA,Trip"></album>
+<album img="album4.jpg" folderName="album4" name="Album from a event" category="USA,Event"></album>
+<album img="album5.jpg" folderName="albumfive" name="Somewhere in Europe" category="Europe,Trip"></album>
+<album img="album6.jpg" folderName="lastalbum" name="The most recent album" category="Europe,Trip"></album>
 
 
 </albums>

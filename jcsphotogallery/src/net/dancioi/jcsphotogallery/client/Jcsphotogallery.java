@@ -1,7 +1,7 @@
 /*	
  * 	File    : Jcsphotogallery.java
  * 
- * 	Copyright (C) 2010 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2010-2011 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -40,38 +40,29 @@ import com.google.gwt.user.client.ui.RootPanel;
  * 
  * For a demo of this project see the following web page:
  * http://www.dancioi.net/projects/jcsphotogallery/demo/
- * 
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class Jcsphotogallery implements EntryPoint {
+public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAction {
 
 	
-	public String galleryVersion = "1.0.5";
+	private String galleryVersion = "1.0.5";
 
-	Label header;
-
-	String galleryName;
-	String nameHomePage;
-
+	private Label headerLabel;
+	private TopPanel topPanel;
+	private String homeLink = "";
+	private SortAlbums sortAlbums;
+	private boolean albumsFlag;
+	
 	protected Albums albums;
-
-	protected CenterPanel center;
-
-	TopPanel topPanel;
-	String homeLink = "";
+	protected CenterPanel centerPanel;
 	protected BottomPanel bottomPanel;
-
 	protected ReadXML readXml;
-	boolean albumsFlag = true;
-
-	SortAlbums sA;
 
 	public void onModuleLoad() {
 		initialize();
-
 	}
 
 	/**
@@ -82,30 +73,30 @@ public class Jcsphotogallery implements EntryPoint {
 		addCenterPanel();
 		addBottomPanel();
 		addTopPanel();
-		sA = new SortAlbums(this);
+		sortAlbums = new SortAlbums(this);
 		getAlbums();
 	}
 
 	/**
-	 * Method to add the header where a text 
+	 * Adds the header where a text 
 	 * with the owner gallery will be shown. 
 	 */
 	private void addHeader(){
-		header = new Label();
-		header.setStyleName("h1");
-		RootPanel.get("header").add(header);
+		headerLabel = new Label();
+		headerLabel.setStyleName("h1");
+		RootPanel.get("header").add(headerLabel);
 	}
 
 	/**
-	 * Method to add the center panel.
+	 * Adds the center panel.
 	 */
 	protected void addCenterPanel(){
-		center = new CenterPanel(this);
-		RootPanel.get("images").add(center); 
+		centerPanel = new CenterPanel(this);
+		RootPanel.get("images").add(centerPanel); 
 	}
 
 	/**
-	 * Method to add the top panel.
+	 * Adds the top panel.
 	 */
 	private void addTopPanel(){
 		topPanel = new TopPanel(this,homeLink);
@@ -114,23 +105,23 @@ public class Jcsphotogallery implements EntryPoint {
 
 
 	/**
-	 * Method to add the bottom panel.
+	 * Adds the bottom panel.
 	 */
 	protected void addBottomPanel(){
-		bottomPanel = new BottomPanel(this);
+		bottomPanel = new BottomPanel(galleryVersion, this);
 		RootPanel.get("bottomPanel").add(bottomPanel);
 	}
 
 
 	/**
-	 * Method to get the albums parameters.
+	 * Gets the albums parameters.
 	 */
 	public void getAlbums(){
 		readXml = new ReadXML(this);
 	}
 
 	/**
-	 * Method to get the selected album parameters.
+	 * Gets the selected album parameters.
 	 * @param nr
 	 */
 	public void getAlbumNr(int nr){
@@ -140,51 +131,141 @@ public class Jcsphotogallery implements EntryPoint {
 	}
 
 	/**
-	 * Method to return to the albums list when the albums button is clicked.
+	 * Returns to the albums list when the albums button is clicked.
 	 */
 	public void backToAlbums(){
 		bottomPanel.allOff();
-		albumsFlag = true;
-		center.prepareImg("gallery/", albums.getNrAlbums(), albums.getAlbumsVisible(), true);
+		showsAlbums(true);
+		centerPanel.prepareImg("gallery/", albums.getNrAlbums(), albums.getVisibleAlbums(), true);
 
 	}
 
 	/**
-	 * Method to set the owner gallery name 
+	 * Sets the owner gallery name 
 	 * and the owner's link to the home web page.  
 	 * @param name owner's name
 	 * @param homePage link to the home web page 
 	 */
+	@Override
 	public void setGalleryName(String name, String homePage){
-		galleryName = name;
-		nameHomePage = homePage;
 		setHeader(name);
 		topPanel.setHomePage(name, homePage);
+		
+		initializeAlbums();
 	}
 
 	/**
-	 * Method to set the header owner's gallery.
+	 * Sets the header owner's gallery.
 	 * @param name owners' name
 	 */
 	public void setHeader(String name){
-		header.setText(name+"'s gallery");
+		headerLabel.setText(name+"'s gallery");
 	}
 
 	/**
-	 * Method to show the the albums sorted by one of the categories. 
+	 * Shows the the albums sorted by one of the categories. 
 	 * @param selected selected id from sorting ListBox on the top panel.
 	 */
 	public void showSelectedAlbums(int selected){
-		if(sA.setVisibleAlbums(selected))
+		if(sortAlbums.setVisibleAlbums(selected))
 			backToAlbums();
 	}
 
 	
 	/**
-	 * Method to initialize the Albums.
+	 * Initialize the Albums.
 	 */
-	public void initializeAlbums(){
+	private void initializeAlbums(){
 		albums = new Albums();
 	}
+	
+	/**
+	 * Adds the sorted categories after the albums file is read.
+	 * @param categories String array with albums categories
+	 */
+	public void addSortedCategories(String[] categories){
+		topPanel.setSortedCat(categories);
+	}
+	
+	/**
+	 * Sorts the albums by categories.
+	 * @param categories
+	 */
+	public void sortAlbumsCategories(String[][] categories){
+		sortAlbums.sortAllAlbums(categories);
+	}
+	
+	/**
+	 * Sets showing albums flag.
+	 * @param flag
+	 */
+	public void showsAlbums(boolean flag){
+		albumsFlag = flag;
+	}
+	
+	/**
+	 * gets the showing albums' flag.
+	 * @return
+	 */
+	public boolean isShowingAlbums(){
+		return albumsFlag;
+	}
+	
+	/**
+	 * Access the center Panel (that shows the 9 thumbnails).
+	 * @return
+	 */
+	public CenterPanel getCenterPanel(){
+		return centerPanel;
+	}
+	
+	/**
+	 * Adds all albums to gallery.
+	 * @param allAlbums
+	 */
+	@Override
+	public void attachAllAlbums(AlbumBean[] allAlbums){
+		albums.setAlbums(allAlbums);
+		albums.showAll();		// at the beginning shows all albums.
+		getCenterPanel().prepareImg("gallery/", albums.getNrAlbums(), albums.getVisibleAlbums(), false);
+		
+		sortAlbumsCategories(albums.getAlbumsCategories());	
+	}
+	
+	/**
+	 * Adds the pictures from an album.
+	 * @param imagesPath
+	 * @param thumbnails
+	 */
+	@Override
+	public void attachAlbumPhotos(String imagesPath, PictureBean[] pictures){
+		getCenterPanel().prepareImg(imagesPath, pictures.length, pictures, true);
+	}
+
+	@Override
+	public void previousPageEvent() {
+		centerPanel.previousPage();	
+	}
+
+	@Override
+	public void nextPageEvent() {
+		centerPanel.nextPage();
+	}
+
+	@Override
+	public void upToAlbumsEvent() {
+		backToAlbums();	
+	}
+
+	@Override
+	public void readsAlbumPhotos(boolean photosFlag) {
+		if(photosFlag) showsAlbums(false);		
+	}
+
+	public String getGalleryVersion() {
+		return galleryVersion;
+	}
+	
+	
 	
 }

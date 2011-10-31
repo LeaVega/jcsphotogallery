@@ -33,8 +33,8 @@ import com.google.gwt.http.client.URL;
 /**
  * 		Put a file on WebDAV server.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class Put{

@@ -38,8 +38,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * This class shows the gallery structure in a tree.
  * All operations are performed on this tree (add/delete/modify albums, pictures).
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class PanelLeft extends JPanel implements TreeSelectionListener{

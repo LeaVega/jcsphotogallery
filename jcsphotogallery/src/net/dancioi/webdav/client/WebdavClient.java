@@ -35,8 +35,8 @@ import com.google.gwt.user.client.Window;
  *  
  *  Library client side to write (modify) the files on web server.  
  *  
- * @version 1.1 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class WebdavClient implements EntryPoint{

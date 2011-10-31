@@ -27,27 +27,26 @@ package net.dancioi.jcsphotogallery.client;
 import com.google.gwt.user.client.Window;
 
 /**
- * The class to show a message if the requested xml file
+ * Shows a message if the requested xml file
  * can't be retrieved, or the xml format contains syntax errors.
  *  
- * @version 1.0 
  * @author Daniel Cioi <dan@dancioi.net>
+ * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
 public class ReadException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 	private String message;
-	
+
 	/**
 	 * Default constructor
 	 */
 	public ReadException(){
 		super();
 	}
-	
+
 	/**
-	 * Constructor
 	 * @param message
 	 */
 	public ReadException(String message){
@@ -55,17 +54,17 @@ public class ReadException extends Exception{
 		this.message = message;
 		popUpMessage(message);
 	}
-	
+
 	/**
-	 * Method to get the message.
+	 * Gets the message.
 	 * @return
 	 */
 	public String getErrorMessage(){
 		return message;
 	}
-	
+
 	/**
-	 * Method to show the message.
+	 * Shows the message.
 	 * @param msg
 	 */
 	private void popUpMessage(String msg){
