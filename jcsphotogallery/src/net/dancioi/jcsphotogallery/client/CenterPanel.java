@@ -24,6 +24,7 @@
 
 package net.dancioi.jcsphotogallery.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Grid;
@@ -92,28 +93,29 @@ public class CenterPanel extends Grid{
 	 * Prepares the album images (thumbnails and whole pictures).  
 	 * 
 	 * @param imagesPath the images path
-	 * @param imgagesCount how many images are in the album
 	 * @param image image thumbnails
 	 * @param imageName name for each image
 	 * @param imageP image full size
 	 * @param imageComment image comment
 	 */
-	public void prepareImg(String imagesPath, int imgagesCount, PictureBean[] pictures){
+	public void prepareImg(String imagesPath, PictureBean[] pictures){
+		GWT.log("in prepareImg");
 		pg.bottomPanel.setUpButtonVisible(true);
 		this.pictures = pictures;
-		prepareImg(imagesPath, imgagesCount, pictures, true);
+		prepareImg(imagesPath, pictures, true);
 	}
 
 	/**
 	 * Shows the thumbnails on the center panel (table 3x3).
 	 * 
 	 * @param imagesPath the albums thumbnails path.
-	 * @param imagesCount how many images are in the album
 	 * @param image image thumbnails
 	 * @param imageName image name
 	 */
-	public void prepareImg(String imagesPath, int imagesCount, Thumbnails[] thumbnails, boolean visibleAll){
+	public void prepareImg(String imagesPath, Thumbnails[] thumbnails, boolean visibleAll){
 		this.thumbnails = thumbnails;
+		int imagesCount = thumbnails.length;
+		GWT.log("images count="+imagesCount);
 		imgCountLimit = 9;
 		if(imagesCount>9){
 			pg.bottomPanel.setRightButtonVisible(true);

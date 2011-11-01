@@ -34,60 +34,20 @@ import java.util.ArrayList;
  */
 public class Albums {
 	
-	private AlbumBean[] albums;
-	private int nrAlbumsVisible;	
-	
+	private AlbumBean[] albums;	
 	private ArrayList<String> categoryString = new ArrayList<String>();
 	private ArrayList<AlbumsCategory> categories = new ArrayList<AlbumsCategory>();
 	
 	public Albums(){
 		
 	}
-	
 
-	public AlbumBean[] getAlbums() {
-		return albums;
-	}
-
-
+	/**
+	 * add all galery's albums.
+	 * @param albums
+	 */
 	public void setAlbums(AlbumBean[] albums) {
 		this.albums = albums;
-	}
-
-
-	/**
-	 * Show sorted albums.
-	 * @param visible flag with which album will be shown.  
-	 */
-	public void showSorted(boolean[] visible){
-		int count = 0;
-		for(int i=0;i<visible.length;i++)
-			if(visible[i]) count++;
-
-		nrAlbumsVisible = count;
-
-		for(int i=0;i<visible.length;i++){
-			if(visible[i]){				
-//				albums[i].setVisible(true);
-			}
-		}
-	}
-
-	/**
-	 * Show all albums.
-	 */
-	public void showAll(){
-		setVisibleAllAlbums();
-	}
-
-	protected void setVisibleAllAlbums(){
-	//	for(int i=0;i<albums.length;i++)
-	//		albums[i].setVisible(true);
-	}
-	
-
-	public int getNrAlbums(){
-		return nrAlbumsVisible;
 	}
 	
 	/**
@@ -98,8 +58,19 @@ public class Albums {
 		return albums.length;
 	}
 	
+	/**
+	 * Gets all gallery's albums
+	 * @return
+	 */
+	public AlbumBean[] getAllAlbums(){
+		return albums;
+	}
 	
-	public AlbumBean[] getVisibleAlbums(){
+	/**
+	 * Get just the albums according with the selected sorting criteria. 
+	 * @return
+	 */
+	public AlbumBean[] getSortedAlbums(){
 		return albums;
 	}
 	

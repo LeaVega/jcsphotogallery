@@ -25,6 +25,7 @@
 package net.dancioi.jcsphotogallery.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -48,7 +49,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAction {
 
 	
-	private String galleryVersion = "1.0.5";
+	private String galleryVersion = "1.1.1";
 
 	private Label headerLabel;
 	private TopPanel topPanel;
@@ -136,7 +137,7 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	public void backToAlbums(){
 		bottomPanel.allOff();
 		showsAlbums(true);
-		centerPanel.prepareImg("gallery/", albums.getNrAlbums(), albums.getVisibleAlbums(), true);
+		centerPanel.prepareImg("gallery/", albums.getAllAlbums(), true);
 
 	}
 
@@ -204,7 +205,9 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	}
 	
 	/**
-	 * gets the showing albums' flag.
+	 * Gets the showing albums flag.
+	 * Flag to know if the next click event (on one of the 9 cells) 
+	 * will fire the PopUp panel or will show the album's thumbnails. 
 	 * @return
 	 */
 	public boolean isShowingAlbums(){
@@ -226,10 +229,10 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	@Override
 	public void attachAllAlbums(AlbumBean[] allAlbums){
 		albums.setAlbums(allAlbums);
-		albums.showAll();		// at the beginning shows all albums.
-		getCenterPanel().prepareImg("gallery/", albums.getNrAlbums(), albums.getVisibleAlbums(), false);
+		showsAlbums(true);
+		getCenterPanel().prepareImg("gallery/", albums.getAllAlbums(), false);
 		
-		sortAlbumsCategories(albums.getAlbumsCategories());	
+		//sortAlbumsCategories(albums.getAlbumsCategories());	
 	}
 	
 	/**
@@ -239,7 +242,7 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	 */
 	@Override
 	public void attachAlbumPhotos(String imagesPath, PictureBean[] pictures){
-		getCenterPanel().prepareImg(imagesPath, pictures.length, pictures, true);
+		getCenterPanel().prepareImg(imagesPath, pictures);
 	}
 
 	@Override

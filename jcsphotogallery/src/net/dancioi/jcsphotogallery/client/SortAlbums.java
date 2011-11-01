@@ -97,7 +97,7 @@ public class SortAlbums {
 				i = albumCat1.length;
 			}
 		}
-		pg.albums.showSorted(albumVisible);
+//		pg.albums.showSorted(albumVisible);
 
 		return doSort;
 	}

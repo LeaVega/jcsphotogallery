@@ -38,7 +38,7 @@ public class AlbumsAdmin extends Albums{
 	
 	public void showAll(){
 		addAlbumOpt();
-		setVisibleAllAlbums();
+		//setVisibleAllAlbums();
 	}
 	
 	private void addAlbumOpt(){

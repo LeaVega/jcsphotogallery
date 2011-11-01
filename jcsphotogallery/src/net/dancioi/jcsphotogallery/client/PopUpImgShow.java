@@ -24,6 +24,7 @@
 
 package net.dancioi.jcsphotogallery.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -172,7 +173,6 @@ public class PopUpImgShow extends PopupGeneric{
 		ap.add(bottomPanel, 1, popUpSizeY-40);
 
 		setWidget(ap);
-
 		addImage(imgPath+pictures[imgStart].getFileName());
 
 		checkStartImg();
