@@ -46,7 +46,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAction {
+public class Jcsphotogallery implements EntryPoint, GalleryAction {
 
 	
 	private String galleryVersion = "1.1.1";
@@ -54,13 +54,9 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	private Label headerLabel;
 	private TopPanel topPanel;
 	private String homeLink = "";
-	private SortAlbums sortAlbums;
-	private boolean albumsFlag;
-	
-	protected Albums albums;
+
 	protected CenterPanel centerPanel;
 	protected BottomPanel bottomPanel;
-	protected ReadXML readXml;
 
 	public void onModuleLoad() {
 		initialize();
@@ -72,10 +68,8 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	public void initialize(){
 		addHeader();
 		addCenterPanel();
-		addBottomPanel();
 		addTopPanel();
-		sortAlbums = new SortAlbums(this);
-		getAlbums();
+		addBottomPanel();
 	}
 
 	/**
@@ -113,46 +107,15 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 		RootPanel.get("bottomPanel").add(bottomPanel);
 	}
 
-
-	/**
-	 * Gets the albums parameters.
-	 */
-	public void getAlbums(){
-		readXml = new ReadXML(this);
-	}
-
-	/**
-	 * Gets the selected album parameters.
-	 * @param nr
-	 */
-	public void getAlbumNr(int nr){
-		String albumPath = "gallery/"+albums.getAlbumFolderName(nr)+"/album.xml";
-		String imagesPath = "gallery/"+albums.getAlbumFolderName(nr)+"/";
-		readXml.getXML(albumPath, imagesPath);
-	}
-
-	/**
-	 * Returns to the albums list when the albums button is clicked.
-	 */
-	public void backToAlbums(){
-		bottomPanel.allOff();
-		showsAlbums(true);
-		centerPanel.prepareImg("gallery/", albums.getAllAlbums(), true);
-
-	}
-
 	/**
 	 * Sets the owner gallery name 
 	 * and the owner's link to the home web page.  
 	 * @param name owner's name
 	 * @param homePage link to the home web page 
 	 */
-	@Override
 	public void setGalleryName(String name, String homePage){
 		setHeader(name);
 		topPanel.setHomePage(name, homePage);
-		
-		initializeAlbums();
 	}
 
 	/**
@@ -168,17 +131,10 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	 * @param selected selected id from sorting ListBox on the top panel.
 	 */
 	public void showSelectedAlbums(int selected){
-		if(sortAlbums.setVisibleAlbums(selected))
-			backToAlbums();
+//		if(sortAlbums.setVisibleAlbums(selected))
+//			backToAlbums();
 	}
 
-	
-	/**
-	 * Initialize the Albums.
-	 */
-	private void initializeAlbums(){
-		albums = new Albums();
-	}
 	
 	/**
 	 * Adds the sorted categories after the albums file is read.
@@ -188,31 +144,6 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 		topPanel.setSortedCat(categories);
 	}
 	
-	/**
-	 * Sorts the albums by categories.
-	 * @param categories
-	 */
-	public void sortAlbumsCategories(String[][] categories){
-		sortAlbums.sortAllAlbums(categories);
-	}
-	
-	/**
-	 * Sets showing albums flag.
-	 * @param flag
-	 */
-	public void showsAlbums(boolean flag){
-		albumsFlag = flag;
-	}
-	
-	/**
-	 * Gets the showing albums flag.
-	 * Flag to know if the next click event (on one of the 9 cells) 
-	 * will fire the PopUp panel or will show the album's thumbnails. 
-	 * @return
-	 */
-	public boolean isShowingAlbums(){
-		return albumsFlag;
-	}
 	
 	/**
 	 * Access the center Panel (that shows the 9 thumbnails).
@@ -221,49 +152,24 @@ public class Jcsphotogallery implements EntryPoint, AlbumsDataAccess, GalleryAct
 	public CenterPanel getCenterPanel(){
 		return centerPanel;
 	}
-	
-	/**
-	 * Adds all albums to gallery.
-	 * @param allAlbums
-	 */
-	@Override
-	public void attachAllAlbums(AlbumBean[] allAlbums){
-		albums.setAlbums(allAlbums);
-		showsAlbums(true);
-		getCenterPanel().prepareImg("gallery/", albums.getAllAlbums(), false);
-		
-		//sortAlbumsCategories(albums.getAlbumsCategories());	
-	}
-	
-	/**
-	 * Adds the pictures from an album.
-	 * @param imagesPath
-	 * @param thumbnails
-	 */
-	@Override
-	public void attachAlbumPhotos(String imagesPath, PictureBean[] pictures){
-		getCenterPanel().prepareImg(imagesPath, pictures);
-	}
+
 
 	@Override
 	public void previousPageEvent() {
-		centerPanel.previousPage();	
+		centerPanel.previousPageEvent();
 	}
 
 	@Override
 	public void nextPageEvent() {
-		centerPanel.nextPage();
+		centerPanel.nextPageEvent();
 	}
 
 	@Override
 	public void upToAlbumsEvent() {
-		backToAlbums();	
+		bottomPanel.allOff();
+		centerPanel.upToAlbumsEvent();
 	}
 
-	@Override
-	public void readsAlbumPhotos(boolean photosFlag) {
-		if(photosFlag) showsAlbums(false);		
-	}
 
 	public String getGalleryVersion() {
 		return galleryVersion;

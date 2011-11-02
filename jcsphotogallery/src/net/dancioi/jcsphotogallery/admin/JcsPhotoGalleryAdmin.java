@@ -98,23 +98,6 @@ public class JcsPhotoGalleryAdmin extends Jcsphotogallery{
 
 	}
 	
-
-	
-	/**
-	 * Gets the selected album parameters.
-	 * @param nr
-	 */
-	@Override
-	public void getAlbumNr(int nr){
-		if(nr == albums.getAllAlbumsNr()-1){
-			showAddAlbumDialog();
-		}
-		else{
-			String albumPath = "gallery/"+albums.getAlbumFolderName(nr)+"/album.xml";
-			String imagesPath = "gallery/"+albums.getAlbumFolderName(nr)+"/";
-			readXml.getXML(albumPath, imagesPath);
-		}
-	}
 	
 	
 	private void showAddAlbumDialog(){

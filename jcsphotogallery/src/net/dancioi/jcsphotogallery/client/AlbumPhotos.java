@@ -1,5 +1,5 @@
 /*	
- * 	File    : AlbumsDataAccess.java
+ * 	File    : AlbumPhoto.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -25,19 +25,22 @@
 package net.dancioi.jcsphotogallery.client;
 
 /**
- * Interface for Gallery's Albums data access.
+ * The class to keep the album's pictures data.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
-public interface AlbumsDataAccess {
 
-	public void setGalleryName(String galleryName, String nameHomePage);
+public class AlbumPhotos {
 	
-	public void attachAllAlbums(AlbumBean[] photoAlbums);
-	
-	public void attachAlbumPhotos(String curentImgPath, PictureBean[] pictures);
-	
-	public void readsAlbumPhotos(boolean photosFlag);
-	
+	private PictureBean[] pictures;
+
+	public PictureBean[] getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(PictureBean[] pictures) {
+		this.pictures = pictures;
+	}
+
 }

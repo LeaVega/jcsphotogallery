@@ -23,7 +23,16 @@
  */
 package net.dancioi.jcsphotogallery.client;
 
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
+import com.google.gwt.xml.client.impl.DOMParseException;
 
 /**
  * Generic class for Read XML files.
@@ -33,18 +42,65 @@ import java.util.List;
  */
 public abstract class ReadXMLGeneric {
 
-	public abstract void getXML(String file, String imgPath);
-	
-	public abstract void readAlbums(String xmlText);
-	
-	public abstract void readAlbum(String xmlText);
-	
-	public List getGalleryAlbums(){
-		return null;
+	/**
+	 * Gets the XML file from http server.
+	 */
+	private String readXmlFile(final String file){
+		final StringBuffer xmlString = new StringBuffer();
+		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, file);
+		try {
+			requestBuilder.sendRequest(null, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					showException("Error sending request");
+				}
+				public void onResponseReceived(Request request, Response response) {
+					if (200 == response.getStatusCode()) {
+						xmlString.append(response.getText());	
+					} 
+					else if(404 == response.getStatusCode()){
+						showException("File "+file+" not found on server. Wrong name or missing.");
+					}
+					else{
+						showException("Other exception on GET the "+file +" file");
+					}
+				}
+			});
+		} catch (RequestException ex) {
+			new ReadException("Error sending request");
+		}
+		return xmlString.toString();
 	}
 	
-	public PictureBean[] getGalleryAlbumPictures(){
+	/**
+	 * Parse the xml file.
+	 * @param file
+	 * @return element
+	 */
+	public Element parseXMLString(String file){
+		String xmlText = readXmlFile(file);
+		if(xmlText == null) return null;
+		Document document = null;
+		try{
+			document = XMLParser.parse(xmlText);
+
+			Element element = document.getDocumentElement();
+			XMLParser.removeWhitespace(element);
+			return element;
+		}
+		catch(DOMParseException de){
+			showException("File "+file+" parse exception. Use a XML editor to avoid syntax errors in xml file.");
+		}
 		return null;
 	}
+
+	private void showException(String msg){
+		new ReadException(msg);
+	}
 	
+	
+	public abstract Albums readAlbums(String file);
+
+	public abstract AlbumPhotos readAlbum(String file);
+
+
 }

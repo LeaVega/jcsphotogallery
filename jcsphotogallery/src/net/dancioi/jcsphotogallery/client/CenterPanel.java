@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Image;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class CenterPanel extends Grid{
+public class CenterPanel extends Grid implements GalleryAction{
 
 	private Jcsphotogallery pg;
 	private int imgId = 0;
@@ -55,6 +55,11 @@ public class CenterPanel extends Grid{
 	private String imgPath;
 	private int page = 1;						// current page.
 	private int pages;							// numbers of pages.
+	
+	private ReadXML readXml;
+	private Albums albums;
+	private AlbumPhotos albumPhotos;
+	private boolean albumsFlag;
 
 	public CenterPanel(Jcsphotogallery pg){
 		super(3, 3);
@@ -70,6 +75,7 @@ public class CenterPanel extends Grid{
 		setBorderWidth(0);
 		setCellSpacing(5);
 		setTheCells();
+		populateGallery();
 	}
 
 	/**
@@ -135,10 +141,10 @@ public class CenterPanel extends Grid{
 		showImg(imgPath);
 	}
 
-	/**
+	/*
 	 * Shows the next page.
 	 */
-	public void nextPage(){	
+	private void nextPage(){	
 		imgId=page*9;
 		imgCountLimit = imgCount-page*9;
 		page++;
@@ -148,10 +154,10 @@ public class CenterPanel extends Grid{
 		showPageNr(page,pages);
 	}
 
-	/**
+	/*
 	 * Shows the previous page.
 	 */
-	public void previousPage(){
+	private void previousPage(){
 		page--;
 		imgId=page*9-9;
 		imgCountLimit = 9;
@@ -248,10 +254,10 @@ public class CenterPanel extends Grid{
 	 * @param id the image id selected
 	 */
 	public void popupImg(int id){
-		if(pg.isShowingAlbums()){
+		if(isShowingAlbums()){
 			resetCount();
-			pg.getAlbumNr(getID(id)-1);
-			pg.bottomPanel.setAlbumLabel(pg.albums.getAlbumName(getID(id)-1));
+			getAlbumNr(getID(id)-1);
+			pg.bottomPanel.setAlbumLabel(albums.getAlbumName(getID(id)-1));
 		}
 		else{
 			showPopUpImg(getID(id));
@@ -277,4 +283,60 @@ public class CenterPanel extends Grid{
 		imgCountLimit = 9;
 	}
 
+	public void populateGallery(){
+		readXml = new ReadXML();
+		attachAllAlbums();
+	}
+	
+	private void attachAllAlbums(){
+		albums = readXml.readAlbums("gallery/albums.xml");
+		pg.setGalleryName(albums.getGalleryName(), albums.getGalleryHomePage());
+		showAlbums();
+	}
+	
+	private void showAlbums(){
+		showsAlbums(true);
+		prepareImg("gallery/", albums.getAllAlbums(), false);
+	}
+	
+	
+	private void attachAlbumPhotos(String imagesPath, PictureBean[] pictures){
+		prepareImg(imagesPath, pictures);
+	}
+	
+	private void getAlbumNr(int nr){
+		String albumPath = "gallery/"+albums.getAlbumFolderName(nr)+"/album.xml";
+		String imagesPath = "gallery/"+albums.getAlbumFolderName(nr)+"/";
+		albumPhotos = readXml.readAlbum(albumPath);
+		readsAlbumPhotos(true);
+		attachAlbumPhotos(imagesPath, albumPhotos.getPictures());
+	}
+	
+	private void readsAlbumPhotos(boolean photosFlag) {
+		if(photosFlag) showsAlbums(false);		
+	}
+	
+	private void showsAlbums(boolean flag){
+		albumsFlag = flag;
+	}
+	
+	public boolean isShowingAlbums(){
+		return albumsFlag;
+	}
+
+	@Override
+	public void previousPageEvent() {
+		previousPage();	
+	}
+
+	@Override
+	public void nextPageEvent() {
+		nextPage();
+	}
+
+	@Override
+	public void upToAlbumsEvent() {
+		showAlbums();
+	}
+	
 }

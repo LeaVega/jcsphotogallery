@@ -34,7 +34,10 @@ import java.util.ArrayList;
  */
 public class Albums {
 	
+	private String galleryName;
+	private String galleryHomePage;
 	private AlbumBean[] albums;	
+	
 	private ArrayList<String> categoryString = new ArrayList<String>();
 	private ArrayList<AlbumsCategory> categories = new ArrayList<AlbumsCategory>();
 	
@@ -82,6 +85,22 @@ public class Albums {
 		return albums[a].getName();
 	}
 	
+	public String getGalleryName() {
+		return galleryName;
+	}
+
+	public void setGalleryName(String galleryName) {
+		this.galleryName = galleryName;
+	}
+	
+	public String getGalleryHomePage() {
+		return galleryHomePage;
+	}
+
+	public void setGalleryHomePage(String galleryHomePage) {
+		this.galleryHomePage = galleryHomePage;
+	}
+
 	/*
 	 * gets the album's index for each category string.
 	 */
