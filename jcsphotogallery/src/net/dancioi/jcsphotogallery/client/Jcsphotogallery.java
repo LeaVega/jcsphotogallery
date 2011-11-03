@@ -26,6 +26,11 @@ package net.dancioi.jcsphotogallery.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -61,15 +66,16 @@ public class Jcsphotogallery implements EntryPoint, GalleryAction {
 	public void onModuleLoad() {
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize
 	 */
 	public void initialize(){
 		addHeader();
-		addCenterPanel();
 		addTopPanel();
 		addBottomPanel();
+		addCenterPanel();
+		addGalleryAlbums();
 	}
 
 	/**
@@ -77,7 +83,7 @@ public class Jcsphotogallery implements EntryPoint, GalleryAction {
 	 * with the owner gallery will be shown. 
 	 */
 	private void addHeader(){
-		headerLabel = new Label();
+		headerLabel = new Label("jcsPhotoGallery");
 		headerLabel.setStyleName("h1");
 		RootPanel.get("header").add(headerLabel);
 	}
@@ -105,6 +111,10 @@ public class Jcsphotogallery implements EntryPoint, GalleryAction {
 	protected void addBottomPanel(){
 		bottomPanel = new BottomPanel(galleryVersion, this);
 		RootPanel.get("bottomPanel").add(bottomPanel);
+	}
+	
+	private void addGalleryAlbums(){
+		centerPanel.populateGallery();
 	}
 
 	/**

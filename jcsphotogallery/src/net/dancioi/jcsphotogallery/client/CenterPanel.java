@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Image;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class CenterPanel extends Grid implements GalleryAction{
+public class CenterPanel extends Grid implements GalleryAction, ReadXMLCallback{
 
 	private Jcsphotogallery pg;
 	private int imgId = 0;
@@ -75,7 +75,7 @@ public class CenterPanel extends Grid implements GalleryAction{
 		setBorderWidth(0);
 		setCellSpacing(5);
 		setTheCells();
-		populateGallery();
+		//populateGallery();
 	}
 
 	/**
@@ -284,12 +284,17 @@ public class CenterPanel extends Grid implements GalleryAction{
 	}
 
 	public void populateGallery(){
-		readXml = new ReadXML();
+		readXml = new ReadXML(this);
 		attachAllAlbums();
 	}
 	
 	private void attachAllAlbums(){
-		albums = readXml.readAlbums("gallery/albums.xml");
+		readXml.readAlbums("gallery/albums.xml");
+	}
+	
+	@Override
+	public void albumsCallback(Albums albums) {
+		this.albums = albums;
 		pg.setGalleryName(albums.getGalleryName(), albums.getGalleryHomePage());
 		showAlbums();
 	}
@@ -305,11 +310,16 @@ public class CenterPanel extends Grid implements GalleryAction{
 	}
 	
 	private void getAlbumNr(int nr){
-		String albumPath = "gallery/"+albums.getAlbumFolderName(nr)+"/album.xml";
 		String imagesPath = "gallery/"+albums.getAlbumFolderName(nr)+"/";
-		albumPhotos = readXml.readAlbum(albumPath);
+		readXml.readAlbum(imagesPath);
+
+	}
+	
+	@Override
+	public void albumPhotosCallback(AlbumPhotos albumPhotos) {
+		this.albumPhotos = albumPhotos;
 		readsAlbumPhotos(true);
-		attachAlbumPhotos(imagesPath, albumPhotos.getPictures());
+		attachAlbumPhotos(albumPhotos.getImagesPath(), albumPhotos.getPictures());
 	}
 	
 	private void readsAlbumPhotos(boolean photosFlag) {
@@ -338,5 +348,7 @@ public class CenterPanel extends Grid implements GalleryAction{
 	public void upToAlbumsEvent() {
 		showAlbums();
 	}
+
+
 	
 }

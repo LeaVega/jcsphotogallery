@@ -23,7 +23,6 @@
  */
 package net.dancioi.jcsphotogallery.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -45,8 +44,7 @@ public abstract class ReadXMLGeneric {
 	/**
 	 * Gets the XML file from http server.
 	 */
-	private String readXmlFile(final String file){
-		final StringBuffer xmlString = new StringBuffer();
+	public void readXmlFile(final String file, final int flag){
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, file);
 		try {
 			requestBuilder.sendRequest(null, new RequestCallback() {
@@ -55,7 +53,7 @@ public abstract class ReadXMLGeneric {
 				}
 				public void onResponseReceived(Request request, Response response) {
 					if (200 == response.getStatusCode()) {
-						xmlString.append(response.getText());	
+						parseXMLString(response.getText(), flag);	// careful here, this is an asynchronous callback.
 					} 
 					else if(404 == response.getStatusCode()){
 						showException("File "+file+" not found on server. Wrong name or missing.");
@@ -68,7 +66,6 @@ public abstract class ReadXMLGeneric {
 		} catch (RequestException ex) {
 			new ReadException("Error sending request");
 		}
-		return xmlString.toString();
 	}
 	
 	/**
@@ -76,31 +73,29 @@ public abstract class ReadXMLGeneric {
 	 * @param file
 	 * @return element
 	 */
-	public Element parseXMLString(String file){
-		String xmlText = readXmlFile(file);
-		if(xmlText == null) return null;
+	public void parseXMLString(String xmlText, int flag){
 		Document document = null;
 		try{
 			document = XMLParser.parse(xmlText);
 
 			Element element = document.getDocumentElement();
 			XMLParser.removeWhitespace(element);
-			return element;
+			
+			if(flag == ReadXML.FLAG_ALBUMS) albumsCallback(element);
+			else if (flag == ReadXML.FLAG_ALBUMPHOTOS) albumPhotosCallback(element);
 		}
 		catch(DOMParseException de){
-			showException("File "+file+" parse exception. Use a XML editor to avoid syntax errors in xml file.");
+			showException("File parse exception. Use a XML editor to avoid syntax errors in xml file.");
 		}
-		return null;
 	}
 
 	private void showException(String msg){
 		new ReadException(msg);
 	}
 	
+
+	public abstract void albumsCallback(Element element);
 	
-	public abstract Albums readAlbums(String file);
-
-	public abstract AlbumPhotos readAlbum(String file);
-
-
+	public abstract void albumPhotosCallback(Element element);
+	
 }

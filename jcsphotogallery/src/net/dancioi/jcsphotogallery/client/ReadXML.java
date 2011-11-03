@@ -36,64 +36,80 @@ import com.google.gwt.xml.client.NodeList;
 
 public class ReadXML extends ReadXMLGeneric{
 
+	private ReadXMLCallback readCallback;
+	private String currentImagesPath;
+	
+	public static int FLAG_ALBUMS = 1;
+	public static int FLAG_ALBUMPHOTOS = 2;
+	
+	public ReadXML(ReadXMLCallback readCallback){
+		this.readCallback = readCallback;
+	}
+	
 	/**
 	 * Gets the albums' items' list.
 	 * Parse the XML string.
 	 * @param xmlText String.
 	 */
-	@Override
-	public Albums readAlbums(String albumsFile){
-		Element element =  parseXMLString(albumsFile);
-
-			String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
-			String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
-
-			String[] tags = null;
-
-			NodeList albums = element.getElementsByTagName("album");
-			int albumsCount = albums.getLength();
-			AlbumBean[] photoAlbums = new AlbumBean[albumsCount];
-
-			for (int i = 0; i < albumsCount; i++) {
-				Element elAlbum = (Element) albums.item(i);
-
-				String allCategories = elAlbum.getAttribute("category");
-				tags = allCategories.split(",");
-				photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), 
-						elAlbum.getAttribute("name"), tags);
-			}
-			
-			Albums galleryAlbums = new Albums();
-			galleryAlbums.setGalleryName(galleryName);
-			galleryAlbums.setGalleryHomePage(galleryHomePage);
-			galleryAlbums.setAlbums(photoAlbums);
-			
-			return galleryAlbums;
+	public void readAlbums(String albumsFile){
+			readXmlFile(albumsFile, FLAG_ALBUMS);
 	}
 
 	/**
 	 * Gets the album's images list.
 	 */
+	public void readAlbum(String imagesPath){
+		currentImagesPath = imagesPath;
+		readXmlFile(imagesPath+"/album.xml", FLAG_ALBUMPHOTOS);			
+	}
+
 	@Override
-	public AlbumPhotos readAlbum(String albumFile){
-		Element element =  parseXMLString(albumFile);
-			
-			NodeList images = element.getElementsByTagName("i");
-			int imgCount = images.getLength();
+	public void albumsCallback(Element element) {
+		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
+		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
 
-			PictureBean[] pictures = new PictureBean[imgCount]; 
+		String[] tags = null;
 
-			for (int i = 0; i < images.getLength(); i++) {
-				Element elAlbum = (Element) images.item(i);
+		NodeList albums = element.getElementsByTagName("album");
+		int albumsCount = albums.getLength();
+		AlbumBean[] photoAlbums = new AlbumBean[albumsCount];
 
-				pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"),
-						elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
-			}
+		for (int i = 0; i < albumsCount; i++) {
+			Element elAlbum = (Element) albums.item(i);
 
-			AlbumPhotos albumPhotos = new AlbumPhotos();
-			albumPhotos.setPictures(pictures);
-			
-			return albumPhotos;
+			String allCategories = elAlbum.getAttribute("category");
+			tags = allCategories.split(",");
+			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), 
+					elAlbum.getAttribute("name"), tags);
+		}
+		
+		Albums galleryAlbums = new Albums();
+		galleryAlbums.setGalleryName(galleryName);
+		galleryAlbums.setGalleryHomePage(galleryHomePage);
+		galleryAlbums.setAlbums(photoAlbums);
+		
+		readCallback.albumsCallback(galleryAlbums);
+	}
+
+	@Override
+	public void albumPhotosCallback(Element element) {
+		NodeList images = element.getElementsByTagName("i");
+		int imgCount = images.getLength();
+
+		PictureBean[] pictures = new PictureBean[imgCount]; 
+
+		for (int i = 0; i < images.getLength(); i++) {
+			Element elAlbum = (Element) images.item(i);
+
+			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"),
+					elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
+		}
+
+		AlbumPhotos albumPhotos = new AlbumPhotos();
+		albumPhotos.setPictures(pictures);
+		albumPhotos.setImagesPath(currentImagesPath);
+		
+		readCallback.albumPhotosCallback(albumPhotos);
 	}
 
 }

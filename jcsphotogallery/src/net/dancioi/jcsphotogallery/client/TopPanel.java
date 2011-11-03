@@ -42,12 +42,11 @@ public class TopPanel extends AbsolutePanel{
 
 	private Jcsphotogallery pg;
 	private ListBox sortAlbums;
-	private HTML homePage;
 
 	public TopPanel(Jcsphotogallery pg, String homeLink){
 		this.pg = pg;
 		setSize("800px", "25px");
-
+		
 		sortAlbums = new ListBox();
 		sortAlbums.setWidth("200px");
 		sortAlbums.addChangeHandler(new ChangeHandler(){
@@ -86,7 +85,7 @@ public class TopPanel extends AbsolutePanel{
 	 */
 	public void setHomePage(String name, String nameHomePage){		
 		String homeLink = "<div> <a href=\""+nameHomePage+"\">"+name+"'s Web Page</a> </div>";
-		homePage = new HTML(homeLink);
+		HTML homePage = new HTML(homeLink);
 		add(homePage, 3, 1);
 	}
 

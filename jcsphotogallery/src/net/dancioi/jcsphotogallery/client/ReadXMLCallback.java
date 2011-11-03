@@ -1,5 +1,5 @@
 /*	
- * 	File    : AlbumPhoto.java
+ * 	File    : ReadXMLCallback.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -21,35 +21,18 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
 package net.dancioi.jcsphotogallery.client;
 
 /**
- * The class to keep the album's pictures data.
+ * Interface for XML file reading callback.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
-
-public class AlbumPhotos {
+public interface ReadXMLCallback {
 	
-	private PictureBean[] pictures;
-	private String imagesPath;
-
-	public PictureBean[] getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(PictureBean[] pictures) {
-		this.pictures = pictures;
-	}
-
-	public String getImagesPath() {
-		return imagesPath;
-	}
-
-	public void setImagesPath(String imagesPath) {
-		this.imagesPath = imagesPath;
-	}
+	public void albumsCallback(Albums albums);
 	
+	public void albumPhotosCallback(AlbumPhotos albumPhotos);
+
 }
