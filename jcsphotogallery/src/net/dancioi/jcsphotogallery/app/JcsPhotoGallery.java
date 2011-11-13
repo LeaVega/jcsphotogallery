@@ -25,6 +25,9 @@
 package net.dancioi.jcsphotogallery.app;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +38,9 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 /**
@@ -47,6 +53,7 @@ import javax.swing.JPanel;
 public class JcsPhotoGallery extends JFrame{
 
 	private static final long serialVersionUID = 1L;
+	private String os;
 	private PanelLeft  panelLeft;
 	private PanelTop  panelTop;
 	private PanelBottom  panelBottom;
@@ -56,7 +63,9 @@ public class JcsPhotoGallery extends JFrame{
 	/**
 	 * Default constructor.
 	 */
-	public JcsPhotoGallery(){
+	public JcsPhotoGallery(String os){
+		super("JcsPhotoGallery");
+		this.os = os;
 		initialize();
 	}
 	
@@ -67,8 +76,9 @@ public class JcsPhotoGallery extends JFrame{
 		this.setSize(1200, 700);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setContentPane(getRootPanel());
+		this.setJMenuBar(getMenu());
 		this.setVisible(true);
-		getPreviousConfigs();
+		getPreviousConfigs();		
 	}
 	
 	/**
@@ -86,8 +96,68 @@ public class JcsPhotoGallery extends JFrame{
 		rightPanel.add(addCenterPanel(), BorderLayout.CENTER);
 		
 		rootPanel.add(rightPanel);
+
 		return rootPanel;
 	}
+	
+	private JMenuBar getMenu(){
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu();
+		menuFile.add(getMenuOpenGallery());
+		menuFile.add(getMenuSaveGallery());
+		menuFile.addSeparator();
+		menuFile.add(getMenuExit());
+		
+		menuFile.setMnemonic(KeyEvent.VK_F);
+		
+		JMenu menuTools = new JMenu();
+		menuTools.setMnemonic(KeyEvent.VK_T);
+		
+		JMenu menuHelp = new JMenu();
+		menuHelp.setMnemonic(KeyEvent.VK_H);
+		
+		menuBar.add(menuFile);
+		menuBar.add(menuTools);
+		menuBar.add(menuHelp);
+		return menuBar;
+	}
+	
+	private JMenuItem getMenuOpenGallery(){
+		JMenuItem menuOpenGallery = new JMenuItem();
+		menuOpenGallery.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO here
+				
+			}
+		});
+		return menuOpenGallery;
+	}
+	
+	private JMenuItem getMenuSaveGallery(){
+		JMenuItem menuSaveGallery = new JMenuItem();
+		menuSaveGallery.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO here
+				
+			}
+		});
+		return menuSaveGallery;
+	}
+	
+	private JMenuItem getMenuExit(){
+		JMenuItem menuExit = new JMenuItem();
+		menuExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO here
+				
+			}
+		});
+		return menuExit;
+	}
+	
 	
 	/**
 	 * Method to get the previous configuration.

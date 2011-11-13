@@ -68,12 +68,12 @@ public abstract class ReadXMLGeneric {
 		}
 	}
 	
-	/**
+	/*
 	 * Parse the xml file.
 	 * @param file
 	 * @return element
 	 */
-	public void parseXMLString(String xmlText, int flag){
+	private void parseXMLString(String xmlText, int flag){
 		Document document = null;
 		try{
 			document = XMLParser.parse(xmlText);

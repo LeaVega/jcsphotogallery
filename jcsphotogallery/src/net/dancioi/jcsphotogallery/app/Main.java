@@ -24,7 +24,7 @@
 package net.dancioi.jcsphotogallery.app;
 
 /**
- * This class .
+ * Main class.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
@@ -37,7 +37,7 @@ public class Main {
 	}
 
 	public static void main(String[] arg){
-		new JcsPhotoGallery();
+		new JcsPhotoGallery(new CheckOS().getOS());
 	}
 
 }
