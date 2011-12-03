@@ -22,9 +22,11 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.view;
 
 import javax.swing.JPanel;
+
+import net.dancioi.jcsphotogallery.app.model.GalleryWrite;
 
 /**
  * This class .
@@ -35,7 +37,7 @@ import javax.swing.JPanel;
 
 public class PanelBottom extends JPanel{
 
-	private GalleryExport albumsList;
+	private GalleryWrite albumsList;
 
 	private void initialize() {
 	}

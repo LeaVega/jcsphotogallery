@@ -1,5 +1,5 @@
 /*	
- * 	File    : PanelCenter.java
+ * 	File    : JcsPhotoGalleryController.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,24 +22,25 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.controller;
 
-import javax.swing.JPanel;
+import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModel;
+import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryView;
 
 /**
- * This class .
+ * JcsPhotoGallery's Controller.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version Revision: $Revision: 29 $  Last modified: $Date: 2011-11-03 21:46:57 +0200 (Thu, 03 Nov 2011) $  Last modified by: $Author: dan.cioi@gmail.com $
  */
+public class JcsPhotoGalleryController {
 
-public class PanelCenter extends JPanel{
-
-
-	private void initialize() {
+	private JcsPhotoGalleryModel model;
+	private JcsPhotoGalleryView view;
+	
+	public JcsPhotoGalleryController(JcsPhotoGalleryModel model, JcsPhotoGalleryView view){
+		
 	}
-
-	public void showPicture() {
-	}
-
+	
+	
 }

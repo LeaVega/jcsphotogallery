@@ -1,5 +1,5 @@
 /*	
- * 	File    : PanelTop.java
+ * 	File    : AlbumNode.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,11 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
-
-import java.io.File;
-
-import javax.swing.JPanel;
+package net.dancioi.jcsphotogallery.app.view;
 
 /**
  * This class .
@@ -35,23 +31,10 @@ import javax.swing.JPanel;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class PanelTop extends JPanel{
+public interface AlbumNode {
 
+	public void addPicture();
 
-	private void initialize() {
-	}
-
-	public File getGalleryPath() {
-		return null;
-	}
-
-	public void setName() {
-	}
-
-	public void setDescription() {
-	}
-
-	public void checkGalleryStructure() {
-	}
+	public void removePicture();
 
 }

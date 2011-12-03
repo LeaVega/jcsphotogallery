@@ -22,7 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -33,6 +33,9 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import net.dancioi.jcsphotogallery.app.model.GalleryRead;
+import net.dancioi.jcsphotogallery.client.Albums;
 
 /**
  * This class shows the gallery structure in a tree.
@@ -45,8 +48,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class PanelLeft extends JPanel implements TreeSelectionListener{
 
 	private static final long serialVersionUID = 1L;
-	private GalleryImport  importGallery;
-	private RightPopUpMenu popup;
+	private GalleryRead  importGallery;
 	private JTree tree;
 	private int xSize = 250;
 
@@ -63,27 +65,24 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	private void initialize() {
 		this.setSize(xSize,700);
 		add(addTree());
-		getCurrentGallery();
 	}
 
 	/**
-	 * Add the gallery tree structure.
+	 * Adds the gallery tree structure.
 	 * @return
 	 */
 	private JScrollPane addTree() {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Gallery root");
 		tree = new JTree(root);
 		tree.addTreeSelectionListener(this);
-		JScrollPane jsp =  new JScrollPane(tree);
-		jsp.setPreferredSize(new Dimension(xSize, this.getHeight()));
-		return jsp;
+		JScrollPane scrollPane =  new JScrollPane(tree);
+		scrollPane.setPreferredSize(new Dimension(xSize, this.getHeight()));
+		return scrollPane;
 	}
 	
 	
-	public List getCurrentGallery() {
-		importGallery = new GalleryImport();
+	public void addGalleryAlbums(Albums albums){
 		
-		return null;
 	}
 
 	private void rightClickEventDetected() {

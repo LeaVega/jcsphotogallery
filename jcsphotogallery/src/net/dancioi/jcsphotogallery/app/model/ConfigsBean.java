@@ -1,5 +1,5 @@
 /*	
- * 	File    : RightPopUpMenu.java
+ * 	File    : ConfigsBean.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,7 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.model;
 
 /**
  * This class .
@@ -31,24 +31,7 @@ package net.dancioi.jcsphotogallery.app;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class RightPopUpMenu {
+public class ConfigsBean {
 
-	private void initialize() {
-	}
-
-	private void addAlbum() {
-	}
-
-	private void addPicture() {
-	}
-
-	private void removeAlbum() {
-	}
-
-	private void removePicture() {
-	}
-
-	public void setAlbumThumbail() {
-	}
 
 }

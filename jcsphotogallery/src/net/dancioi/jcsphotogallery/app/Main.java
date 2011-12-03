@@ -23,6 +23,7 @@
  */
 package net.dancioi.jcsphotogallery.app;
 
+
 /**
  * Main class.
  *  
@@ -37,7 +38,8 @@ public class Main {
 	}
 
 	public static void main(String[] arg){
-		new JcsPhotoGallery(new CheckOS().getOS());
+		String osName = new CheckOS().getOS();
+		new JcsPhotoGallery(osName);
 	}
 
 }

@@ -1,5 +1,5 @@
 /*	
- * 	File    : GalleryStructure.java
+ * 	File    : GalleryExport.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,7 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.model;
 
 /**
  * This class .
@@ -31,7 +31,7 @@ package net.dancioi.jcsphotogallery.app;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class GalleryStructure {
+public class GalleryWrite {
 
-
+  
 }

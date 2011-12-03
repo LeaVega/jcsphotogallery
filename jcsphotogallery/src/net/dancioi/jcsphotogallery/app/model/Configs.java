@@ -1,5 +1,5 @@
 /*	
- * 	File    : PicturesImport.java
+ * 	File    : Configs.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,7 +22,9 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.model;
+
+import java.io.File;
 
 /**
  * This class .
@@ -31,22 +33,18 @@ package net.dancioi.jcsphotogallery.app;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class PicturesImport {
+public class Configs {
+	
+	private File galleryPath;
 
-	public void fileChooseDialog() {
+	public File getGalleryPath() {
+		return galleryPath;
 	}
 
-	public void resizePicture() {
+	public void setGalleryPath(File galleryPath) {
+		this.galleryPath = galleryPath;
 	}
 
-	public void createThumbnail() {
-	}
 
-	public void copyToGallery() {
-	}
-
-	public String generateName() {
-		return null;
-	}
 
 }

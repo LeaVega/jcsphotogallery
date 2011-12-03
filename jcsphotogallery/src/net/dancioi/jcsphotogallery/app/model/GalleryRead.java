@@ -22,9 +22,11 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.model;
 
 import java.util.List;
+
+import net.dancioi.jcsphotogallery.app.view.AlbumNode;
 
 /**
  * This class .
@@ -33,7 +35,7 @@ import java.util.List;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class GalleryImport {
+public class GalleryRead {
 
 	private List  albums;
 

@@ -39,7 +39,7 @@ import com.google.gwt.xml.client.impl.DOMParseException;
  * @author Daniel Cioi <dan@dancioi.net>
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
-public abstract class ReadXMLGeneric {
+public abstract class ReadXMLGeneric extends ElementXML{
 
 	/**
 	 * Gets the XML file from http server.

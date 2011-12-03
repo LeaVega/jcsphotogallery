@@ -1,5 +1,5 @@
 /*	
- * 	File    : GalleryExport.java
+ * 	File    : AlbumCreate.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -21,8 +21,7 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.view;
 
 /**
  * This class .
@@ -31,7 +30,10 @@ package net.dancioi.jcsphotogallery.app;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public class GalleryExport {
+public class AlbumManipulation {
 
-  
+
+	public void createFolder() {
+	}
+
 }

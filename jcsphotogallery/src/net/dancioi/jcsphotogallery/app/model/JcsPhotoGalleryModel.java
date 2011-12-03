@@ -1,5 +1,5 @@
 /*	
- * 	File    : AlbumCreate.java
+ * 	File    : JcsPhotoGalleryModel.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -21,19 +21,16 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package net.dancioi.jcsphotogallery.app;
+
+package net.dancioi.jcsphotogallery.app.model;
+
 
 /**
- * This class .
+ * JcsPhotoGallery's Model.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version Revision: $Revision: 29 $  Last modified: $Date: 2011-11-03 21:46:57 +0200 (Thu, 03 Nov 2011) $  Last modified by: $Author: dan.cioi@gmail.com $
  */
-
-public class AlbumCreate {
-
-
-	public void createFolder() {
-	}
+public class JcsPhotoGalleryModel {
 
 }

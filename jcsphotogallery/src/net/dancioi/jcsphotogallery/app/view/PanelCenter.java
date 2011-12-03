@@ -1,5 +1,5 @@
 /*	
- * 	File    : AlbumNode.java
+ * 	File    : PanelCenter.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,7 +22,11 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app;
+package net.dancioi.jcsphotogallery.app.view;
+
+import javax.swing.JPanel;
+
+import net.dancioi.jcsphotogallery.client.PictureBean;
 
 /**
  * This class .
@@ -31,10 +35,13 @@ package net.dancioi.jcsphotogallery.app;
  * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
  */
 
-public interface AlbumNode {
+public class PanelCenter extends JPanel{
 
-	public void addPicture();
 
-	public void removePicture();
+	private void initialize() {
+	}
+
+	public void showPicture(PictureBean picture) {
+	}
 
 }
