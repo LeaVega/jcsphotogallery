@@ -31,7 +31,7 @@ import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryView;
  * JcsPhotoGallery's Controller.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 29 $  Last modified: $Date: 2011-11-03 21:46:57 +0200 (Thu, 03 Nov 2011) $, by: $Author: dan.cioi@gmail.com $
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryController {
 
