@@ -24,13 +24,12 @@
 package net.dancioi.webdav.client;
 
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.Window;
 
 /**
  * 		Get properties for a specific path (files and folders).
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class Propfind extends WdHttpMethod{

@@ -28,7 +28,7 @@ package net.dancioi.jcsphotogallery.client;
  * Interface to show the image thumbnail.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public interface Thumbnails {

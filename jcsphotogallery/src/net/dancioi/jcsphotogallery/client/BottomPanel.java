@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Label;
  * The application contains 3 panels (top, center, bottom).
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 public class BottomPanel extends AbsolutePanel{
 

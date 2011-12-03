@@ -30,7 +30,7 @@ import net.dancioi.jcsphotogallery.client.Albums;
  * 	The admin album class.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class AlbumsAdmin extends Albums{

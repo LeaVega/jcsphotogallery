@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * Define the center position. 
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class PopupGeneric extends PopupPanel{

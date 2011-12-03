@@ -29,7 +29,7 @@ package net.dancioi.jcsphotogallery.app.model;
  * JcsPhotoGallery's Model.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision: 29 $  Last modified: $Date: 2011-11-03 21:46:57 +0200 (Thu, 03 Nov 2011) $  Last modified by: $Author: dan.cioi@gmail.com $
+ * @version $Revision: 29 $  Last modified: $Date: 2011-11-03 21:46:57 +0200 (Thu, 03 Nov 2011) $, by: $Author: dan.cioi@gmail.com $
  */
 public class JcsPhotoGalleryModel {
 

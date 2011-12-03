@@ -29,7 +29,7 @@ package net.dancioi.webdav.client;
  * 		Get the files & folders on a specific path.		
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class Get extends WdHttpMethod{

@@ -28,7 +28,7 @@ package net.dancioi.webdav.client;
  * Interface that should be implemented by the classes that use webdav library.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public interface WebdavClientCommand {

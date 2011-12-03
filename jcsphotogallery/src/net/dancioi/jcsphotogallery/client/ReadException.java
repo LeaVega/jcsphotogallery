@@ -32,7 +32,7 @@ import com.google.gwt.user.client.Window;
  * can't be retrieved, or the xml format contains syntax errors.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class ReadException extends Exception{

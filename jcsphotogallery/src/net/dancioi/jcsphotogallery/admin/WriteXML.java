@@ -32,7 +32,7 @@ import com.google.gwt.xml.client.XMLParser;
  * 	The class to create the xml that will be saved on web server.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class WriteXML {

@@ -31,7 +31,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Class to check the OS.
  * 
  * @author Daniel Cioi <dan.cioi@vrforcad.org>
- * @version Revision: $Revision: 26 $  Last modified: $Date: 2011-10-31 23:05:17 +0200 (Mon, 31 Oct 2011) $  Last modified by: $Author: dan.cioi@gmail.com $
+ * @version $Revision: 26 $  Last modified: $Date: 2011-10-31 23:05:17 +0200 (Mon, 31 Oct 2011) $, by: $Author: dan.cioi@gmail.com $
  */
 public class CheckOS{
 

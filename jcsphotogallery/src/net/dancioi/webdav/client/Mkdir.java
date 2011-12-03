@@ -27,7 +27,7 @@ package net.dancioi.webdav.client;
  * 		Create a folder.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
 public class Mkdir extends WdHttpMethod{

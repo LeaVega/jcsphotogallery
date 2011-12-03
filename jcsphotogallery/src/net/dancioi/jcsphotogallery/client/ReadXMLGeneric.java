@@ -37,7 +37,7 @@ import com.google.gwt.xml.client.impl.DOMParseException;
  * Generic class for Read XML files.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version Revision: $Revision$  Last modified: $Date$  Last modified by: $Author$
+ * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 public abstract class ReadXMLGeneric extends ElementXML{
 
