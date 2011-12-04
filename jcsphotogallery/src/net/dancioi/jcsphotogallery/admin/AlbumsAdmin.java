@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.Albums;
+import net.dancioi.jcsphotogallery.client.model.Albums;
 
 /**
  * 	The admin album class.

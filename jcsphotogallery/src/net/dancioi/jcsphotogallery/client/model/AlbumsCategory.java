@@ -1,5 +1,5 @@
 /*	
- * 	File    : Thumbnails.java
+ * 	File    : AlbumsCategory.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,19 +22,33 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
+
+import java.util.ArrayList;
 
 /**
- * Interface to show the image thumbnail.
+ * Class to keep albums' index for each category name.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
-public interface Thumbnails {
-		
-	String getImgThumbnail();
+public class AlbumsCategory {
 	
-	String getName();
+	private ArrayList<Integer> albums = new ArrayList<Integer>();
+	private String categoryString;
+	private int position;
 	
+	public AlbumsCategory(String categoryString,
+			int position, int albumIndex) {
+		super();
+		this.categoryString = categoryString;
+		this.position = position;
+		addAlbumToCategory(albumIndex);
+	}
+	
+	public void addAlbumToCategory(int albumIndex){
+		albums.add(albumIndex);
+	}
+
 }

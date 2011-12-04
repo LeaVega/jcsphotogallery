@@ -1,5 +1,5 @@
 /*	
- * 	File    : GalleryAction.java
+ * 	File    : AlbumPhoto.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,20 +22,35 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
+
 
 /**
- * Interface for gallery actions.
+ * The class to keep the album's pictures data.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$  Last modified: $Date$, by: $Author$
  */
-public interface GalleryAction {
 
-	public void previousPageEvent();
+public class AlbumPhotos {
 	
-	public void nextPageEvent();
-	
-	public void upToAlbumsEvent();
+	private PictureBean[] pictures;
+	private String imagesPath;
+
+	public PictureBean[] getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(PictureBean[] pictures) {
+		this.pictures = pictures;
+	}
+
+	public String getImagesPath() {
+		return imagesPath;
+	}
+
+	public void setImagesPath(String imagesPath) {
+		this.imagesPath = imagesPath;
+	}
 	
 }

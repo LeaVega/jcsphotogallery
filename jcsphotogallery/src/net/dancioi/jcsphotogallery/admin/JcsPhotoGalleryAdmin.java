@@ -25,7 +25,7 @@
 package net.dancioi.jcsphotogallery.admin;
 
 
-import net.dancioi.jcsphotogallery.client.Jcsphotogallery;
+import net.dancioi.jcsphotogallery.client.view.Jcsphotogallery;
 import net.dancioi.webdav.client.WebdavClient;
 
 import com.google.gwt.user.client.ui.RootPanel;

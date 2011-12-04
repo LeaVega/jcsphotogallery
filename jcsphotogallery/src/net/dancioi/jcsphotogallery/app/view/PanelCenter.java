@@ -26,7 +26,7 @@ package net.dancioi.jcsphotogallery.app.view;
 
 import javax.swing.JPanel;
 
-import net.dancioi.jcsphotogallery.client.PictureBean;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
  * This class .

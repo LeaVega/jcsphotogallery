@@ -1,5 +1,5 @@
 /*	
- * 	File    : ReadXMLCallback.java
+ * 	File    : ReadException.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -21,18 +21,56 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package net.dancioi.jcsphotogallery.client;
+
+package net.dancioi.jcsphotogallery.client.model;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 
 /**
- * Interface for XML file reading callback.
- * 
+ * Shows a message if the requested xml file
+ * can't be retrieved, or the xml format contains syntax errors.
+ *  
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$  Last modified: $Date$, by: $Author$
  */
-public interface ReadXMLCallback {
-	
-	public void albumsCallback(Albums albums);
-	
-	public void albumPhotosCallback(AlbumPhotos albumPhotos);
+
+public class ReadException extends Exception{
+
+	private static final long serialVersionUID = 1L;
+	private String message;
+
+	/**
+	 * Default constructor
+	 */
+	public ReadException(){
+		super();
+	}
+
+	/**
+	 * @param message
+	 */
+	public ReadException(String message){
+		super(message);
+		this.message = message;
+		popUpMessage(message);
+	}
+
+	/**
+	 * Gets the message.
+	 * @return
+	 */
+	public String getErrorMessage(){
+		return message;
+	}
+
+	/**
+	 * Shows the message.
+	 * @param msg
+	 */
+	private void popUpMessage(String msg){
+		GWT.log(msg);
+		Window.alert("Error message : "+msg);
+	}
 
 }

@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.PopupGeneric;
+import net.dancioi.jcsphotogallery.client.view.PopupGeneric;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -24,8 +24,8 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.CenterPanel;
-import net.dancioi.jcsphotogallery.client.Jcsphotogallery;
+import net.dancioi.jcsphotogallery.client.view.CenterPanel;
+import net.dancioi.jcsphotogallery.client.view.Jcsphotogallery;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

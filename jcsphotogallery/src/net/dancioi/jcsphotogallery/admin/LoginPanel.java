@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.PopupGeneric;
+import net.dancioi.jcsphotogallery.client.view.PopupGeneric;
 import net.dancioi.webdav.client.WebdavClient;
 import net.dancioi.webdav.client.WebdavClientCommand;
 

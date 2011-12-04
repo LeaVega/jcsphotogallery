@@ -33,5 +33,10 @@ package net.dancioi.jcsphotogallery.app.model;
 
 public class ConfigsBean {
 
+	private String galleryPath;
+	
+	public ConfigsBean(){
+		
+	}
 
 }

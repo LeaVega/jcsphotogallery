@@ -21,7 +21,8 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
+
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;

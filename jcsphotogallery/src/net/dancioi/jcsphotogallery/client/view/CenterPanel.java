@@ -22,7 +22,15 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.view;
+
+import net.dancioi.jcsphotogallery.client.controller.GalleryAction;
+import net.dancioi.jcsphotogallery.client.model.AlbumPhotos;
+import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.model.ReadXML;
+import net.dancioi.jcsphotogallery.client.model.ReadXMLCallback;
+import net.dancioi.jcsphotogallery.client.model.Thumbnails;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

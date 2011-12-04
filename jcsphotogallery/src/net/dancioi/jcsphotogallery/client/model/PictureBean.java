@@ -22,7 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
 
 
 /**

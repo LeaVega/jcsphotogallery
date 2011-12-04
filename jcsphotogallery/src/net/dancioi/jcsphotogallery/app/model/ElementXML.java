@@ -21,16 +21,23 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package net.dancioi.jcsphotogallery.client;
 
-import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NodeList;
+package net.dancioi.jcsphotogallery.app.model;
+
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
+import net.dancioi.jcsphotogallery.client.model.AlbumPhotos;
+import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Obtains Albums or Album's photos from an XML element.
+ * Duplicated like in client because of the different import statements.
  *  
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision: 33 $  Last modified: $Date: 2011-12-03 13:18:31 +0200 (Sat, 03 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
  */
 public abstract class ElementXML {
 
@@ -39,7 +46,7 @@ public abstract class ElementXML {
 	 * @param element
 	 * @return Albums
 	 */
-	public Albums getAlbums(Element element) {
+	protected Albums getAlbums(Element element) {
 		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
 		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
 
@@ -71,7 +78,7 @@ public abstract class ElementXML {
 	 * @param element
 	 * @return AlbumPhotos
 	 */
-	public AlbumPhotos getAlbumPhotos(Element element) {
+	protected AlbumPhotos getAlbumPhotos(Element element) {
 		NodeList images = element.getElementsByTagName("i");
 		int imgCount = images.getLength();
 

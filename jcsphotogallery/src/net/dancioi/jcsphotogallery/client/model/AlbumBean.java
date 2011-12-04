@@ -22,7 +22,8 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
+
 
 
 /**
@@ -95,4 +96,8 @@ public class AlbumBean implements Thumbnails{
 		this.category = category;
 	}
 	
+	@Override
+	public String toString(){
+		return name;
+	}
 }

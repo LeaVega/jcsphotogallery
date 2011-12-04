@@ -1,5 +1,5 @@
 /*	
- * 	File    : AlbumPhoto.java
+ * 	File    : Thumbnails.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,34 +22,19 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
 
 /**
- * The class to keep the album's pictures data.
- * 
+ * Interface to show the image thumbnail.
+ *  
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
-public class AlbumPhotos {
+public interface Thumbnails {
+		
+	String getImgThumbnail();
 	
-	private PictureBean[] pictures;
-	private String imagesPath;
-
-	public PictureBean[] getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(PictureBean[] pictures) {
-		this.pictures = pictures;
-	}
-
-	public String getImagesPath() {
-		return imagesPath;
-	}
-
-	public void setImagesPath(String imagesPath) {
-		this.imagesPath = imagesPath;
-	}
+	String getName();
 	
 }

@@ -25,7 +25,6 @@
 package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.Dimension;
-import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,9 +32,11 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 
 import net.dancioi.jcsphotogallery.app.model.GalleryRead;
-import net.dancioi.jcsphotogallery.client.Albums;
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
+import net.dancioi.jcsphotogallery.client.model.Albums;
 
 /**
  * This class shows the gallery structure in a tree.
@@ -51,6 +52,7 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	private GalleryRead  importGallery;
 	private JTree tree;
 	private int xSize = 250;
+	private DefaultMutableTreeNode root;
 
 	/**
 	 * Default constructor.
@@ -58,7 +60,7 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	public PanelLeft(){
 		initialize();
 	}
-
+ 
 	/**
 	 * Initialize.
 	 */
@@ -72,8 +74,13 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	 * @return
 	 */
 	private JScrollPane addTree() {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Gallery root");
+		root = new DefaultMutableTreeNode("Gallery root");
+
 		tree = new JTree(root);
+		tree.setEditable(true);
+        tree.getSelectionModel().setSelectionMode (TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.setShowsRootHandles(true);
+ 
 		tree.addTreeSelectionListener(this);
 		JScrollPane scrollPane =  new JScrollPane(tree);
 		scrollPane.setPreferredSize(new Dimension(xSize, this.getHeight()));
@@ -82,7 +89,9 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	
 	
 	public void addGalleryAlbums(Albums albums){
-		
+		AlbumBean[] allAlbums = albums.getAllAlbums();
+		for(AlbumBean album : allAlbums)
+		root.add(new DefaultMutableTreeNode(album));
 	}
 
 	private void rightClickEventDetected() {

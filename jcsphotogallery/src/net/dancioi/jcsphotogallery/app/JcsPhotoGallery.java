@@ -54,7 +54,7 @@ public class JcsPhotoGallery {
 	private void initialize(){
 		JcsPhotoGalleryModel model = new JcsPhotoGalleryModel();
 		JcsPhotoGalleryView view = new JcsPhotoGalleryView(model);
-		JcsPhotoGalleryController controller = new JcsPhotoGalleryController(model, view);
+		new JcsPhotoGalleryController(model, view);
 		view.setVisible(true);
 	}
 	

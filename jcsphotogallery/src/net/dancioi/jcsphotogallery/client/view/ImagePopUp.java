@@ -22,7 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.view;
 
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;

@@ -22,7 +22,8 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
+
 
 import com.google.gwt.xml.client.Element;
 

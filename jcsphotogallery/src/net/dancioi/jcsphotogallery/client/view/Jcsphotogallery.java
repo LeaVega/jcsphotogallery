@@ -22,7 +22,9 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.view;
+
+import net.dancioi.jcsphotogallery.client.controller.GalleryAction;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.Label;

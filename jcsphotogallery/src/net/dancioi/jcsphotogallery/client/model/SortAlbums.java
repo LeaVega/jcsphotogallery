@@ -22,9 +22,11 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client;
+package net.dancioi.jcsphotogallery.client.model;
 
 import java.util.ArrayList;
+
+import net.dancioi.jcsphotogallery.client.view.Jcsphotogallery;
 
 /**
  * The class to sort the albums by categories.
