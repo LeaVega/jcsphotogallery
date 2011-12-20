@@ -24,6 +24,7 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -51,7 +52,6 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	private static final long serialVersionUID = 1L;
 	private GalleryRead  importGallery;
 	private JTree tree;
-	private int xSize = 250;
 	private DefaultMutableTreeNode root;
 
 	/**
@@ -65,8 +65,9 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	 * Initialize.
 	 */
 	private void initialize() {
-		this.setSize(xSize,700);
-		add(addTree());
+		this.setLayout(new BorderLayout());
+		this.setMinimumSize(new Dimension(200,700));
+		add(addTree(), BorderLayout.CENTER);
 	}
 
 	/**
@@ -83,7 +84,6 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
  
 		tree.addTreeSelectionListener(this);
 		JScrollPane scrollPane =  new JScrollPane(tree);
-		scrollPane.setPreferredSize(new Dimension(xSize, this.getHeight()));
 		return scrollPane;
 	}
 	

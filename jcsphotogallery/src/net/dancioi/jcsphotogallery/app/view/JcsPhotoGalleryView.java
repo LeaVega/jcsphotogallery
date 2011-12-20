@@ -25,12 +25,25 @@
 package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
+import net.dancioi.jcsphotogallery.app.model.Configs;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
 import net.dancioi.jcsphotogallery.client.model.Albums;
 
@@ -59,7 +72,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.model = model;
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize.
 	 */
@@ -70,25 +83,25 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.setVisible(true);
 				
 	}
-	
+
 	/**
 	 * Method to get the JFrame's ContentPane.
 	 * @return JPanel
 	 */
-	private JPanel getRootPanel(){
-		JPanel rootPanel = new JPanel();
-		rootPanel.setLayout(new BorderLayout());
-		rootPanel.add(addLeftPanel(), BorderLayout.WEST);
-		
+	private JSplitPane getRootPanel(){
 		JPanel rightPanel = new JPanel();
+		rightPanel.setMinimumSize(new Dimension(700,700));
 		rightPanel.add(addTopPanel(), BorderLayout.NORTH);
 		rightPanel.add(addBottomPanel(), BorderLayout.SOUTH);
 		rightPanel.add(addCenterPanel(), BorderLayout.CENTER);
-		
-		rootPanel.add(rightPanel);
 
-		return rootPanel;
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), rightPanel);
+		splitPane.setOneTouchExpandable(false);
+		splitPane.setDividerLocation(250);
+
+		return splitPane;
 	}
+
 
 
 	/**
@@ -99,7 +112,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		panelCenter = new PanelCenter();
 		return panelCenter;
 	}
-	
+
 	/**
 	 * Left panel with the gallery tree structure.
 	 * @return JPanel
