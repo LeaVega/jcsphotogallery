@@ -2,11 +2,13 @@ package net.dancioi.jcsphotogallery.app.model;
 
 import java.io.File;
 
-import net.dancioi.jcsphotogallery.client.model.Albums;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public interface JcsPhotoGalleryModelInterface {
 
 	void setGalleryPath(File galleryPath);
-	
-	public Albums getGalleryAlbums();
+
+	File getGalleryPath();
+
+	DefaultMutableTreeNode[] getTreeNodes();
 }

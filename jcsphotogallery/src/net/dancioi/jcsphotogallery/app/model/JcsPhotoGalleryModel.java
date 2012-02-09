@@ -24,6 +24,7 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,41 +32,46 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
+import net.dancioi.jcsphotogallery.client.model.AlbumPhotos;
 import net.dancioi.jcsphotogallery.client.model.Albums;
-
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
  * JcsPhotoGallery's Model.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author$
  */
-public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface{
-	
-	private Configs  configs;
+public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
+
+	private Configs configs;
 	private File galleryPath;
 	private FileXML fileXML;
-	
-	public JcsPhotoGalleryModel(){
+
+	public JcsPhotoGalleryModel() {
 		initialize();
 	}
 
-	
-	private void initialize(){
+	private void initialize() {
 		getPreviousConfigs();
 		fileXML = new FileXML();
 	}
-	
+
 	/**
-	 * Method to get the previous configuration.
-	 * If it's first time when the application run, then create a default configs object.
+	 * Method to get the previous configuration. If it's first time when the
+	 * application run, then create a default configs object.
 	 */
-	private void getPreviousConfigs(){
+	private void getPreviousConfigs() {
 		try {
 			FileInputStream fis = new FileInputStream(new File("configs.cfg"));
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			configs = (Configs)ois.readObject();
+			configs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -73,15 +79,15 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface{
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		if(configs==null) configs = new Configs(); 
+
+		if (configs == null)
+			configs = new Configs();
 	}
-	
-	
+
 	/**
 	 * Method to save on configs.cfg file the current settings
 	 */
-	private void setCurrentSettings(){
+	private void setCurrentSettings() {
 		try {
 			FileOutputStream fos = new FileOutputStream(new File("configs.cfg"));
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -91,21 +97,19 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
-	
+
 	/**
 	 * Method to save the application's settings.
 	 */
-	public void saveSettings(){
+	public void saveSettings() {
 		setCurrentSettings();
 	}
-	
-	
+
 	/**
 	 * Method to get the current configs (settings).
+	 * 
 	 * @return
 	 */
 	public Configs getConfigs() {
@@ -114,23 +118,56 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface{
 
 	/**
 	 * Method to modify application's configs (settings).
+	 * 
 	 * @param configs
 	 */
 	public void setConfigs(Configs configs) {
 		this.configs = configs;
 	}
 
-
 	@Override
 	public void setGalleryPath(File galleryPath) {
 		this.galleryPath = galleryPath;
-		//getGalleryAlbums();
 	}
 
-	@Override
-	public Albums getGalleryAlbums(){
+	private Albums getGalleryAlbums() {
 		fileXML = new FileXML();
 		return fileXML.getAlbums(galleryPath);
 	}
 
+	private AlbumPhotos getAlbumPictures(String albumName) {
+		return fileXML.getAlbumPhotos(new File(galleryPath.getParentFile()
+				.getAbsolutePath() + File.separatorChar + albumName));
+	}
+
+	@Override
+	public DefaultMutableTreeNode[] getTreeNodes() {
+		ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
+		Albums albums = getGalleryAlbums();
+		AlbumBean[] allAlbums = albums.getAllAlbums();
+
+		for (AlbumBean album : allAlbums) {
+			DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(album);
+			root.add(albumNode);
+			PictureBean[] pictures = getAlbumPictures(
+					album.getFolderName() + File.separator + "album.xml")
+					.getPictures();
+			for (PictureBean picture : pictures) {
+				picture.setParent(album);
+				albumNode.add(new DefaultMutableTreeNode(picture));
+			}
+		}
+
+		return (DefaultMutableTreeNode[]) root
+				.toArray(new DefaultMutableTreeNode[root.size()]);
+	}
+
+	public Image getPicture(File path) {
+		return null;
+	}
+
+	@Override
+	public File getGalleryPath() {
+		return galleryPath;
+	}
 }

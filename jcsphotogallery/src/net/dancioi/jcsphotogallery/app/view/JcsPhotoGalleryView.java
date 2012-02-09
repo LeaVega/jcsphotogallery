@@ -26,48 +26,39 @@ package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.dancioi.jcsphotogallery.app.model.Configs;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
-import net.dancioi.jcsphotogallery.client.model.Albums;
 
 /**
  * JcsPhotoGallery's View
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2011-12-20 22:40:52 +0200
+ *          (Tue, 20 Dec 2011) $, by: $Author$
  */
 
-public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewInterface{
+public class JcsPhotoGalleryView extends JFrame implements
+		JcsPhotoGalleryViewInterface {
 
 	private static final long serialVersionUID = 1L;
 	private JcsPhotoGalleryModelInterface model;
-	private PanelLeft  panelLeft;
-	private PanelTop  panelTop;
-	private PanelBottom  panelBottom;
-	private PanelCenter  panelCenter;
-	
+	private PanelLeft panelLeft;
+	private PanelTop panelTop;
+	private PanelBottom panelBottom;
+	private PanelCenter panelCenter;
 
 	/**
 	 * Default constructor.
 	 */
-	public JcsPhotoGalleryView(JcsPhotoGalleryModelInterface model){
+	public JcsPhotoGalleryView(JcsPhotoGalleryModelInterface model) {
 		super("JcsPhotoGallery");
 		this.model = model;
 		initialize();
@@ -81,31 +72,32 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setContentPane(getRootPanel());
 		this.setVisible(true);
-				
+
 	}
 
 	/**
 	 * Method to get the JFrame's ContentPane.
+	 * 
 	 * @return JPanel
 	 */
-	private JSplitPane getRootPanel(){
+	private JSplitPane getRootPanel() {
 		JPanel rightPanel = new JPanel();
-		rightPanel.setMinimumSize(new Dimension(700,700));
+		rightPanel.setMinimumSize(new Dimension(700, 700));
 		rightPanel.add(addTopPanel(), BorderLayout.NORTH);
 		rightPanel.add(addBottomPanel(), BorderLayout.SOUTH);
 		rightPanel.add(addCenterPanel(), BorderLayout.CENTER);
 
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), rightPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				addLeftPanel(), rightPanel);
 		splitPane.setOneTouchExpandable(false);
 		splitPane.setDividerLocation(250);
 
 		return splitPane;
 	}
 
-
-
 	/**
 	 * Center panel where the picture is shown.
+	 * 
 	 * @return
 	 */
 	private JPanel addCenterPanel() {
@@ -113,17 +105,24 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		return panelCenter;
 	}
 
+	@Override
+	public void showPicture(String picurePath) {
+		panelCenter.showPicture(picurePath);
+	}
+
 	/**
 	 * Left panel with the gallery tree structure.
+	 * 
 	 * @return JPanel
 	 */
 	private JPanel addLeftPanel() {
-		panelLeft = new PanelLeft();
+		panelLeft = new PanelLeft(this);
 		return panelLeft;
 	}
 
 	/**
 	 * Top panel.
+	 * 
 	 * @return JPanel
 	 */
 	private JPanel addTopPanel() {
@@ -133,6 +132,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	/**
 	 * Bottom Panel.
+	 * 
 	 * @return JPanel
 	 */
 	private JPanel addBottomPanel() {
@@ -146,12 +146,17 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	@Override
 	public void addMenuBar(JMenuBar menuBar) {
-		this.setJMenuBar(menuBar);		
+		this.setJMenuBar(menuBar);
 	}
 
 	@Override
-	public void populateTree(Albums albums) {
-		panelLeft.addGalleryAlbums(albums);
+	public void populateTree(DefaultMutableTreeNode[] treeNodes) {
+		panelLeft.addGalleryAlbums(treeNodes);
+	}
+
+	@Override
+	public JTree getTree() {
+		return panelLeft.getTree();
 	}
 
 }

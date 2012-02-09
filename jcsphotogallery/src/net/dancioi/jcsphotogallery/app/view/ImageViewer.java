@@ -1,7 +1,7 @@
 /*	
  * 	File    : PanelCenter.java
  * 
- * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -24,31 +24,39 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.media.jai.JAI;
 import javax.swing.JPanel;
 
 /**
- * This class .
+ * Shows the picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision: 34 $ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
  */
 
-public class PanelCenter extends JPanel {
+public class ImageViewer extends JPanel {
+	private BufferedImage centerImage;
 
-	private ImageViewer imageViewer;
-
-	public PanelCenter() {
+	public ImageViewer() {
 		initialize();
 	}
 
 	private void initialize() {
-		imageViewer = new ImageViewer();
-		add(imageViewer, "CENTER");
+		setPreferredSize(new Dimension(1024, 860));
 	}
 
-	public void showPicture(String picturePath) {
-		imageViewer.loadImage(picturePath);
+	public void loadImage(String imagePath) {
+		centerImage = JAI.create("fileload", imagePath).getAsBufferedImage();
+		repaint();
 	}
 
+	public void paint(Graphics g) {
+		if (centerImage != null)
+			g.drawImage(centerImage, 0, 0, this);
+	}
 }

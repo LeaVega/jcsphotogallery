@@ -24,15 +24,15 @@
 
 package net.dancioi.jcsphotogallery.client.model;
 
-
 /**
  * This class .
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author$
  */
 
-public class PictureBean implements Thumbnails{
+public class PictureBean implements Thumbnails {
 
 	private String name;
 
@@ -41,7 +41,8 @@ public class PictureBean implements Thumbnails{
 	private String description;
 
 	private String imgThumbnail;
-	
+
+	private AlbumBean parent;
 
 	public PictureBean(String name, String fileName, String description,
 			String imgThumbnail) {
@@ -86,5 +87,17 @@ public class PictureBean implements Thumbnails{
 		this.description = description;
 	}
 
-	
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	public void setParent(AlbumBean album) {
+		this.parent = album;
+	}
+
+	public AlbumBean getParent() {
+		return parent;
+	}
+
 }

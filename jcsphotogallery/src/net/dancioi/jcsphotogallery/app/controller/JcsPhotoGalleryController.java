@@ -24,9 +24,13 @@
 
 package net.dancioi.jcsphotogallery.app.controller;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -34,38 +38,40 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
-import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModel;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
-import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryView;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
  * JcsPhotoGallery's Controller.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author$
  */
-public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface{
+public class JcsPhotoGalleryController implements
+		JcsPhotoGalleryControllerInterface {
 
 	private JcsPhotoGalleryModelInterface model;
 	private JcsPhotoGalleryViewInterface view;
 
-	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model, JcsPhotoGalleryViewInterface view){
+	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model,
+			JcsPhotoGalleryViewInterface view) {
 		this.model = model;
 		this.view = view;
 
 		initialize();
 	}
 
-
-	private void initialize(){
+	private void initialize() {
 		view.addMenuBar(getMenu());
+		addListenersToTree();
 	}
 
-
-
-	private JMenuBar getMenu(){
+	private JMenuBar getMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu("File");
 		menuFile.add(getMenuOpenGallery());
@@ -88,62 +94,103 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return menuBar;
 	}
 
-	private JMenuItem getMenuOpenGallery(){
+	private JMenuItem getMenuOpenGallery() {
 		JMenuItem menuOpenGallery = new JMenuItem("Open Gallery");
 		menuOpenGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser folderChooser = new JFileChooser(); 
+				JFileChooser folderChooser = new JFileChooser();
 				folderChooser.setCurrentDirectory(new java.io.File("."));
 				folderChooser.setDialogTitle("Choose the gallery.xml file.");
 				folderChooser.setAcceptAllFileFilterUsed(false);
 				folderChooser.setFileFilter(new GalleryFilter());
-				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) { 
+				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					model.setGalleryPath(folderChooser.getSelectedFile());
-					view.populateTree(model.getGalleryAlbums());
+					view.populateTree(model.getTreeNodes());
 				}
-			}		
+			}
 		});
 		return menuOpenGallery;
 	}
 
-	private JMenuItem getMenuSaveGallery(){
+	private JMenuItem getMenuSaveGallery() {
 		JMenuItem menuSaveGallery = new JMenuItem("Save Gallery");
 		menuSaveGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO here
+				// TODO here
 
 			}
 		});
 		return menuSaveGallery;
 	}
 
-	private JMenuItem getMenuExit(){
+	private JMenuItem getMenuExit() {
 		JMenuItem menuExit = new JMenuItem("Exit");
 		menuExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO here
+				// TODO here
 
 			}
 		});
 		return menuExit;
 	}
 
-	private JMenuItem getMenuAbout(){
+	private JMenuItem getMenuAbout() {
 		JMenuItem menuAbout = new JMenuItem("About...");
 		menuAbout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO here
+				// TODO here
 
 			}
 		});
 		return menuAbout;
 	}
 
+	private void addListenersToTree() {
+		view.getTree().addMouseListener(mouseListener);
+	}
 
+	private MouseListener mouseListener = new MouseAdapter() {
+
+		public void mousePressed(MouseEvent e) {
+			if (e.isPopupTrigger()) {
+				Point loc = e.getPoint();
+				// popup.show(tree, loc.x, loc.y);
+
+				TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
+				System.out.printf("path = %s%n", treePath);
+
+			}
+
+		}
+
+		public void mouseClicked(MouseEvent e) {
+			Point loc = e.getPoint();
+
+			TreePath path = view.getTree().getPathForLocation(loc.x, loc.y);
+			System.out.printf("path = %s%n", path);
+			DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path
+					.getLastPathComponent();
+			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
+			System.out.println(path.getLastPathComponent());
+			System.out.println(model.getGalleryPath().getParent()
+					+ File.separator + pictureBean.getParent().getFolderName()
+					+ File.separator + pictureBean.getFileName());
+			view.showPicture(model.getGalleryPath().getParent()
+					+ File.separator + pictureBean.getParent().getFolderName()
+					+ File.separator + pictureBean.getFileName());
+		};
+
+		public void mouseReleased(MouseEvent e) {
+		}
+	};
+
+	private void showPicture() {
+		// view.showPicture();
+	}
 
 }
 
@@ -155,9 +202,10 @@ class GalleryFilter extends FileFilter {
 			return true;
 		}
 
-		if(arg0.getName().equals("albums.xml"))
+		if (arg0.getName().equals("albums.xml"))
 			return true;
-		else return false;
+		else
+			return false;
 	}
 
 	@Override

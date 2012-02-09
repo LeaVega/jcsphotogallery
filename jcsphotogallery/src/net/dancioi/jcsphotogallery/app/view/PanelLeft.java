@@ -33,11 +33,10 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import net.dancioi.jcsphotogallery.app.model.GalleryRead;
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.Albums;
 
 /**
  * This class shows the gallery structure in a tree.
@@ -56,8 +55,10 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 
 	/**
 	 * Default constructor.
+	 * @param jcsPhotoGalleryView 
 	 */
-	public PanelLeft(){
+	public PanelLeft(JcsPhotoGalleryView jcsPhotoGalleryView){
+		
 		initialize();
 	}
  
@@ -88,19 +89,27 @@ public class PanelLeft extends JPanel implements TreeSelectionListener{
 	}
 	
 	
-	public void addGalleryAlbums(Albums albums){
-		AlbumBean[] allAlbums = albums.getAllAlbums();
-		for(AlbumBean album : allAlbums)
-		root.add(new DefaultMutableTreeNode(album));
+	public void addGalleryAlbums(DefaultMutableTreeNode[] treeNodes){
+		for(DefaultMutableTreeNode node:treeNodes)
+			root.add(node);
+		((DefaultTreeModel)tree.getModel()).reload();
 	}
 
 	private void rightClickEventDetected() {
+		
 	}
 
 	@Override
 	public void valueChanged(TreeSelectionEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		
 	}
+
+	
+	public JTree getTree() {
+		return tree;
+	}
+
+
 
 }
