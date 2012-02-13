@@ -24,6 +24,9 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 /**
@@ -43,12 +46,22 @@ public class PanelCenter extends JPanel {
 	}
 
 	private void initialize() {
+		setLayout(new BorderLayout());
 		imageViewer = new ImageViewer();
-		add(imageViewer, "CENTER");
+		add(imageViewer, BorderLayout.CENTER);
 	}
 
-	public void showPicture(String picturePath) {
-		imageViewer.loadImage(picturePath);
+	public void showPicture(BufferedImage image) {
+		imageViewer.loadImage(image);
+	}
+
+	public void resizeEvent() {
+		// imageViewer.resize(width, height);
+
+	}
+
+	public int getMinVisibleDimension() {
+		return getWidth() > getHeight() ? getWidth() : getHeight();
 	}
 
 }

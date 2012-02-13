@@ -26,6 +26,8 @@ package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -45,8 +47,7 @@ import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
  *          (Tue, 20 Dec 2011) $, by: $Author$
  */
 
-public class JcsPhotoGalleryView extends JFrame implements
-		JcsPhotoGalleryViewInterface {
+public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewInterface {
 
 	private static final long serialVersionUID = 1L;
 	private JcsPhotoGalleryModelInterface model;
@@ -70,9 +71,24 @@ public class JcsPhotoGalleryView extends JFrame implements
 	private void initialize() {
 		this.setSize(1200, 700);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setContentPane(getRootPanel());
+		this.setContentPane(getMainPanel());
 		this.setVisible(true);
 
+		this.getRootPane().addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				frameResizeEvent();
+			}
+
+		});
+	}
+
+	private void frameResizeEvent() {
+		panelCenter.resizeEvent();
+
+	}
+
+	private void getDSim() {
+		System.out.println("  size: width=" + this.getWidth() + "  height=" + this.getHeight());
 	}
 
 	/**
@@ -80,15 +96,14 @@ public class JcsPhotoGalleryView extends JFrame implements
 	 * 
 	 * @return JPanel
 	 */
-	private JSplitPane getRootPanel() {
+	private JSplitPane getMainPanel() {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setMinimumSize(new Dimension(700, 700));
 		rightPanel.add(addTopPanel(), BorderLayout.NORTH);
 		rightPanel.add(addBottomPanel(), BorderLayout.SOUTH);
 		rightPanel.add(addCenterPanel(), BorderLayout.CENTER);
 
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				addLeftPanel(), rightPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), rightPanel);
 		splitPane.setOneTouchExpandable(false);
 		splitPane.setDividerLocation(250);
 
@@ -106,8 +121,8 @@ public class JcsPhotoGalleryView extends JFrame implements
 	}
 
 	@Override
-	public void showPicture(String picurePath) {
-		panelCenter.showPicture(picurePath);
+	public void showPicture(String picturePath) {
+		panelCenter.showPicture(model.getPicture(picturePath, panelCenter.getMinVisibleDimension()));
 	}
 
 	/**

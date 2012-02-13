@@ -28,7 +28,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import javax.media.jai.JAI;
 import javax.swing.JPanel;
 
 /**
@@ -42,21 +41,27 @@ import javax.swing.JPanel;
 public class ImageViewer extends JPanel {
 	private BufferedImage centerImage;
 
+	private int width = 800;
+	private int height = 800;
+
 	public ImageViewer() {
 		initialize();
 	}
 
 	private void initialize() {
-		setPreferredSize(new Dimension(1024, 860));
+		setPreferredSize(new Dimension(width, height));
 	}
 
-	public void loadImage(String imagePath) {
-		centerImage = JAI.create("fileload", imagePath).getAsBufferedImage();
+	public void loadImage(BufferedImage image) {
+		centerImage = image;
 		repaint();
 	}
 
 	public void paint(Graphics g) {
-		if (centerImage != null)
-			g.drawImage(centerImage, 0, 0, this);
+		if (centerImage != null) {
+			g.setColor(getBackground());
+			g.fillRect(0, 0, getWidth(), getHeight());
+			g.drawImage(centerImage, (getWidth() - centerImage.getWidth()) / 2, (getHeight() - centerImage.getHeight()) / 2, this);
+		}
 	}
 }

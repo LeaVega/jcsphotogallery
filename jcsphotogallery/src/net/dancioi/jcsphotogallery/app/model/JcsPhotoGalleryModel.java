@@ -25,6 +25,7 @@
 package net.dancioi.jcsphotogallery.app.model;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,6 +54,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	private Configs configs;
 	private File galleryPath;
 	private FileXML fileXML;
+	private PicturesImport picturesImport;
 
 	public JcsPhotoGalleryModel() {
 		initialize();
@@ -60,6 +62,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	private void initialize() {
 		getPreviousConfigs();
+		picturesImport = new PicturesImport();
 		fileXML = new FileXML();
 	}
 
@@ -136,8 +139,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	private AlbumPhotos getAlbumPictures(String albumName) {
-		return fileXML.getAlbumPhotos(new File(galleryPath.getParentFile()
-				.getAbsolutePath() + File.separatorChar + albumName));
+		return fileXML.getAlbumPhotos(new File(galleryPath.getParentFile().getAbsolutePath() + File.separatorChar + albumName));
 	}
 
 	@Override
@@ -149,17 +151,14 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		for (AlbumBean album : allAlbums) {
 			DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(album);
 			root.add(albumNode);
-			PictureBean[] pictures = getAlbumPictures(
-					album.getFolderName() + File.separator + "album.xml")
-					.getPictures();
+			PictureBean[] pictures = getAlbumPictures(album.getFolderName() + File.separator + "album.xml").getPictures();
 			for (PictureBean picture : pictures) {
 				picture.setParent(album);
 				albumNode.add(new DefaultMutableTreeNode(picture));
 			}
 		}
 
-		return (DefaultMutableTreeNode[]) root
-				.toArray(new DefaultMutableTreeNode[root.size()]);
+		return (DefaultMutableTreeNode[]) root.toArray(new DefaultMutableTreeNode[root.size()]);
 	}
 
 	public Image getPicture(File path) {
@@ -169,5 +168,10 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	@Override
 	public File getGalleryPath() {
 		return galleryPath;
+	}
+
+	@Override
+	public BufferedImage getPicture(String picturePath, int maxSize) {
+		return picturesImport.getPicture(picturePath, maxSize);
 	}
 }
