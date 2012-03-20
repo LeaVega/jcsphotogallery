@@ -40,44 +40,44 @@ import org.xml.sax.SAXException;
 
 /**
  * Read/Write XML files.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 32 $  Last modified: $Date: 2011-12-03 13:07:01 +0200 (Sat, 03 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
+ * @version $Revision: 32 $ Last modified: $Date: 2011-12-03 13:07:01 +0200
+ *          (Sat, 03 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
  */
 
-public class FileXML extends ElementXML{
-	
-	public Albums getAlbums(File xmlFile){
-		return getAlbums(readFileXML(xmlFile));
-	}
-	
-	public AlbumPhotos getAlbumPhotos(File xmlFile){
-		return getAlbumPhotos(readFileXML(xmlFile));
-	}
-	
-	
-	private Element readFileXML(File xmlFile){
-		Element element = null;
-	
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder builder;
-			try {
-				builder = factory.newDocumentBuilder();
-				Document document = builder.parse(xmlFile);
-				element = document.getDocumentElement();
-			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
-			} catch (SAXException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+public class FileXML extends ElementXML {
 
-	return element;
+	public Albums getAlbums(File xmlFile) {
+		return super.getAlbums(readFileXML(xmlFile));
 	}
-	
-	private void writeFileXML(){
-		
+
+	public AlbumPhotos getAlbumPhotos(File xmlFile) {
+		return super.getAlbumPhotos(readFileXML(xmlFile));
 	}
-	
+
+	private Element readFileXML(File xmlFile) {
+		Element element = null;
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		try {
+			builder = factory.newDocumentBuilder();
+			Document document = builder.parse(xmlFile);
+			element = document.getDocumentElement();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return element;
+	}
+
+	private void writeFileXML() {
+
+	}
+
 }

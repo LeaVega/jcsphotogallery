@@ -33,7 +33,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.media.jai.JAI;
+import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
+import javax.media.jai.operator.SubsampleAverageDescriptor;
 
 /**
  * This class .
@@ -48,33 +50,45 @@ public class PicturesImport {
 	private int pictureWidth = 1200;
 	private int pictureHeight = 900;
 
+	/**
+	 * Gets picture by filepath.
+	 * 
+	 * @param picturePath
+	 * @param maxSize
+	 * @return BufferedImage
+	 */
 	public BufferedImage getPicture(String picturePath, int maxSize) {
-		BufferedImage picture = loadPicture(picturePath);
-		// double scale = picture.getWidth() > picture.getHeight() ? (double)
-		// maxSize / picture.getWidth() : (double) maxSize /
-		// picture.getHeight();
-		double scale = 0.5; // TODO solve
-							// java.lang.ArrayIndexOutOfBoundsException:
-							// Coordinate out of bounds!
+		PlanarImage picture = loadPicture(picturePath);
+		double scale = picture.getWidth() > picture.getHeight() ? (double) maxSize / picture.getWidth() : (double) maxSize / picture.getHeight();
 		return resizePicture(picture, scale);
 	}
 
-	private BufferedImage loadPicture(String picturePath) {
-		BufferedImage picture = JAI.create("fileload", picturePath).getAsBufferedImage();
+	/*
+	 * Loads picture by filepath.
+	 */
+	private PlanarImage loadPicture(String picturePath) {
+		PlanarImage picture = JAI.create("fileload", picturePath);
 		return picture;
 	}
 
-	public BufferedImage resizePicture(BufferedImage image, double scale) {
+	/*
+	 * Resizes the picture with scale factor.
+	 */
+	public BufferedImage resizePicture(PlanarImage picture, double scale) {
 		RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
-		RenderedOp resizedImage = JAI.create("SubsampleAverage", image, scale, scale, qualityHints);
-
+		RenderedOp resizedImage = SubsampleAverageDescriptor.create(picture, scale, scale, qualityHints);
 		return resizedImage.getAsBufferedImage();
 	}
 
+	/**
+	 * Adds picture to gallery.
+	 * 
+	 * @param sourcePath
+	 * @param destinationFolder
+	 */
 	public void addPicture(String sourcePath, String destinationFolder) {
 		long fileName = System.currentTimeMillis() - 10000000;
-		BufferedImage picture = loadPicture(sourcePath);
+		PlanarImage picture = loadPicture(sourcePath);
 		int width = picture.getWidth();
 		int height = picture.getHeight();
 		double scale = 1;
@@ -84,6 +98,9 @@ public class PicturesImport {
 		writePicture(resizePicture(picture, scale), destinationFolder + File.separator + fileName + ".jpg");
 	}
 
+	/*
+	 * Writes the picture as jpeg file to gallery.
+	 */
 	private void writePicture(BufferedImage picture, String picturePath) {
 		try {
 			BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(picturePath));
@@ -98,6 +115,9 @@ public class PicturesImport {
 
 	}
 
+	/*
+	 * Writes the thumbnail.
+	 */
 	private void writeThumbnail(BufferedImage picture, String picturePath) {
 		writePicture(picture, picturePath);
 	}

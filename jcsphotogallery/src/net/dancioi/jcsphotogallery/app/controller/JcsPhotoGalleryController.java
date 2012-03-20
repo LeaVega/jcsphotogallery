@@ -43,6 +43,7 @@ import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
@@ -52,14 +53,13 @@ import net.dancioi.jcsphotogallery.client.model.PictureBean;
  * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
  *          (Sun, 04 Dec 2011) $, by: $Author$
  */
-public class JcsPhotoGalleryController implements
-		JcsPhotoGalleryControllerInterface {
+public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface, RightClickPopUpInterface {
 
 	private JcsPhotoGalleryModelInterface model;
 	private JcsPhotoGalleryViewInterface view;
+	private RightClickPopUp rightClickPopUp;
 
-	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model,
-			JcsPhotoGalleryViewInterface view) {
+	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model, JcsPhotoGalleryViewInterface view) {
 		this.model = model;
 		this.view = view;
 
@@ -67,6 +67,7 @@ public class JcsPhotoGalleryController implements
 	}
 
 	private void initialize() {
+		rightClickPopUp = new RightClickPopUp(this);
 		view.addMenuBar(getMenu());
 		addListenersToTree();
 	}
@@ -83,6 +84,7 @@ public class JcsPhotoGalleryController implements
 
 		JMenu menuTools = new JMenu("Tools");
 		menuTools.setMnemonic(KeyEvent.VK_T);
+		menuTools.add(getPreferences());
 
 		JMenu menuHelp = new JMenu("Help");
 		menuHelp.setMnemonic(KeyEvent.VK_H);
@@ -137,6 +139,18 @@ public class JcsPhotoGalleryController implements
 		return menuExit;
 	}
 
+	private JMenuItem getPreferences() {
+		JMenuItem menuPreferences = new JMenuItem("Preferences...");
+		menuPreferences.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO here
+
+			}
+		});
+		return menuPreferences;
+	}
+
 	private JMenuItem getMenuAbout() {
 		JMenuItem menuAbout = new JMenuItem("About...");
 		menuAbout.addActionListener(new ActionListener() {
@@ -158,9 +172,19 @@ public class JcsPhotoGalleryController implements
 		public void mousePressed(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 				Point loc = e.getPoint();
-				// popup.show(tree, loc.x, loc.y);
 
 				TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
+				if (null != treePath) {
+					DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+					if (treeNode.getUserObject() instanceof PictureBean) {
+						rightClickPopUp.enableMenus(RightClickPopUp.IMAGES);
+					} else if (treeNode.getUserObject() instanceof AlbumBean) {
+						rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS);
+					} else {
+						rightClickPopUp.enableMenus(RightClickPopUp.ROOT);
+					}
+					rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
+				}
 				System.out.printf("path = %s%n", treePath);
 
 			}
@@ -170,18 +194,17 @@ public class JcsPhotoGalleryController implements
 		public void mouseClicked(MouseEvent e) {
 			Point loc = e.getPoint();
 
-			TreePath path = view.getTree().getPathForLocation(loc.x, loc.y);
-			System.out.printf("path = %s%n", path);
-			DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path
-					.getLastPathComponent();
-			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
-			System.out.println(path.getLastPathComponent());
-			System.out.println(model.getGalleryPath().getParent()
-					+ File.separator + pictureBean.getParent().getFolderName()
-					+ File.separator + pictureBean.getFileName());
-			view.showPicture(model.getGalleryPath().getParent()
-					+ File.separator + pictureBean.getParent().getFolderName()
-					+ File.separator + pictureBean.getFileName());
+			TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
+			System.out.printf("path = %s%n", treePath);
+			if (null != treePath) {
+				DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+				if (treeNode.getUserObject() instanceof PictureBean) {
+					PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
+					System.out.println(treePath.getLastPathComponent());
+					System.out.println(model.getGalleryPath().getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName());
+					view.showPicture(model.getGalleryPath().getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName());
+				}
+			}
 		};
 
 		public void mouseReleased(MouseEvent e) {
@@ -190,6 +213,36 @@ public class JcsPhotoGalleryController implements
 
 	private void showPicture() {
 		// view.showPicture();
+	}
+
+	@Override
+	public void addNewAlbum() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addNewImage() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setAlbumImage() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteImage() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteAlbum() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

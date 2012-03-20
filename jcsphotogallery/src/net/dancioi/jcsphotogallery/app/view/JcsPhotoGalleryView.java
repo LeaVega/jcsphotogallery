@@ -69,11 +69,10 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * Initialize.
 	 */
 	private void initialize() {
-		this.setSize(1200, 700);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setLayout(new BorderLayout());
 		this.setContentPane(getMainPanel());
-		this.setVisible(true);
-
+		this.setMinimumSize(new Dimension(1000, 750));
 		this.getRootPane().addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				frameResizeEvent();
@@ -83,8 +82,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	}
 
 	private void frameResizeEvent() {
-		panelCenter.resizeEvent();
-
+		// panelCenter.resizeEvent();
 	}
 
 	private void getDSim() {
@@ -97,16 +95,9 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * @return JPanel
 	 */
 	private JSplitPane getMainPanel() {
-		JPanel rightPanel = new JPanel();
-		rightPanel.setMinimumSize(new Dimension(700, 700));
-		rightPanel.add(addTopPanel(), BorderLayout.NORTH);
-		rightPanel.add(addBottomPanel(), BorderLayout.SOUTH);
-		rightPanel.add(addCenterPanel(), BorderLayout.CENTER);
-
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), rightPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), addCenterPanel());
 		splitPane.setOneTouchExpandable(false);
 		splitPane.setDividerLocation(250);
-
 		return splitPane;
 	}
 
@@ -133,26 +124,6 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	private JPanel addLeftPanel() {
 		panelLeft = new PanelLeft(this);
 		return panelLeft;
-	}
-
-	/**
-	 * Top panel.
-	 * 
-	 * @return JPanel
-	 */
-	private JPanel addTopPanel() {
-		panelTop = new PanelTop();
-		return panelTop;
-	}
-
-	/**
-	 * Bottom Panel.
-	 * 
-	 * @return JPanel
-	 */
-	private JPanel addBottomPanel() {
-		panelBottom = new PanelBottom();
-		return panelBottom;
 	}
 
 	public List getUpdatedGallery() {

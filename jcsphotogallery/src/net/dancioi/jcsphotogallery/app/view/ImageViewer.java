@@ -41,8 +41,8 @@ import javax.swing.JPanel;
 public class ImageViewer extends JPanel {
 	private BufferedImage centerImage;
 
-	private int width = 800;
-	private int height = 800;
+	private int width = 600;
+	private int height = 600;
 
 	public ImageViewer() {
 		initialize();
@@ -63,5 +63,12 @@ public class ImageViewer extends JPanel {
 			g.fillRect(0, 0, getWidth(), getHeight());
 			g.drawImage(centerImage, (getWidth() - centerImage.getWidth()) / 2, (getHeight() - centerImage.getHeight()) / 2, this);
 		}
+	}
+
+	public void updateSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+		setPreferredSize(new Dimension(width, height));
+		repaint();
 	}
 }

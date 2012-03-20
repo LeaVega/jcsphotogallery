@@ -47,8 +47,11 @@ public class PanelCenter extends JPanel {
 
 	private void initialize() {
 		setLayout(new BorderLayout());
+		add(new PanelTop(), BorderLayout.PAGE_START);
 		imageViewer = new ImageViewer();
 		add(imageViewer, BorderLayout.CENTER);
+		add(new PanelBottom(), BorderLayout.PAGE_END);
+
 	}
 
 	public void showPicture(BufferedImage image) {
@@ -56,7 +59,7 @@ public class PanelCenter extends JPanel {
 	}
 
 	public void resizeEvent() {
-		// imageViewer.resize(width, height);
+		imageViewer.updateSize(this.getWidth(), this.getHeight());
 
 	}
 
