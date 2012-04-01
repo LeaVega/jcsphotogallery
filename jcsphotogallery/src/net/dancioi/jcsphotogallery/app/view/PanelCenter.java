@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 
 public class PanelCenter extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private ImageViewer imageViewer;
 
 	public PanelCenter() {

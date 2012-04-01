@@ -23,20 +23,21 @@
  */
 package net.dancioi.jcsphotogallery.client.model;
 
-
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 
 /**
  * Obtains Albums or Album's photos from an XML element.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public abstract class ElementXML {
 
 	/**
 	 * Gets the albums' list.
+	 * 
 	 * @param element
 	 * @return Albums
 	 */
@@ -55,40 +56,39 @@ public abstract class ElementXML {
 
 			String allCategories = elAlbum.getAttribute("category");
 			tags = allCategories.split(",");
-			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), 
-					elAlbum.getAttribute("name"), tags);
+			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags);
 		}
-		
+
 		Albums galleryAlbums = new Albums();
 		galleryAlbums.setGalleryName(galleryName);
 		galleryAlbums.setGalleryHomePage(galleryHomePage);
 		galleryAlbums.setAlbums(photoAlbums);
-		
+
 		return galleryAlbums;
 	}
-	
+
 	/**
 	 * Gets the album's photos
+	 * 
 	 * @param element
 	 * @return AlbumPhotos
 	 */
-	protected AlbumPhotos getAlbumPhotos(Element element) {
+	protected AlbumBean getAlbumPhotos(Element element) {
 		NodeList images = element.getElementsByTagName("i");
 		int imgCount = images.getLength();
 
-		PictureBean[] pictures = new PictureBean[imgCount]; 
+		PictureBean[] pictures = new PictureBean[imgCount];
 
 		for (int i = 0; i < images.getLength(); i++) {
 			Element elAlbum = (Element) images.item(i);
 
-			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"),
-					elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
+			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
 		}
 
-		AlbumPhotos albumPhotos = new AlbumPhotos();
+		AlbumBean albumPhotos = new AlbumBean();
 		albumPhotos.setPictures(pictures);
-		
+
 		return albumPhotos;
 	}
-	
+
 }

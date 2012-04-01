@@ -30,10 +30,18 @@ import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import net.dancioi.jcsphotogallery.client.model.AlbumPhotos;
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
 import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -52,7 +60,7 @@ public class FileXML extends ElementXML {
 		return super.getAlbums(readFileXML(xmlFile));
 	}
 
-	public AlbumPhotos getAlbumPhotos(File xmlFile) {
+	public AlbumBean getAlbumPhotos(File xmlFile) {
 		return super.getAlbumPhotos(readFileXML(xmlFile));
 	}
 
@@ -76,8 +84,53 @@ public class FileXML extends ElementXML {
 		return element;
 	}
 
-	private void writeFileXML() {
-
+	public void saveAlbum(String albumFolder, PictureBean[] pictures) {
+		Document doc;
+		try {
+			doc = getDocument();
+			getAlbumPicturesElements(doc, pictures);
+			writeFileXML(albumFolder + File.separatorChar + "album.xml", doc);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
+	public void saveGallery(String galleryPayh, AlbumBean[] albums) {
+		Document doc;
+		try {
+			doc = getDocument();
+			getAlbumsElements(doc, albums);
+			writeFileXML(galleryPayh + "albums.xml", doc);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private Document getDocument() throws ParserConfigurationException {
+		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		Document doc = docBuilder.newDocument();
+
+		Element root = doc.createElement("root");
+		doc.appendChild(root);
+
+		Comment comment = doc.createComment("jcsPhotoGallery");
+		root.appendChild(comment);
+
+		return doc;
+	}
+
+	private void writeFileXML(String filePath, Document doc) {
+
+		try {
+			TransformerFactory transFactory = TransformerFactory.newInstance();
+			Transformer aTransformer = transFactory.newTransformer();
+
+			Source src = new DOMSource(doc);
+			Result dest = new StreamResult(filePath);
+			aTransformer.transform(src, dest);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

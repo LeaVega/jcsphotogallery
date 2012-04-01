@@ -29,6 +29,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * Right click popUp menu.
@@ -39,11 +40,13 @@ import javax.swing.JPopupMenu;
  */
 public class RightClickPopUp extends JPopupMenu implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	RightClickPopUpInterface controller;
 	private JMenuItem mAddAlbum, mAddPicture, mSetAlbumImage, mDeleteAlbum, mDeleteImage;
 	public final static int ROOT = 0;
 	public final static int IMAGES = 1;
 	public final static int ALBUMS = 2;
+	private DefaultMutableTreeNode treeNode;
 
 	private enum Action {
 		ADD_NEW_ALBUM, ADD_NEW_IMAGE, SET_ALBUM_IMAGE, DELETE_ALBUM, DELETE_IMAGE
@@ -65,7 +68,7 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 
 		mAddPicture = new JMenuItem("Add new image");
 		mAddPicture.addActionListener(this);
-		mAddPicture.setActionCommand(Action.ADD_NEW_ALBUM.toString());
+		mAddPicture.setActionCommand(Action.ADD_NEW_IMAGE.toString());
 		add(mAddPicture);
 
 		addSeparator();
@@ -94,7 +97,7 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 		if (e.getActionCommand().equals(Action.ADD_NEW_ALBUM.toString()))
 			controller.addNewAlbum();
 		else if (e.getActionCommand().equals(Action.ADD_NEW_IMAGE.toString()))
-			controller.addNewImage();
+			controller.addNewImage(treeNode);
 		else if (e.getActionCommand().equals(Action.SET_ALBUM_IMAGE.toString()))
 			controller.setAlbumImage();
 		else if (e.getActionCommand().equals(Action.DELETE_ALBUM.toString()))
@@ -104,7 +107,8 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 
 	}
 
-	public void enableMenus(int flag) {
+	public void enableMenus(int flag, DefaultMutableTreeNode treeNode) {
+		this.treeNode = treeNode;
 		if (flag == IMAGES) {
 			mAddPicture.setEnabled(false);
 			mDeleteAlbum.setEnabled(false);

@@ -24,14 +24,64 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
+
 /**
- * This class .
- *  
+ * This class traverse the JTree and write the modified albums xml files..
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
 public class GalleryWrite {
 
-  
+	private JTree jTree;
+	private FileXML fileXML;
+	private String galleryPayh;
+
+	public GalleryWrite(JTree jTree, FileXML fileXML, String galleryPayh) {
+		this.jTree = jTree;
+		this.fileXML = fileXML;
+		this.galleryPayh = galleryPayh;
+		saveChanges();
+	}
+
+	private void saveChanges() {
+		DefaultTreeModel treeNode = (DefaultTreeModel) jTree.getModel();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeNode.getRoot();
+
+		ArrayList<AlbumBean> albums = new ArrayList<AlbumBean>();
+
+		for (int albumsNr = 0; albumsNr < root.getChildCount(); albumsNr++) {
+			DefaultMutableTreeNode albumNode = (DefaultMutableTreeNode) treeNode.getChild(root, albumsNr);
+			if (albumNode.getUserObject() instanceof AlbumBean) {
+				AlbumBean album = (AlbumBean) albumNode.getUserObject();
+
+				System.out.println("album " + albumNode.getUserObject().toString());
+				ArrayList<PictureBean> pictures = new ArrayList<PictureBean>();
+				for (int pictureNr = 0; pictureNr < albumNode.getChildCount(); pictureNr++) {
+					DefaultMutableTreeNode pictureNode = (DefaultMutableTreeNode) albumNode.getChildAt(pictureNr);
+					if (pictureNode.getUserObject() instanceof PictureBean) {
+						pictures.add((PictureBean) pictureNode.getUserObject());
+						System.out.println("album " + albumNode.getUserObject().toString() + " picture " + pictureNode.getUserObject().toString());
+					}
+				}
+				if (album.isEdited()) {
+					fileXML.saveAlbum(galleryPayh + File.separatorChar + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]));
+				}
+				albums.add(album);
+			}
+		}
+		fileXML.saveGallery(galleryPayh + File.separatorChar, albums.toArray(new AlbumBean[albums.size()]));
+
+	}
 }

@@ -107,8 +107,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				folderChooser.setAcceptAllFileFilterUsed(false);
 				folderChooser.setFileFilter(new GalleryFilter());
 				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					model.setGalleryPath(folderChooser.getSelectedFile());
-					view.populateTree(model.getTreeNodes());
+
+					view.populateTree(model.loadGallery(folderChooser.getSelectedFile()));
 				}
 			}
 		});
@@ -120,8 +120,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuSaveGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO here
-
+				model.saveGalleryChanges(view.getTree());
 			}
 		});
 		return menuSaveGallery;
@@ -177,11 +176,11 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				if (null != treePath) {
 					DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
 					if (treeNode.getUserObject() instanceof PictureBean) {
-						rightClickPopUp.enableMenus(RightClickPopUp.IMAGES);
+						rightClickPopUp.enableMenus(RightClickPopUp.IMAGES, treeNode);
 					} else if (treeNode.getUserObject() instanceof AlbumBean) {
-						rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS);
+						rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS, treeNode);
 					} else {
-						rightClickPopUp.enableMenus(RightClickPopUp.ROOT);
+						rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
 					}
 					rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
 				}
@@ -201,8 +200,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				if (treeNode.getUserObject() instanceof PictureBean) {
 					PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
 					System.out.println(treePath.getLastPathComponent());
-					System.out.println(model.getGalleryPath().getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName());
-					view.showPicture(model.getGalleryPath().getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName());
+					System.out.println(model.getPicturePath(pictureBean));
+					view.showPicture(model.getPicturePath(pictureBean));
 				}
 			}
 		};
@@ -211,19 +210,33 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		}
 	};
 
-	private void showPicture() {
-		// view.showPicture();
-	}
-
 	@Override
 	public void addNewAlbum() {
-		// TODO Auto-generated method stub
+		JFileChooser folderChooser = new JFileChooser();
+		folderChooser.setCurrentDirectory(new java.io.File("."));
+		folderChooser.setDialogTitle("Select the jpg files. Multi-selection is allowed.");
+		folderChooser.setAcceptAllFileFilterUsed(false);
+		folderChooser.setFileFilter(new PictureFilter());
+		folderChooser.setMultiSelectionEnabled(true);
+		if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			view.addToTreeNewAlbum(model.addPicturesToNewAlbum(folderChooser.getSelectedFiles()));
+		}
 
 	}
 
 	@Override
-	public void addNewImage() {
-		// TODO Auto-generated method stub
+	public void addNewImage(DefaultMutableTreeNode treeNode) {
+		if (treeNode.getUserObject() instanceof AlbumBean) {
+			JFileChooser folderChooser = new JFileChooser();
+			folderChooser.setCurrentDirectory(new java.io.File("."));
+			folderChooser.setDialogTitle("Select the jpg files. Multi-selection is allowed.");
+			folderChooser.setAcceptAllFileFilterUsed(false);
+			folderChooser.setFileFilter(new PictureFilter());
+			folderChooser.setMultiSelectionEnabled(true);
+			if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				view.addToTreePicturesToExistingAlbum(model.addPicturesToExistingAlbum(folderChooser.getSelectedFiles(), treeNode));
+			}
+		}
 
 	}
 
@@ -252,7 +265,7 @@ class GalleryFilter extends FileFilter {
 	@Override
 	public boolean accept(File arg0) {
 		if (arg0.isDirectory()) {
-			return true;
+			return false;
 		}
 
 		if (arg0.getName().equals("albums.xml"))
@@ -264,6 +277,27 @@ class GalleryFilter extends FileFilter {
 	@Override
 	public String getDescription() {
 		return "albums.xml filter";
+	}
+
+}
+
+class PictureFilter extends FileFilter {
+
+	@Override
+	public boolean accept(File arg0) {
+		if (arg0.isDirectory()) {
+			return false;
+		}
+
+		if (arg0.getName().toLowerCase().endsWith(".jpg"))
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public String getDescription() {
+		return "jpg files filter";
 	}
 
 }

@@ -12,5 +12,10 @@ public interface JcsPhotoGalleryViewInterface {
 
 	JTree getTree();
 
-	public void showPicture(String picurePath);
+	void showPicture(String picturePath);
+
+	void addToTreeNewAlbum(DefaultMutableTreeNode newAlbum);
+
+	void addToTreePicturesToExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum);
+
 }

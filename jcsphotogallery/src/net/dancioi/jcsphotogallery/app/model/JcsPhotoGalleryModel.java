@@ -24,7 +24,6 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,10 +34,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.AlbumPhotos;
 import net.dancioi.jcsphotogallery.client.model.Albums;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
@@ -128,22 +127,18 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		this.configs = configs;
 	}
 
-	@Override
-	public void setGalleryPath(File galleryPath) {
-		this.galleryPath = galleryPath;
-	}
-
 	private Albums getGalleryAlbums() {
 		fileXML = new FileXML();
 		return fileXML.getAlbums(galleryPath);
 	}
 
-	private AlbumPhotos getAlbumPictures(String albumName) {
+	private AlbumBean getAlbumPictures(String albumName) {
 		return fileXML.getAlbumPhotos(new File(galleryPath.getParentFile().getAbsolutePath() + File.separatorChar + albumName));
 	}
 
 	@Override
-	public DefaultMutableTreeNode[] getTreeNodes() {
+	public DefaultMutableTreeNode[] loadGallery(File galleryDefinition) {
+		galleryPath = galleryDefinition;
 		ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
 		Albums albums = getGalleryAlbums();
 		AlbumBean[] allAlbums = albums.getAllAlbums();
@@ -161,17 +156,63 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		return (DefaultMutableTreeNode[]) root.toArray(new DefaultMutableTreeNode[root.size()]);
 	}
 
-	public Image getPicture(File path) {
+	@Override
+	public BufferedImage getPicture(String picturePath, int maxSize) {
+		return picturesImport.getPicture(picturePath, maxSize);
+	}
+
+	@Override
+	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles) {
+		AlbumBean newAlbum = new AlbumBean();
+		newAlbum.setEdited(true);
+
+		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);
+
+		String folderName = String.valueOf(System.currentTimeMillis());
+		newAlbum.setName(folderName);
+		newAlbum.setFolderName(folderName);
+		File albumFolder = new File(galleryPath.getParentFile().getAbsolutePath() + File.separatorChar + folderName);
+		newAlbum.setAlbumPath(albumFolder.getAbsolutePath());
+
+		if (albumFolder.mkdir()) {
+			for (File picturePath : selectedFiles) {
+				PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
+				if (null != picture) {
+					albumNode.add(new DefaultMutableTreeNode(picture));
+					newAlbum.setImgThumbnail(picture.getImgThumbnail());
+				}
+			}
+		}
+
+		return albumNode;
+	}
+
+	private PictureBean importPicture(AlbumBean album, File destinationFolder, File origPicture) {
+		PictureBean picture = picturesImport.addPicture(origPicture, destinationFolder);
+		picture.setParent(album);
+		return picture;
+	}
+
+	@Override
+	public String getPicturePath(PictureBean pictureBean) {
+		return galleryPath.getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName();
+	}
+
+	@Override
+	public DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode albumNode) {
+		AlbumBean album = (AlbumBean) albumNode.getUserObject();
+		album.setEdited(true);
+		for (File picturePath : selectedFiles) {
+			PictureBean picture = importPicture(album, new File(galleryPath.getParent() + File.separator + album.getFolderName()), picturePath);
+			if (null != picture) {
+				albumNode.add(new DefaultMutableTreeNode(picture));
+			}
+		}
 		return null;
 	}
 
 	@Override
-	public File getGalleryPath() {
-		return galleryPath;
-	}
-
-	@Override
-	public BufferedImage getPicture(String picturePath, int maxSize) {
-		return picturesImport.getPicture(picturePath, maxSize);
+	public void saveGalleryChanges(JTree jTree) {
+		new GalleryWrite(jTree, fileXML, new File(galleryPath.getParent()).getAbsolutePath());
 	}
 }

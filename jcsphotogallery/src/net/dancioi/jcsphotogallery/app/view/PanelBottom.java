@@ -33,8 +33,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.dancioi.jcsphotogallery.app.model.GalleryWrite;
-
 /**
  * This class .
  * 
@@ -45,7 +43,7 @@ import net.dancioi.jcsphotogallery.app.model.GalleryWrite;
 
 public class PanelBottom extends JPanel {
 
-	private GalleryWrite albumsList;
+	private static final long serialVersionUID = 1L;
 
 	public PanelBottom() {
 		initialize();

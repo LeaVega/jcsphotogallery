@@ -36,8 +36,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import net.dancioi.jcsphotogallery.app.model.GalleryRead;
-
 /**
  * This class shows the gallery structure in a tree. All operations are
  * performed on this tree (add/delete/modify albums, pictures).
@@ -50,7 +48,6 @@ import net.dancioi.jcsphotogallery.app.model.GalleryRead;
 public class PanelLeft extends JPanel implements TreeSelectionListener {
 
 	private static final long serialVersionUID = 1L;
-	private GalleryRead importGallery;
 	private JTree tree;
 	private DefaultMutableTreeNode root;
 
@@ -91,14 +88,29 @@ public class PanelLeft extends JPanel implements TreeSelectionListener {
 		return scrollPane;
 	}
 
+	/**
+	 * Attach gallery albums from import gallery action.
+	 * 
+	 * @param treeNodes
+	 */
 	public void addGalleryAlbums(DefaultMutableTreeNode[] treeNodes) {
+		root.removeAllChildren();// remove previous gallery.
 		for (DefaultMutableTreeNode node : treeNodes)
 			root.add(node);
+		refreshTree();
+	}
+
+	private void refreshTree() {
 		((DefaultTreeModel) tree.getModel()).reload();
 	}
 
-	private void rightClickEventDetected() {
-
+	/**
+	 * adds a new album to gallery.
+	 * 
+	 * @param node
+	 */
+	public void addNewAlbum(DefaultMutableTreeNode node) {
+		root.add(node);
 	}
 
 	@Override
@@ -108,6 +120,15 @@ public class PanelLeft extends JPanel implements TreeSelectionListener {
 
 	public JTree getTree() {
 		return tree;
+	}
+
+	public void addAlbumToGallery(DefaultMutableTreeNode newAlbum) {
+		root.add(newAlbum);
+		refreshTree();
+	}
+
+	public void addPicturesToAnExistingAlbum() {
+		refreshTree();
 	}
 
 }

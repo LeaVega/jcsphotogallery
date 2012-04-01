@@ -24,43 +24,44 @@
 
 package net.dancioi.jcsphotogallery.client.model;
 
-
 import com.google.gwt.xml.client.Element;
 
 /**
  * Reads the XML files from the web server.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
-public class ReadXML extends ReadXMLGeneric{
+public class ReadXML extends ReadXMLGeneric {
 
 	private ReadXMLCallback readCallback;
 	private String currentImagesPath;
-	
+
 	public static int FLAG_ALBUMS = 1;
 	public static int FLAG_ALBUMPHOTOS = 2;
-	
-	public ReadXML(ReadXMLCallback readCallback){
+
+	public ReadXML(ReadXMLCallback readCallback) {
 		this.readCallback = readCallback;
 	}
-	
+
 	/**
-	 * Gets the albums' items' list.
-	 * Parse the XML string.
-	 * @param xmlText String.
+	 * Gets the albums' items' list. Parse the XML string.
+	 * 
+	 * @param xmlText
+	 *            String.
 	 */
-	public void readAlbums(String albumsFile){
-			readXmlFile(albumsFile, FLAG_ALBUMS);
+	public void readAlbums(String albumsFile) {
+		readXmlFile(albumsFile, FLAG_ALBUMS);
 	}
 
 	/**
 	 * Gets the album's images list.
 	 */
-	public void readAlbum(String imagesPath){
+	public void readAlbum(String imagesPath) {
 		currentImagesPath = imagesPath;
-		readXmlFile(imagesPath+"/album.xml", FLAG_ALBUMPHOTOS);			
+		readXmlFile(imagesPath + "/album.xml", FLAG_ALBUMPHOTOS);
 	}
 
 	@Override
@@ -70,8 +71,8 @@ public class ReadXML extends ReadXMLGeneric{
 
 	@Override
 	public void albumPhotosCallback(Element element) {
-		AlbumPhotos albumPhotos = getAlbumPhotos(element);
-		albumPhotos.setImagesPath(currentImagesPath);
+		AlbumBean albumPhotos = getAlbumPhotos(element);
+		albumPhotos.setAlbumPath(currentImagesPath);
 		readCallback.albumPhotosCallback(albumPhotos);
 	}
 

@@ -23,6 +23,8 @@
  */
 package net.dancioi.jcsphotogallery.app.controller;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 /**
  * Interface for right click popUp menu.
  * 
@@ -34,7 +36,7 @@ public interface RightClickPopUpInterface {
 
 	void addNewAlbum();
 
-	void addNewImage();
+	void addNewImage(DefaultMutableTreeNode treeNode);
 
 	void setAlbumImage();
 

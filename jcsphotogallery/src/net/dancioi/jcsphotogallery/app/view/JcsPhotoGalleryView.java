@@ -145,4 +145,15 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		return panelLeft.getTree();
 	}
 
+	@Override
+	public void addToTreeNewAlbum(DefaultMutableTreeNode newAlbum) {
+		panelLeft.addAlbumToGallery(newAlbum);
+	}
+
+	@Override
+	public void addToTreePicturesToExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum) {
+		panelLeft.addPicturesToAnExistingAlbum();
+
+	}
+
 }

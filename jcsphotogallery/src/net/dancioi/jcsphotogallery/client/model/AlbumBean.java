@@ -24,30 +24,33 @@
 
 package net.dancioi.jcsphotogallery.client.model;
 
-
-
 /**
  * Album bean.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
-public class AlbumBean implements Thumbnails{
-	
-	private String imgThumbnail;		
+public class AlbumBean implements Thumbnails {
+
+	private String imgThumbnail;
 	private String folderName;
 	private String name;
 	private String[] category;
+	private PictureBean[] pictures;
+	private String albumPath;
+	private boolean edited;
 
 	/**
 	 * Default constructor.
 	 */
-	public AlbumBean(){}
-	
-	
+	public AlbumBean() {
+	}
+
 	/**
 	 * Constructor.
+	 * 
 	 * @param img
 	 * @param folderName
 	 * @param name
@@ -66,38 +69,63 @@ public class AlbumBean implements Thumbnails{
 	public String getImgThumbnail() {
 		return imgThumbnail;
 	}
-	
+
 	public void setImgThumbnail(String img) {
 		this.imgThumbnail = img;
 	}
-	
+
 	public String getFolderName() {
 		return folderName;
 	}
-	
+
 	public void setFolderName(String folderName) {
 		this.folderName = folderName;
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String[] getCategory() {
 		return category;
 	}
-	
+
 	public void setCategory(String[] category) {
 		this.category = category;
 	}
-	
+
+	public PictureBean[] getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(PictureBean[] pictures) {
+		this.pictures = pictures;
+	}
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return name;
 	}
+
+	public String getAlbumPath() {
+		return albumPath;
+	}
+
+	public void setAlbumPath(String albumPath) {
+		this.albumPath = albumPath;
+	}
+
+	public boolean isEdited() {
+		return edited;
+	}
+
+	public void setEdited(boolean edited) {
+		this.edited = edited;
+	}
+
 }

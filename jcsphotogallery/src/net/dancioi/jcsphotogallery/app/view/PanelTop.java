@@ -30,13 +30,19 @@ import javax.swing.JPanel;
 
 /**
  * This class .
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
-public class PanelTop extends JPanel{
+public class PanelTop extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+
+	public PanelTop() {
+		initialize();
+	}
 
 	private void initialize() {
 	}

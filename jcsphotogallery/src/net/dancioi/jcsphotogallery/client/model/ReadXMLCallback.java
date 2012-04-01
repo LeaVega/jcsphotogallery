@@ -23,17 +23,17 @@
  */
 package net.dancioi.jcsphotogallery.client.model;
 
-
 /**
  * Interface for XML file reading callback.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public interface ReadXMLCallback {
-	
+
 	public void albumsCallback(Albums albums);
-	
-	public void albumPhotosCallback(AlbumPhotos albumPhotos);
+
+	public void albumPhotosCallback(AlbumBean albumPhotos);
 
 }

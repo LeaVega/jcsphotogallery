@@ -39,6 +39,9 @@ import javax.swing.JPanel;
  */
 
 public class ImageViewer extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
 	private BufferedImage centerImage;
 
 	private int width = 600;

@@ -32,10 +32,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.SubsampleAverageDescriptor;
+
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
  * This class .
@@ -86,40 +89,63 @@ public class PicturesImport {
 	 * @param sourcePath
 	 * @param destinationFolder
 	 */
-	public void addPicture(String sourcePath, String destinationFolder) {
+	public PictureBean addPicture(File sourcePicture, File destinationFolder) {
 		long fileName = System.currentTimeMillis() - 10000000;
-		PlanarImage picture = loadPicture(sourcePath);
+		PlanarImage picture = loadPicture(sourcePicture.getAbsolutePath());
 		int width = picture.getWidth();
 		int height = picture.getHeight();
 		double scale = 1;
-		scale = width > height ? width / 200 : height / 150;
-		writeThumbnail(resizePicture(picture, scale), destinationFolder + File.separator + fileName + "T" + ".jpg");
-		scale = width > height ? width / pictureWidth : height / pictureHeight;
-		writePicture(resizePicture(picture, scale), destinationFolder + File.separator + fileName + ".jpg");
+		scale = width > height ? (double) pictureWidth / width : (double) pictureHeight / height;
+		writePicture(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + ".jpg");
+		scale = width > height ? (double) 200 / width : (double) 150 / height;
+		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + "T" + ".jpg");
+
+		PictureBean pictureBean = new PictureBean(sourcePicture.getName(), fileName + ".jpg", "", fileName + "T.jpg");
+		return pictureBean;
+		// TODO throws an exception here if the writePicture and writeThumbnail
+		// are not true;
 	}
 
 	/*
 	 * Writes the picture as jpeg file to gallery.
 	 */
-	private void writePicture(BufferedImage picture, String picturePath) {
+	private boolean writePicture(BufferedImage picture, String picturePath) {
+		return writeImageWithJAI(picture, picturePath);
+	}
+
+	/*
+	 * Writes the thumbnail.
+	 */
+	private boolean writeThumbnail(BufferedImage picture, String picturePath) {
+		return writeImageWithJAI(picture, picturePath);
+	}
+
+	private boolean writeImageWithJAI(BufferedImage picture, String picturePath) {
 		try {
 			BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(picturePath));
 			JAI.create("encode", picture, output, "JPEG", null);
 			output.flush();
 			output.close();
+			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		return false;
 	}
 
-	/*
-	 * Writes the thumbnail.
-	 */
-	private void writeThumbnail(BufferedImage picture, String picturePath) {
-		writePicture(picture, picturePath);
+	private boolean writeFileWithImageIO(BufferedImage img, String fileName) {
+		try {
+			File outputfile = new File(fileName);
+			ImageIO.write(img, "jpg", outputfile);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 
 	public void copyToGallery() {
