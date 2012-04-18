@@ -25,7 +25,7 @@
 package net.dancioi.jcsphotogallery.app.model;
 
 import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 import org.w3c.dom.Document;
@@ -48,7 +48,7 @@ public abstract class ElementXML {
 	 * @param element
 	 * @return Albums
 	 */
-	protected Albums getAlbums(Element element) {
+	protected GalleryAlbums getAlbums(Element element) {
 		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
 		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
 
@@ -66,7 +66,7 @@ public abstract class ElementXML {
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags);
 		}
 
-		Albums galleryAlbums = new Albums();
+		GalleryAlbums galleryAlbums = new GalleryAlbums();
 		galleryAlbums.setGalleryName(galleryName);
 		galleryAlbums.setGalleryHomePage(galleryHomePage);
 		galleryAlbums.setAlbums(photoAlbums);
@@ -80,7 +80,7 @@ public abstract class ElementXML {
 	 * @param element
 	 * @return AlbumPhotos
 	 */
-	protected AlbumBean getAlbumPhotos(Element element) {
+	protected PictureBean[] getAlbumPhotos(Element element) {
 		NodeList images = element.getElementsByTagName("i");
 		int imgCount = images.getLength();
 
@@ -92,10 +92,7 @@ public abstract class ElementXML {
 			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
 		}
 
-		AlbumBean albumPhotos = new AlbumBean();
-		albumPhotos.setPictures(pictures);
-
-		return albumPhotos;
+		return pictures;
 	}
 
 	protected void getAlbumPicturesElements(Document doc, PictureBean[] pictures) {
@@ -120,12 +117,12 @@ public abstract class ElementXML {
 
 	}
 
-	protected void getAlbumsElements(Document doc, AlbumBean[] albums) {
+	protected void getAlbumsElements(Document doc, GalleryAlbums gallery) {
 		Element galleryNameElement = doc.createElement("galleryName");
-		galleryNameElement.appendChild(doc.createTextNode("gallery name"));
+		galleryNameElement.appendChild(doc.createTextNode(gallery.getGalleryName()));
 
 		Element homePageElement = doc.createElement("homePage");
-		homePageElement.appendChild(doc.createTextNode("http://www.dancioi.com/projects/jcsphotogallery"));
+		homePageElement.appendChild(doc.createTextNode(gallery.getGalleryHomePage()));
 
 		Element root = doc.getDocumentElement();
 
@@ -134,6 +131,7 @@ public abstract class ElementXML {
 
 		Element albumsElement = doc.createElement("albums");
 
+		AlbumBean[] albums = gallery.getAllAlbums();
 		for (AlbumBean album : albums) {
 
 			Element albumElement = doc.createElement("album");

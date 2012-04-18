@@ -26,7 +26,7 @@ package net.dancioi.jcsphotogallery.client.view;
 
 import net.dancioi.jcsphotogallery.client.controller.GalleryAction;
 import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 import net.dancioi.jcsphotogallery.client.model.ReadXML;
 import net.dancioi.jcsphotogallery.client.model.ReadXMLCallback;
@@ -66,7 +66,7 @@ public class CenterPanel extends Grid implements GalleryAction, ReadXMLCallback 
 	private int pages; // numbers of pages.
 
 	private ReadXML readXml;
-	private Albums albums;
+	private GalleryAlbums albums;
 	private AlbumBean albumPhotos;
 	private boolean albumsFlag;
 
@@ -350,7 +350,7 @@ public class CenterPanel extends Grid implements GalleryAction, ReadXMLCallback 
 	}
 
 	@Override
-	public void albumsCallback(Albums albums) {
+	public void albumsCallback(GalleryAlbums albums) {
 		this.albums = albums;
 		pg.setGalleryName(albums.getGalleryName(), albums.getGalleryHomePage());
 		showAlbums();

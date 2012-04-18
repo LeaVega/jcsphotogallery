@@ -1,7 +1,7 @@
 /*	
- * 	File    : PanelTop.java
+ * 	File    : AlbumPanel.java
  * 
- * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -24,40 +24,31 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
-import java.io.File;
-
 import javax.swing.JPanel;
 
 /**
- * This class .
+ * Panel to edit the photos' album.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision: 39 $ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
 
-public class PanelTop extends JPanel {
+public class AlbumPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public PanelTop() {
+	public AlbumPanel() {
 		initialize();
 	}
 
 	private void initialize() {
+		// TODO Auto-generated method stub
+
 	}
 
-	public File getGalleryPath() {
-		return null;
-	}
+	public void fillUpParameters() {
 
-	public void setName() {
-	}
-
-	public void setDescription() {
-	}
-
-	public void checkGalleryStructure() {
 	}
 
 }

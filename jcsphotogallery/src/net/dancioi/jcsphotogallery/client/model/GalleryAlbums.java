@@ -1,5 +1,5 @@
 /*	
- * 	File    : Albums.java
+ * 	File    : GalleryAlbums.java
  * 
  * 	Copyright (C) 2010-2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -28,63 +28,82 @@ import java.util.ArrayList;
 
 /**
  * The class to keep the albums data.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
-public class Albums {
-	
+public class GalleryAlbums {
+
 	private String galleryName;
 	private String galleryHomePage;
-	private AlbumBean[] albums;	
-	
+	private AlbumBean[] albums;
+
 	private ArrayList<String> categoryString = new ArrayList<String>();
 	private ArrayList<AlbumsCategory> categories = new ArrayList<AlbumsCategory>();
-	
-	public Albums(){
-		
+
+	private boolean edited;
+
+	public GalleryAlbums() {
+
 	}
 
 	/**
-	 * add all galery's albums.
+	 * Adds all galery's albums.
+	 * 
 	 * @param albums
 	 */
 	public void setAlbums(AlbumBean[] albums) {
 		this.albums = albums;
 	}
-	
+
 	/**
-	 * Method to get the number of all albums in gallery.
+	 * Gets the number of all albums in gallery.
+	 * 
 	 * @return number of all albums.
 	 */
-	public int getAllAlbumsNr(){
+	public int getTotalAlbumsNumber() {
 		return albums.length;
 	}
-	
+
+	/**
+	 * Gets the number of pictures.
+	 * 
+	 * @return
+	 */
+	public int getTotalPicturesNumber() {
+		int result = 0;
+		for (AlbumBean album : albums)
+			result += album.getPictures().length;
+		return result;
+	}
+
 	/**
 	 * Gets all gallery's albums
+	 * 
 	 * @return
 	 */
-	public AlbumBean[] getAllAlbums(){
+	public AlbumBean[] getAllAlbums() {
 		return albums;
 	}
-	
+
 	/**
-	 * Get just the albums according with the selected sorting criteria. 
+	 * Gets just the albums according with the selected sorting criteria.
+	 * 
 	 * @return
 	 */
-	public AlbumBean[] getSortedAlbums(){
+	public AlbumBean[] getSortedAlbums() {
 		return albums;
 	}
-	
-	public String getAlbumFolderName(int a){
+
+	public String getAlbumFolderName(int a) {
 		return albums[a].getFolderName();
 	}
-	
-	public String getAlbumName(int a){
+
+	public String getAlbumName(int a) {
 		return albums[a].getName();
 	}
-	
+
 	public String getGalleryName() {
 		return galleryName;
 	}
@@ -92,7 +111,7 @@ public class Albums {
 	public void setGalleryName(String galleryName) {
 		this.galleryName = galleryName;
 	}
-	
+
 	public String getGalleryHomePage() {
 		return galleryHomePage;
 	}
@@ -101,42 +120,50 @@ public class Albums {
 		this.galleryHomePage = galleryHomePage;
 	}
 
+	public boolean isEdited() {
+		return edited;
+	}
+
+	public void setEdited(boolean edited) {
+		this.edited = edited;
+	}
+
 	/*
 	 * gets the album's index for each category string.
 	 */
-	private void getAllCategories(){
-		for(int i=0;i<albums.length;i++){
+	private void getAllCategories() {
+		for (int i = 0; i < albums.length; i++) {
 			String[] albumCategories = albums[i].getCategory();
-			for(int albumIndex=0;albumIndex<albumCategories.length;albumIndex++){
-				if(categoryString.contains(albumCategories[albumIndex])){
-					int index = categoryString.indexOf(albumCategories[albumIndex]); 
+			for (int albumIndex = 0; albumIndex < albumCategories.length; albumIndex++) {
+				if (categoryString.contains(albumCategories[albumIndex])) {
+					int index = categoryString.indexOf(albumCategories[albumIndex]);
 					categories.get(index).addAlbumToCategory(albumIndex);
-				}
-				else{
+				} else {
 					categories.add(new AlbumsCategory(albumCategories[albumIndex], categories.size(), albumIndex));
 				}
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Method to get the albums categories.
-	 * format: [cat 0...nrMaxCategories][album 0...length]
+	 * Gets the albums categories. format: [cat 0...nrMaxCategories][album
+	 * 0...length]
+	 * 
 	 * @return
 	 */
-	public String[][] getAlbumsCategories(){
+	public String[][] getAlbumsCategories() {
 		String[][] catResult = null;
 		int catLength = 0;
-		if(albums.length>0)catLength = albums[0].getCategory().length;
+		if (albums.length > 0)
+			catLength = albums[0].getCategory().length;
 		catResult = new String[catLength][];
 		String[] cat = null;
-		for(int a=0; a<albums.length; a++){
+		for (int a = 0; a < albums.length; a++) {
 			cat = albums[a].getCategory();
-			for(int c=0;c<cat.length;c++)
+			for (int c = 0; c < cat.length; c++)
 				catResult[c][a] = cat[c];
 		}
 		return catResult;
 	}
-	
+
 }

@@ -21,22 +21,22 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+
 package net.dancioi.jcsphotogallery.app;
 
 /**
  * Main class.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
-
 public class Main {
-
 
 	public void detectOS() {
 	}
 
-	public static void main(String[] arg){
+	public static void main(String[] arg) {
 		String osName = new CheckOS().getOS();
 		new JcsPhotoGallery(osName);
 	}

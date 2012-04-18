@@ -21,14 +21,17 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+
 package net.dancioi.jcsphotogallery.app;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryController;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModel;
+import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryView;
+import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 
 /**
- * 		JcsPhotoGallery
+ * JcsPhotoGallery
  * 
  * The Main class of this project :p
  * 
@@ -38,25 +41,28 @@ import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryView;
  * 
  * For a demo of this project see the following web page:
  * http://www.dancioi.net/projects/jcsphotogallery/demo/
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public class JcsPhotoGallery {
-	
+
 	private String osName;
-	
-	public JcsPhotoGallery(String osName){
+
+	public JcsPhotoGallery(String osName) {
 		this.osName = osName;
 		initialize();
 	}
-	
-	private void initialize(){
-		JcsPhotoGalleryModel model = new JcsPhotoGalleryModel();
-		JcsPhotoGalleryView view = new JcsPhotoGalleryView(model);
+
+	private void initialize() {
+		JcsPhotoGalleryModelInterface model = new JcsPhotoGalleryModel();
+		JcsPhotoGalleryViewInterface view = new JcsPhotoGalleryView(model);
 		new JcsPhotoGalleryController(model, view);
-		view.setVisible(true);
 	}
-	
+
+	public String getOsName() {
+		return osName;
+	}
 
 }

@@ -28,7 +28,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.List;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -37,7 +37,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
+import net.dancioi.jcsphotogallery.client.model.AlbumBean;
+import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
  * JcsPhotoGallery's View
@@ -51,10 +55,9 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	private static final long serialVersionUID = 1L;
 	private JcsPhotoGalleryModelInterface model;
-	private PanelLeft panelLeft;
-	private PanelTop panelTop;
-	private PanelBottom panelBottom;
-	private PanelCenter panelCenter;
+	private AppPanelLeft panelLeft;
+	private AppPanelRight panelRight;
+	private PicturePanelCenter panelCenter;
 
 	/**
 	 * Default constructor.
@@ -69,24 +72,22 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * Initialize.
 	 */
 	private void initialize() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		this.setContentPane(getMainPanel());
-		this.setMinimumSize(new Dimension(1000, 750));
+		this.setMinimumSize(new Dimension(1050, 750));
 		this.getRootPane().addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				frameResizeEvent();
 			}
 
 		});
+
+		this.pack();
 	}
 
 	private void frameResizeEvent() {
 		// panelCenter.resizeEvent();
-	}
-
-	private void getDSim() {
-		System.out.println("  size: width=" + this.getWidth() + "  height=" + this.getHeight());
 	}
 
 	/**
@@ -95,25 +96,20 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * @return JPanel
 	 */
 	private JSplitPane getMainPanel() {
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), addCenterPanel());
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), addRightPanel());
 		splitPane.setOneTouchExpandable(false);
 		splitPane.setDividerLocation(250);
 		return splitPane;
 	}
 
 	/**
-	 * Center panel where the picture is shown.
+	 * Right panel with the gallery tree structure.
 	 * 
-	 * @return
+	 * @return JPanel
 	 */
-	private JPanel addCenterPanel() {
-		panelCenter = new PanelCenter();
-		return panelCenter;
-	}
-
-	@Override
-	public void showPicture(String picturePath) {
-		panelCenter.showPicture(model.getPicture(picturePath, panelCenter.getMinVisibleDimension()));
+	private JPanel addRightPanel() {
+		panelRight = new AppPanelRight(this);
+		return panelRight;
 	}
 
 	/**
@@ -122,12 +118,8 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * @return JPanel
 	 */
 	private JPanel addLeftPanel() {
-		panelLeft = new PanelLeft(this);
+		panelLeft = new AppPanelLeft(this);
 		return panelLeft;
-	}
-
-	public List getUpdatedGallery() {
-		return null;
 	}
 
 	@Override
@@ -138,6 +130,8 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	@Override
 	public void populateTree(DefaultMutableTreeNode[] treeNodes) {
 		panelLeft.addGalleryAlbums(treeNodes);
+		// switch to gallery edit panel after the gallery was imported.
+		showGallery(model.getGalleryAlbums());
 	}
 
 	@Override
@@ -146,14 +140,42 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	}
 
 	@Override
-	public void addToTreeNewAlbum(DefaultMutableTreeNode newAlbum) {
+	public void addNewAlbumToGallery(DefaultMutableTreeNode newAlbum) {
 		panelLeft.addAlbumToGallery(newAlbum);
 	}
 
 	@Override
-	public void addToTreePicturesToExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum) {
+	public void addPicturesToAnExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum) {
 		panelLeft.addPicturesToAnExistingAlbum();
 
+	}
+
+	@Override
+	public void attachActions(JcsPhotoGalleryControllerInterface controller) {
+		panelRight.getPicturePanel().attachActions(controller);
+	}
+
+	@Override
+	public void showPicture(PictureBean picture) {
+		panelRight.editPicture(picture, model.getPicture(picture, 600));
+	}
+
+	@Override
+	public void showAlbum(AlbumBean albumBean) {
+		panelRight.editAlbum();
+
+	}
+
+	@Override
+	public void showGallery(GalleryAlbums galleryAlbums) {
+		if (null != model.getAppGalleryPath())
+			panelRight.editGallery(galleryAlbums, model.getAppGalleryPath().getAbsolutePath());
+
+	}
+
+	@Override
+	public void addCloseWindowListener(WindowAdapter windowAdapter) {
+		addWindowListener(windowAdapter);
 	}
 
 }

@@ -45,9 +45,10 @@ import javax.swing.tree.TreeSelectionModel;
  *          (Thu, 09 Feb 2012) $, by: $Author$
  */
 
-public class PanelLeft extends JPanel implements TreeSelectionListener {
+public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 
 	private static final long serialVersionUID = 1L;
+	private JcsPhotoGalleryView view; // TODO later
 	private JTree tree;
 	private DefaultMutableTreeNode root;
 
@@ -56,8 +57,8 @@ public class PanelLeft extends JPanel implements TreeSelectionListener {
 	 * 
 	 * @param jcsPhotoGalleryView
 	 */
-	public PanelLeft(JcsPhotoGalleryView jcsPhotoGalleryView) {
-
+	public AppPanelLeft(JcsPhotoGalleryView jcsPhotoGalleryView) {
+		this.view = jcsPhotoGalleryView;
 		initialize();
 	}
 
@@ -80,6 +81,7 @@ public class PanelLeft extends JPanel implements TreeSelectionListener {
 
 		tree = new JTree(root);
 		tree.setEditable(false);
+		tree.setLargeModel(true);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 

@@ -31,12 +31,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -70,11 +73,25 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		rightClickPopUp = new RightClickPopUp(this);
 		view.addMenuBar(getMenu());
 		addListenersToTree();
+		view.attachActions(this);
+		view.addCloseWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				questionDialogOnExit();
+			}
+		});
+
+		view.setVisible(true);
+
+		// load the last imported gallery
+		if (model.getConfigs().getGalleryPath() != null) {
+			openGallery(model.getConfigs().getGalleryPath());
+		}
 	}
 
 	private JMenuBar getMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu("File");
+		menuFile.add(getMenuNewGallery());
 		menuFile.add(getMenuOpenGallery());
 		menuFile.add(getMenuSaveGallery());
 		menuFile.addSeparator();
@@ -96,8 +113,19 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return menuBar;
 	}
 
+	private JMenuItem getMenuNewGallery() {
+		JMenuItem menuNewGallery = new JMenuItem("New");
+		menuNewGallery.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return menuNewGallery;
+	}
+
 	private JMenuItem getMenuOpenGallery() {
-		JMenuItem menuOpenGallery = new JMenuItem("Open Gallery");
+		JMenuItem menuOpenGallery = new JMenuItem("Import");
 		menuOpenGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -108,22 +136,34 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				folderChooser.setFileFilter(new GalleryFilter());
 				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
-					view.populateTree(model.loadGallery(folderChooser.getSelectedFile()));
+					openGallery(folderChooser.getSelectedFile());
 				}
 			}
 		});
 		return menuOpenGallery;
 	}
 
+	private void openGallery(File galleryDefinition) {
+		view.populateTree(model.loadGallery(galleryDefinition));
+	}
+
 	private JMenuItem getMenuSaveGallery() {
-		JMenuItem menuSaveGallery = new JMenuItem("Save Gallery");
+		JMenuItem menuSaveGallery = new JMenuItem("Save");
 		menuSaveGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				model.saveGalleryChanges(view.getTree());
+				saveGalleryChanges();
 			}
 		});
 		return menuSaveGallery;
+	}
+
+	private void saveGalleryChanges() {
+		model.saveGalleryChanges(view.getTree());
+	}
+
+	private void exitApplication() {
+		System.exit(0);
 	}
 
 	private JMenuItem getMenuExit() {
@@ -131,11 +171,23 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO here
-
+				questionDialogOnExit();
 			}
 		});
 		return menuExit;
+	}
+
+	private void questionDialogOnExit() {
+		if (model.isGallerySaved(view.getTree())) {
+			exitApplication();
+		} else {
+			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes that you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE);
+			if (exitQuestion == JOptionPane.YES_OPTION) {
+				saveGalleryChanges();
+			}
+			exitApplication();
+		}
 	}
 
 	private JMenuItem getPreferences() {
@@ -200,8 +252,14 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				if (treeNode.getUserObject() instanceof PictureBean) {
 					PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
 					System.out.println(treePath.getLastPathComponent());
-					System.out.println(model.getPicturePath(pictureBean));
-					view.showPicture(model.getPicturePath(pictureBean));
+					view.showPicture(pictureBean);
+				} else if (treeNode.getUserObject() instanceof AlbumBean) {
+					AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
+					System.out.println(treePath.getLastPathComponent());
+					view.showAlbum(albumBean);
+				} else if (treeNode.getUserObject() instanceof String) {
+					System.out.println(treePath.getLastPathComponent());
+					view.showGallery(model.getGalleryAlbums());
 				}
 			}
 		};
@@ -219,7 +277,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		folderChooser.setFileFilter(new PictureFilter());
 		folderChooser.setMultiSelectionEnabled(true);
 		if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			view.addToTreeNewAlbum(model.addPicturesToNewAlbum(folderChooser.getSelectedFiles()));
+			view.addNewAlbumToGallery(model.addPicturesToNewAlbum(folderChooser.getSelectedFiles()));
 		}
 
 	}
@@ -234,7 +292,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			folderChooser.setFileFilter(new PictureFilter());
 			folderChooser.setMultiSelectionEnabled(true);
 			if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				view.addToTreePicturesToExistingAlbum(model.addPicturesToExistingAlbum(folderChooser.getSelectedFiles(), treeNode));
+				view.addPicturesToAnExistingAlbum(model.addPicturesToExistingAlbum(folderChooser.getSelectedFiles(), treeNode));
 			}
 		}
 
@@ -256,6 +314,26 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	public void deleteAlbum() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public ActionListener addNextPictureActionListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// nextPictureButton();
+			}
+		};
+	}
+
+	@Override
+	public ActionListener addPreviousPictureActionListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// previousPictureButton();
+			}
+		};
 	}
 
 }

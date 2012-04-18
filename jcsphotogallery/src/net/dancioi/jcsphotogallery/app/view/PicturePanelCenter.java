@@ -1,5 +1,5 @@
 /*	
- * 	File    : Configs.java
+ * 	File    : PanelCenter.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,29 +22,48 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app.model;
+package net.dancioi.jcsphotogallery.app.view;
 
-import java.io.File;
-import java.io.Serializable;
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JPanel;
 
 /**
- * This class .
+ * The Application's right side with panels: gallery, album, picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author$
  */
-public class Configs implements Serializable {
+public class PicturePanelCenter extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private File galleryPath;
+	private ImageViewer imageViewer;
 
-	public File getGalleryPath() {
-		return galleryPath;
+	public PicturePanelCenter() {
+		initialize();
 	}
 
-	public void setGalleryPath(File galleryPath) {
-		this.galleryPath = galleryPath;
+	private void initialize() {
+		setLayout(new BorderLayout());
+
+		imageViewer = new ImageViewer();
+		add(imageViewer, BorderLayout.CENTER);
+
+	}
+
+	public void showPicture(BufferedImage image) {
+		imageViewer.loadImage(image);
+	}
+
+	public void resizeEvent() {
+		imageViewer.updateSize(this.getWidth(), this.getHeight());
+
+	}
+
+	public int getMinVisibleDimension() {
+		return getWidth() > getHeight() ? getWidth() : getHeight();
 	}
 
 }

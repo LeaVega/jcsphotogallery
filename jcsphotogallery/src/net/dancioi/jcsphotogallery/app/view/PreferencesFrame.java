@@ -1,7 +1,7 @@
 /*	
- * 	File    : ConfigsBean.java
+ * 	File    : PreferencesFrame.java
  * 
- * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -22,21 +22,28 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.app.model;
+package net.dancioi.jcsphotogallery.app.view;
+
+import javax.swing.JFrame;
 
 /**
- * This class .
- *  
+ * The Preferences modal dialog.
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision: 39 $ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
+public class PreferencesFrame extends JFrame {
 
-public class ConfigsBean {
+	private static final long serialVersionUID = 1L;
 
-	private String galleryPath;
-	
-	public ConfigsBean(){
-		
+	public PreferencesFrame() {
+		intialize();
+	}
+
+	private void intialize() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

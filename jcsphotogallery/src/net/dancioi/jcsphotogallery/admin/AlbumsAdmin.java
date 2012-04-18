@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
 
 /**
  * 	The admin album class.
@@ -33,7 +33,7 @@ import net.dancioi.jcsphotogallery.client.model.Albums;
  * @version $Revision$  Last modified: $Date$, by: $Author$
  */
 
-public class AlbumsAdmin extends Albums{
+public class AlbumsAdmin extends GalleryAlbums{
 
 	
 	public void showAll(){

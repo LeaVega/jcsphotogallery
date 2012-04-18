@@ -1,7 +1,7 @@
 /*	
- * 	File    : PanelCenter.java
+ * 	File    : AboutFrame.java
  * 
- * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -24,48 +24,26 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
-import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
-
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 /**
- * This class .
+ * The About modal dialog.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision: 39 $ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
-
-public class PanelCenter extends JPanel {
+public class AboutFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private ImageViewer imageViewer;
 
-	public PanelCenter() {
+	public AboutFrame() {
 		initialize();
 	}
 
 	private void initialize() {
-		setLayout(new BorderLayout());
-		add(new PanelTop(), BorderLayout.PAGE_START);
-		imageViewer = new ImageViewer();
-		add(imageViewer, BorderLayout.CENTER);
-		add(new PanelBottom(), BorderLayout.PAGE_END);
+		// TODO Auto-generated method stub
 
-	}
-
-	public void showPicture(BufferedImage image) {
-		imageViewer.loadImage(image);
-	}
-
-	public void resizeEvent() {
-		imageViewer.updateSize(this.getWidth(), this.getHeight());
-
-	}
-
-	public int getMinVisibleDimension() {
-		return getWidth() > getHeight() ? getWidth() : getHeight();
 	}
 
 }

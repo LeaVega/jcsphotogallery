@@ -36,9 +36,10 @@ import java.util.ArrayList;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
@@ -51,9 +52,9 @@ import net.dancioi.jcsphotogallery.client.model.PictureBean;
 public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	private Configs configs;
-	private File galleryPath;
-	private FileXML fileXML;
-	private PicturesImport picturesImport;
+	private File appGalleryPath;
+	private PicturesImporter picturesImport;
+	private GalleryAlbums galleryAlbums;
 
 	public JcsPhotoGalleryModel() {
 		initialize();
@@ -61,8 +62,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	private void initialize() {
 		getPreviousConfigs();
-		picturesImport = new PicturesImport();
-		fileXML = new FileXML();
+		picturesImport = new PicturesImporter();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			configs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("The configs.cfg file is missing. It happens just first time when you run the application");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -114,6 +114,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	 * 
 	 * @return
 	 */
+	@Override
 	public Configs getConfigs() {
 		return configs;
 	}
@@ -127,38 +128,31 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		this.configs = configs;
 	}
 
-	private Albums getGalleryAlbums() {
-		fileXML = new FileXML();
-		return fileXML.getAlbums(galleryPath);
-	}
-
-	private AlbumBean getAlbumPictures(String albumName) {
-		return fileXML.getAlbumPhotos(new File(galleryPath.getParentFile().getAbsolutePath() + File.separatorChar + albumName));
-	}
-
 	@Override
 	public DefaultMutableTreeNode[] loadGallery(File galleryDefinition) {
-		galleryPath = galleryDefinition;
+		appGalleryPath = galleryDefinition;
 		ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
-		Albums albums = getGalleryAlbums();
-		AlbumBean[] allAlbums = albums.getAllAlbums();
+		galleryAlbums = new GalleryReader().getAlbums(appGalleryPath);
+		AlbumBean[] allAlbums = galleryAlbums.getAllAlbums();
 
 		for (AlbumBean album : allAlbums) {
 			DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(album);
 			root.add(albumNode);
-			PictureBean[] pictures = getAlbumPictures(album.getFolderName() + File.separator + "album.xml").getPictures();
-			for (PictureBean picture : pictures) {
+			for (PictureBean picture : album.getPictures()) {
 				picture.setParent(album);
 				albumNode.add(new DefaultMutableTreeNode(picture));
 			}
 		}
 
+		configs.setGalleryPath(galleryDefinition);
+		saveSettings();
+
 		return (DefaultMutableTreeNode[]) root.toArray(new DefaultMutableTreeNode[root.size()]);
 	}
 
 	@Override
-	public BufferedImage getPicture(String picturePath, int maxSize) {
-		return picturesImport.getPicture(picturePath, maxSize);
+	public BufferedImage getPicture(PictureBean picture, int maxSize) {
+		return picturesImport.getPicture(getPicturePath(picture), maxSize);
 	}
 
 	@Override
@@ -171,7 +165,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		String folderName = String.valueOf(System.currentTimeMillis());
 		newAlbum.setName(folderName);
 		newAlbum.setFolderName(folderName);
-		File albumFolder = new File(galleryPath.getParentFile().getAbsolutePath() + File.separatorChar + folderName);
+		File albumFolder = new File(appGalleryPath.getParentFile().getAbsolutePath() + File.separatorChar + folderName);
 		newAlbum.setAlbumPath(albumFolder.getAbsolutePath());
 
 		if (albumFolder.mkdir()) {
@@ -193,9 +187,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		return picture;
 	}
 
-	@Override
-	public String getPicturePath(PictureBean pictureBean) {
-		return galleryPath.getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName();
+	private String getPicturePath(PictureBean pictureBean) {
+		return appGalleryPath.getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName();
 	}
 
 	@Override
@@ -203,7 +196,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		AlbumBean album = (AlbumBean) albumNode.getUserObject();
 		album.setEdited(true);
 		for (File picturePath : selectedFiles) {
-			PictureBean picture = importPicture(album, new File(galleryPath.getParent() + File.separator + album.getFolderName()), picturePath);
+			PictureBean picture = importPicture(album, new File(appGalleryPath.getParent() + File.separator + album.getFolderName()), picturePath);
 			if (null != picture) {
 				albumNode.add(new DefaultMutableTreeNode(picture));
 			}
@@ -213,6 +206,38 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	@Override
 	public void saveGalleryChanges(JTree jTree) {
-		new GalleryWrite(jTree, fileXML, new File(galleryPath.getParent()).getAbsolutePath());
+		new GalleryWriter(getGalleryAlbums(), jTree, new File(appGalleryPath.getParent()).getAbsolutePath());
 	}
+
+	@Override
+	public GalleryAlbums getGalleryAlbums() {
+		return galleryAlbums;
+	}
+
+	@Override
+	public File getAppGalleryPath() {
+		return appGalleryPath;
+	}
+
+	@Override
+	public boolean isGallerySaved(JTree jTree) {
+		boolean result = true;
+
+		DefaultTreeModel treeNode = (DefaultTreeModel) jTree.getModel();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeNode.getRoot();
+
+		if (galleryAlbums.isEdited())
+			return false;
+
+		for (int albumsNr = 0; albumsNr < root.getChildCount(); albumsNr++) {
+			DefaultMutableTreeNode albumNode = (DefaultMutableTreeNode) treeNode.getChild(root, albumsNr);
+			if (albumNode.getUserObject() instanceof AlbumBean) {
+				AlbumBean album = (AlbumBean) albumNode.getUserObject();
+				if (album.isEdited())
+					return false;
+			}
+		}
+		return result;
+	}
+
 }

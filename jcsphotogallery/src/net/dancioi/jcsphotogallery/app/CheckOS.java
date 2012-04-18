@@ -31,18 +31,20 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Class to check the OS.
  * 
  * @author Daniel Cioi <dan.cioi@vrforcad.org>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
-public class CheckOS{
+public class CheckOS {
 
-	public String getOS(){
-		String osName = System.getProperties().getProperty( "os.name" );			// get the OS name;
-		if(osName.contains("Mac")){
+	public String getOS() {
+		// get the OS name;
+		String osName = System.getProperties().getProperty("os.name");
+		if (osName.contains("Mac")) {
 
-			System.setProperty("apple.laf.useScreenMenuBar", "true");		// put the menuBar on the Mac's menuBar;
+			// put the menuBar on the Mac's menuBar;
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
 			System.setProperty("com.apple.mrj.application.growbox.intrudes", "false");
 			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "JcsPhotoGallery");
-
 
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

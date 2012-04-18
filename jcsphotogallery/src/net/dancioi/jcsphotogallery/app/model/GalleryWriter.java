@@ -1,5 +1,5 @@
 /*	
- * 	File    : FileXML.java
+ * 	File    : GalleryWriter.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -25,8 +25,11 @@
 package net.dancioi.jcsphotogallery.app.model;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,50 +41,63 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.Albums;
+import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
- * Read/Write XML files.
+ * This class traverse the JTree and write the modified albums xml files..
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 32 $ Last modified: $Date: 2011-12-03 13:07:01 +0200
- *          (Sat, 03 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
-public class FileXML extends ElementXML {
+public class GalleryWriter extends ElementXML {
 
-	public Albums getAlbums(File xmlFile) {
-		return super.getAlbums(readFileXML(xmlFile));
+	private GalleryAlbums gallery;
+	private JTree jTree;
+	private String galleryPath;
+
+	public GalleryWriter(GalleryAlbums gallery, JTree jTree, String galleryPath) {
+		this.gallery = gallery;
+		this.jTree = jTree;
+		this.galleryPath = galleryPath;
+		saveChanges();
 	}
 
-	public AlbumBean getAlbumPhotos(File xmlFile) {
-		return super.getAlbumPhotos(readFileXML(xmlFile));
-	}
+	private void saveChanges() {
+		DefaultTreeModel treeNode = (DefaultTreeModel) jTree.getModel();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeNode.getRoot();
 
-	private Element readFileXML(File xmlFile) {
-		Element element = null;
+		ArrayList<AlbumBean> albums = new ArrayList<AlbumBean>();
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		try {
-			builder = factory.newDocumentBuilder();
-			Document document = builder.parse(xmlFile);
-			element = document.getDocumentElement();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (int albumsNr = 0; albumsNr < root.getChildCount(); albumsNr++) {
+			DefaultMutableTreeNode albumNode = (DefaultMutableTreeNode) treeNode.getChild(root, albumsNr);
+			if (albumNode.getUserObject() instanceof AlbumBean) {
+				AlbumBean album = (AlbumBean) albumNode.getUserObject();
+
+				System.out.println("album " + albumNode.getUserObject().toString());
+				ArrayList<PictureBean> pictures = new ArrayList<PictureBean>();
+				for (int pictureNr = 0; pictureNr < albumNode.getChildCount(); pictureNr++) {
+					DefaultMutableTreeNode pictureNode = (DefaultMutableTreeNode) albumNode.getChildAt(pictureNr);
+					if (pictureNode.getUserObject() instanceof PictureBean) {
+						pictures.add((PictureBean) pictureNode.getUserObject());
+						System.out.println("album " + albumNode.getUserObject().toString() + " picture " + pictureNode.getUserObject().toString());
+					}
+				}
+				if (album.isEdited()) {
+					saveAlbum(galleryPath + File.separatorChar + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]));
+				}
+				albums.add(album);
+			}
 		}
+		gallery.setAlbums(albums.toArray(new AlbumBean[albums.size()]));
+		saveGallery(galleryPath + File.separatorChar, gallery);
 
-		return element;
 	}
 
 	public void saveAlbum(String albumFolder, PictureBean[] pictures) {
@@ -95,11 +111,11 @@ public class FileXML extends ElementXML {
 		}
 	}
 
-	public void saveGallery(String galleryPayh, AlbumBean[] albums) {
+	public void saveGallery(String galleryPayh, GalleryAlbums gallery) {
 		Document doc;
 		try {
 			doc = getDocument();
-			getAlbumsElements(doc, albums);
+			getAlbumsElements(doc, gallery);
 			writeFileXML(galleryPayh + "albums.xml", doc);
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

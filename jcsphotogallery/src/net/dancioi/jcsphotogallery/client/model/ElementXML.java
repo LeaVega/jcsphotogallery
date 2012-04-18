@@ -41,7 +41,7 @@ public abstract class ElementXML {
 	 * @param element
 	 * @return Albums
 	 */
-	protected Albums getAlbums(Element element) {
+	protected GalleryAlbums getAlbums(Element element) {
 		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
 		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
 
@@ -59,7 +59,7 @@ public abstract class ElementXML {
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags);
 		}
 
-		Albums galleryAlbums = new Albums();
+		GalleryAlbums galleryAlbums = new GalleryAlbums();
 		galleryAlbums.setGalleryName(galleryName);
 		galleryAlbums.setGalleryHomePage(galleryHomePage);
 		galleryAlbums.setAlbums(photoAlbums);

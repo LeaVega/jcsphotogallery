@@ -1,5 +1,5 @@
 /*	
- * 	File    : PicturesImport.java
+ * 	File    : PicturesImporter.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -48,7 +48,7 @@ import net.dancioi.jcsphotogallery.client.model.PictureBean;
  *          (Sat, 03 Dec 2011) $, by: $Author$
  */
 
-public class PicturesImport {
+public class PicturesImporter {
 
 	private int pictureWidth = 1200;
 	private int pictureHeight = 900;

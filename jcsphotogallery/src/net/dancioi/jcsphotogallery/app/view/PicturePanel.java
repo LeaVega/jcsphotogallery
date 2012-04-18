@@ -1,7 +1,7 @@
 /*	
- * 	File    : JcsPhotoGalleryViewInterface.java
+ * 	File    : PicturePanel.java
  * 
- * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -24,46 +24,57 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
-import java.awt.event.WindowAdapter;
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
 
-import javax.swing.JMenuBar;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.JPanel;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.model.PictureBean;
 
 /**
- * JcsPhotoGallery's View interface.
+ * Panel to edit the picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision: 39 $ Last modified: $Date: 2012-03-20 22:39:16 +0200
  *          (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
-public interface JcsPhotoGalleryViewInterface {
+public class PicturePanel extends JPanel {
 
-	void addMenuBar(JMenuBar menuBar);
+	private static final long serialVersionUID = 1L;
+	private PicturePanelCenter panelCenter;
+	private PicturePanelBottom panelBottom;
 
-	void populateTree(DefaultMutableTreeNode[] defaultMutableTreeNodes);
+	public PicturePanel() {
 
-	JTree getTree();
+		initialize();
+	}
 
-	void attachActions(JcsPhotoGalleryControllerInterface controller);
+	private void initialize() {
+		this.setLayout(new BorderLayout());
+		this.add(addCenterPanel(), BorderLayout.CENTER);
+		panelBottom = new PicturePanelBottom();
+		add(panelBottom, BorderLayout.PAGE_END);
 
-	void addNewAlbumToGallery(DefaultMutableTreeNode newAlbum);
+	}
 
-	void addPicturesToAnExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum);
+	/**
+	 * Center panel where the picture is shown.
+	 * 
+	 * @return
+	 */
+	private JPanel addCenterPanel() {
+		panelCenter = new PicturePanelCenter();
+		return panelCenter;
+	}
 
-	void showPicture(PictureBean picture);
+	public void fillUpParameters(PictureBean pictureBean, BufferedImage picture) {
+		panelCenter.showPicture(picture);
+		panelBottom.setCurrentPictureBean(pictureBean);
+	}
 
-	void showAlbum(AlbumBean albumBean);
-
-	void showGallery(GalleryAlbums galleryAlbums);
-
-	void setVisible(boolean b);
-
-	void addCloseWindowListener(WindowAdapter windowAdapter);
+	public void attachActions(JcsPhotoGalleryControllerInterface controller) {
+		panelBottom.attachActions(controller);
+	}
 
 }

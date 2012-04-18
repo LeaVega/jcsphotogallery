@@ -32,7 +32,7 @@ package net.dancioi.jcsphotogallery.client.model;
  */
 public interface ReadXMLCallback {
 
-	public void albumsCallback(Albums albums);
+	public void albumsCallback(GalleryAlbums albums);
 
 	public void albumPhotosCallback(AlbumBean albumPhotos);
 
