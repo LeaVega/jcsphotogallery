@@ -37,8 +37,8 @@ import org.w3c.dom.NodeList;
  * client because of the different import statements.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 33 $ Last modified: $Date: 2011-12-03 13:18:31 +0200
- *          (Sat, 03 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
+ * @version $Revision$ Last modified: $Date: 2011-12-03 13:18:31 +0200
+ *          (Sat, 03 Dec 2011) $, by: $Author$
  */
 public abstract class ElementXML {
 

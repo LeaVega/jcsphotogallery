@@ -29,8 +29,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Interface for right click popUp menu.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 36 $ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author: dan.cioi $
+ * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author$
  */
 public interface RightClickPopUpInterface {
 

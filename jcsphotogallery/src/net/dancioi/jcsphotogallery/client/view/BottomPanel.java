@@ -28,7 +28,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
@@ -43,8 +42,6 @@ import com.google.gwt.user.client.ui.Label;
 public class BottomPanel extends AbsolutePanel {
 
 	private PageController galleryControll;
-	private String jcsPhotoGalleryLinkString;
-	private String galleryVersion;
 	private Label pageNr; // page number label.
 	private Label albumLabel; // album label.
 
@@ -52,31 +49,22 @@ public class BottomPanel extends AbsolutePanel {
 	private Image buttonIconRight;
 	private Image buttonIconUp;
 
-	String adminLink = "<div> <a href=\"JcsphotogalleryAdmin.html\"><font size=\"1\">Admin</font></a> </div>";
-
-	public BottomPanel(String galleryVersion, PageController galleryControll) {
-		this.galleryVersion = galleryVersion;
+	public BottomPanel(PageController galleryControll) {
 		this.galleryControll = galleryControll;
-		addVersionNr();
 		initialize();
 	}
 
-	/*
-	 * Shows the project name and version number.
-	 */
-	private void addVersionNr() {
-		jcsPhotoGalleryLinkString = "<div> <a href=\"http://www.dancioi.net/projects/jcsphotogallery/\"><font size=\"1\">jcsPhotoGallery " + galleryVersion + "</font></a> </div>";
-	}
-
 	private void initialize() {
-		setSize("800px", "70px");
+		this.setPixelSize(790, 40);
+		this.setStyleName("bottomPanel", true);
+
 		buttonIconLeft = new Image("ext/previous.gif"); // PREVIOUS button
 		buttonIconLeft.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leftButtonClicked();
 			}
 		});
-		add(buttonIconLeft, 610, 5);
+		add(buttonIconLeft, 600, 5);
 
 		buttonIconRight = new Image("ext/next.gif"); // NEXT button
 		buttonIconRight.addClickHandler(new ClickHandler() {
@@ -84,7 +72,7 @@ public class BottomPanel extends AbsolutePanel {
 				rightButtonClicked();
 			}
 		});
-		add(buttonIconRight, 660, 5);
+		add(buttonIconRight, 650, 5);
 
 		buttonIconUp = new Image("ext/albums.gif"); // BACK to albums
 		buttonIconUp.addClickHandler(new ClickHandler() {
@@ -92,18 +80,12 @@ public class BottomPanel extends AbsolutePanel {
 				upButtonClicked();
 			}
 		});
-		add(buttonIconUp, 767, 5);
+		add(buttonIconUp, 757, 5);
 
 		pageNr = new Label();
 		add(pageNr, 370, 10);
 
 		addAlbumLabel();
-
-		HTML jcsPhotoGalleryLink = new HTML(jcsPhotoGalleryLinkString);
-		add(jcsPhotoGalleryLink, 350, 40);
-
-		// HTML adminHtmlLink = new HTML(adminLink);
-		// add(adminHtmlLink, 375, 60);
 
 		allOff();
 	}
@@ -114,7 +96,7 @@ public class BottomPanel extends AbsolutePanel {
 	private void addAlbumLabel() {
 		albumLabel = new Label("");
 		albumLabel.setStyleName("bottomAlbumLabel");
-		add(albumLabel, 1, 10);
+		add(albumLabel, 20, 10);
 	}
 
 	/*

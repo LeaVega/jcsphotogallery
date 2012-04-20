@@ -1,5 +1,5 @@
 /*	
- * 	File    : PageController.java
+ * 	File    : VersionPanel.java
  * 
  * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -24,18 +24,36 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HTML;
+
 /**
- * Page navigator on bottom side.
+ * App's Version Panel.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision: 41 $ Last modified: $Date: 2012-03-20 22:39:16 +0200 (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
-public interface PageController {
+public class VersionPanel extends AbsolutePanel {
 
-	void previousPageEvent();
+	private String jcsPhotoGalleryLinkString;
+	private String galleryVersion;
 
-	void nextPageEvent();
+	public VersionPanel(String galleryVersion) {
+		this.galleryVersion = galleryVersion;
+		addVersionNr();
+		initialize();
+	}
 
-	void upPagesEvent();
+	/*
+	 * Shows the project name and version number.
+	 */
+	private void addVersionNr() {
+		jcsPhotoGalleryLinkString = "<div> <a href=\"http://www.dancioi.net/projects/jcsphotogallery/\"><font size=\"1\">jcsPhotoGallery " + galleryVersion + "</font></a> </div>";
+	}
 
+	private void initialize() {
+		this.setPixelSize(790, 30);
+		HTML jcsPhotoGalleryLink = new HTML(jcsPhotoGalleryLinkString);
+		add(jcsPhotoGalleryLink, 340, 5);
+	}
 }

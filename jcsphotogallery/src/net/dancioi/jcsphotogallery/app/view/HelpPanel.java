@@ -38,8 +38,8 @@ import javax.swing.JScrollPane;
  * Short help page. It will be show just at first run..
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 39 $ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public class HelpPanel extends JPanel {
 

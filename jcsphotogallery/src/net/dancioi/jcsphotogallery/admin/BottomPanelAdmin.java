@@ -38,8 +38,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * The application contains 3 panels (top, center, bottom).
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class BottomPanelAdmin extends BottomPanel {
 
@@ -52,7 +51,7 @@ public class BottomPanelAdmin extends BottomPanel {
 	 * @param pg
 	 */
 	public BottomPanelAdmin(String galleryVersion, PageController galleryControll) {
-		super(galleryVersion, galleryControll);
+		super(galleryControll);
 		ini();
 	}
 

@@ -35,6 +35,11 @@ JcsPhotoGallery project - http://www.dancioi.net/projects/jcsphotogallery
 	background-color: #C0C0C0;
 }
 
+.bottomPanel {
+	background-color: #E0E0E0;
+	position: relative;
+}
+
 
 .bottomLinks {
   	font-size: 0.75em;

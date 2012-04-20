@@ -31,7 +31,7 @@ import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
  * JcsPhotoGallery's presenter.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 41 $ Last modified: $Date: 2012-03-20 22:39:16 +0200 (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public abstract class Presenter {
 

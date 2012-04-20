@@ -34,8 +34,8 @@ import javax.swing.JPanel;
  * Shows the picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 34 $ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author: dan.cioi@gmail.com $
+ * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
+ *          (Sun, 04 Dec 2011) $, by: $Author$
  */
 
 public class ImageViewer extends JPanel {

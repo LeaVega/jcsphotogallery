@@ -41,8 +41,8 @@ import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
  * Panel to edit the gallery.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 39 $ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public class GalleryPanel extends JPanel implements FocusListener {
 

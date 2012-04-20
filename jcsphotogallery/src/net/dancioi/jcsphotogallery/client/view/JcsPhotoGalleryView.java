@@ -34,11 +34,13 @@ import com.google.gwt.user.client.ui.RootPanel;
  * JcsPhotoGallery's view.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 41 $ Last modified: $Date: 2012-03-20 22:39:16 +0200 (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryView extends View {
 
 	// TODO define background color in albums.xml
+	// TODO add history handler.
+	// TODO add option to remove the selected categories.
 	private String galleryVersion = "1.0.6";
 
 	private Label headerLabel;
@@ -47,6 +49,7 @@ public class JcsPhotoGalleryView extends View {
 
 	private CenterPanel centerPanel;
 	private BottomPanel bottomPanel;
+	private VersionPanel versionPanel;
 
 	public JcsPhotoGalleryView() {
 		initialize();
@@ -59,7 +62,9 @@ public class JcsPhotoGalleryView extends View {
 		addHeader();
 		addTopPanel();
 		addBottomPanel();
+		addAppVersion();
 		addCenterPanel();
+		addHandlers();
 	}
 
 	/*
@@ -91,8 +96,17 @@ public class JcsPhotoGalleryView extends View {
 	 * Adds the bottom panel.
 	 */
 	private void addBottomPanel() {
-		bottomPanel = new BottomPanel(galleryVersion, this);
+		bottomPanel = new BottomPanel(this);
 		RootPanel.get("bottomPanel").add(bottomPanel);
+	}
+
+	private void addAppVersion() {
+		versionPanel = new VersionPanel(galleryVersion);
+		RootPanel.get("versionPanel").add(versionPanel);
+	}
+
+	private void addHandlers() {
+		new ViewHandlers(bottomPanel, versionPanel);
 	}
 
 	/**
