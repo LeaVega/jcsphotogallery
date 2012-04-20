@@ -40,9 +40,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -91,13 +91,16 @@ public class GalleryWriter extends ElementXML {
 				}
 				if (album.isEdited()) {
 					saveAlbum(galleryPath + File.separatorChar + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]));
+					album.setEdited(false);
 				}
 				albums.add(album);
 			}
 		}
-		gallery.setAlbums(albums.toArray(new AlbumBean[albums.size()]));
-		saveGallery(galleryPath + File.separatorChar, gallery);
-
+		if (gallery.isEdited()) {
+			gallery.setAlbums(albums.toArray(new AlbumBean[albums.size()]));
+			saveGallery(galleryPath + File.separatorChar, gallery);
+			gallery.setEdited(false);
+		}
 	}
 
 	public void saveAlbum(String albumFolder, PictureBean[] pictures) {

@@ -33,8 +33,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * The Application's right side.

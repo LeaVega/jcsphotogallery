@@ -1,5 +1,5 @@
 /*	
- * 	File    : GalleryAction.java
+ * 	File    : Thumbnails.java
  * 
  * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -22,20 +22,18 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.controller;
+package net.dancioi.jcsphotogallery.client.shared;
 
 /**
- * Interface for gallery actions.
+ * Interface to show the image thumbnail.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public interface GalleryAction {
+public interface Thumbnails {
 
-	public void previousPageEvent();
-	
-	public void nextPageEvent();
-	
-	public void upToAlbumsEvent();
-	
+	String getImgThumbnail();
+
+	String getName();
+
 }

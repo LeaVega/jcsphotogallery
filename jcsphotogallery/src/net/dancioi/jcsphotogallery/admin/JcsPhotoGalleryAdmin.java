@@ -24,15 +24,11 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-
-import net.dancioi.jcsphotogallery.client.view.Jcsphotogallery;
+import net.dancioi.jcsphotogallery.client.view.JcsPhotoGalleryView;
 import net.dancioi.webdav.client.WebdavClient;
 
-import com.google.gwt.user.client.ui.RootPanel;
-// GWT Designer can cause problems with class path (uninstall it if it's the case).
-
 /**
- * 		JcsPhotoGallery Admin application.
+ * JcsPhotoGallery Admin application.
  * 
  * The Main class of this project :p
  * 
@@ -44,66 +40,59 @@ import com.google.gwt.user.client.ui.RootPanel;
  * http://www.dancioi.net/projects/jcsphotogallery/demo/
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
-public class JcsPhotoGalleryAdmin extends Jcsphotogallery{
+public class JcsPhotoGalleryAdmin extends JcsPhotoGalleryView {
 
 	private boolean login;
-	String url= "http://www.serverintest.com/webdav/gallery/";
+	String url = "http://www.serverintest.com/webdav/gallery/";
 	public WebdavClient webdavLib;
 
-	
 	public void onModuleLoad() {
 		initialize();
 		checkUser();
 	}
-	
-	
+
 	/**
 	 * Adds the center panel.
 	 */
-	protected void addCenterPanel(){
-		centerPanel = new CenterPanelAdmin(this);
-		RootPanel.get("images").add(centerPanel); 
+	protected void addCenterPanel() {
+		// centerPanel = new CenterPanelAdmin(this);
+		// RootPanel.get("images").add(centerPanel);
 	}
-	
-	
+
 	/**
 	 * Adds the bottom panel.
 	 */
-	protected void addBottomPanel(){
-		bottomPanel = new BottomPanelAdmin(getGalleryVersion(), this);
-		RootPanel.get("bottomPanel").add(bottomPanel);
+	protected void addBottomPanel() {
+		// bottomPanel = new BottomPanelAdmin(getGalleryVersion(), this);
+		// RootPanel.get("bottomPanel").add(bottomPanel);
 	}
-	
-	
-	private void checkUser(){
+
+	private void checkUser() {
 		new LoginPanel(this);
 	}
-	
 
-	public void initializeWebDavLibrary(String validUsername, String validPassword){
+	public void initializeWebDavLibrary(String validUsername, String validPassword) {
 		webdavLib = new WebdavClient(url, validUsername, validPassword);
 	}
-	
-	
-	
-	public void setLogin(boolean loginResult){
+
+	public void setLogin(boolean loginResult) {
 		login = loginResult;
-		if(login)loginTrue();
+		if (login)
+			loginTrue();
 	}
-		
-	public void loginTrue(){
+
+	public void loginTrue() {
 
 	}
-	
-	
-	
-	private void showAddAlbumDialog(){
+
+	private void showAddAlbumDialog() {
 
 		new AddAlbumDialog().show();
-	
+
 	}
-	
+
 }

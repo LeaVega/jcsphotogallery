@@ -46,8 +46,8 @@ import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's Controller.
@@ -118,10 +118,21 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuNewGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser folderChooser = new JFileChooser();
+				folderChooser.setCurrentDirectory(new java.io.File("."));
+				folderChooser.setDialogTitle("Choose the folder to create gallery.");
+				folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
+					createNewGallery(folderChooser.getSelectedFile());
+				}
 			}
 		});
 		return menuNewGallery;
+	}
+
+	private void createNewGallery(File galleryPath) {
+		view.populateTree(model.createNewGallery(galleryPath));
 	}
 
 	private JMenuItem getMenuOpenGallery() {
@@ -143,8 +154,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return menuOpenGallery;
 	}
 
-	private void openGallery(File galleryDefinition) {
-		view.populateTree(model.loadGallery(galleryDefinition));
+	private void openGallery(File galleryPath) {
+		view.populateTree(model.loadGallery(galleryPath));
 	}
 
 	private JMenuItem getMenuSaveGallery() {
@@ -181,8 +192,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		if (model.isGallerySaved(view.getTree())) {
 			exitApplication();
 		} else {
-			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes that you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes that you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (exitQuestion == JOptionPane.YES_OPTION) {
 				saveGalleryChanges();
 			}
@@ -221,25 +231,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	private MouseListener mouseListener = new MouseAdapter() {
 
 		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				Point loc = e.getPoint();
-
-				TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
-				if (null != treePath) {
-					DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-					if (treeNode.getUserObject() instanceof PictureBean) {
-						rightClickPopUp.enableMenus(RightClickPopUp.IMAGES, treeNode);
-					} else if (treeNode.getUserObject() instanceof AlbumBean) {
-						rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS, treeNode);
-					} else {
-						rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
-					}
-					rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
-				}
-				System.out.printf("path = %s%n", treePath);
-
-			}
-
+			// working on mac, not on windows
 		}
 
 		public void mouseClicked(MouseEvent e) {
@@ -265,6 +257,24 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		};
 
 		public void mouseReleased(MouseEvent e) {
+			if (e.isPopupTrigger()) {
+				Point loc = e.getPoint();
+
+				TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
+				if (null != treePath) {
+					DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+					if (treeNode.getUserObject() instanceof PictureBean) {
+						rightClickPopUp.enableMenus(RightClickPopUp.IMAGES, treeNode);
+					} else if (treeNode.getUserObject() instanceof AlbumBean) {
+						rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS, treeNode);
+					} else {
+						rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
+					}
+					rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
+				}
+				System.out.printf("path = %s%n", treePath);
+
+			}
 		}
 	};
 
@@ -343,7 +353,7 @@ class GalleryFilter extends FileFilter {
 	@Override
 	public boolean accept(File arg0) {
 		if (arg0.isDirectory()) {
-			return false;
+			return true;
 		}
 
 		if (arg0.getName().equals("albums.xml"))
@@ -364,7 +374,7 @@ class PictureFilter extends FileFilter {
 	@Override
 	public boolean accept(File arg0) {
 		if (arg0.isDirectory()) {
-			return false;
+			return true;
 		}
 
 		if (arg0.getName().toLowerCase().endsWith(".jpg"))

@@ -38,9 +38,9 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's Model.
@@ -129,8 +129,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	@Override
-	public DefaultMutableTreeNode[] loadGallery(File galleryDefinition) {
-		appGalleryPath = galleryDefinition;
+	public DefaultMutableTreeNode[] loadGallery(File galleryPath) {
+		appGalleryPath = galleryPath;
 		ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
 		galleryAlbums = new GalleryReader().getAlbums(appGalleryPath);
 		AlbumBean[] allAlbums = galleryAlbums.getAllAlbums();
@@ -144,8 +144,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			}
 		}
 
-		configs.setGalleryPath(galleryDefinition);
-		saveSettings();
+		configs.setGalleryPath(galleryPath);
 
 		return (DefaultMutableTreeNode[]) root.toArray(new DefaultMutableTreeNode[root.size()]);
 	}
@@ -155,10 +154,23 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		return picturesImport.getPicture(getPicturePath(picture), maxSize);
 	}
 
+	public DefaultMutableTreeNode[] createNewGallery(File galleryPath) {
+		appGalleryPath = galleryPath;
+		galleryAlbums = new GalleryAlbums();
+		galleryAlbums.setGalleryName("Change this");
+		galleryAlbums.setGalleryHomePage("http://www.changeThis.com");
+		galleryAlbums.setEdited(true);
+
+		configs.setGalleryPath(galleryPath);
+
+		return new DefaultMutableTreeNode[] { addPicturesToNewAlbum(null) };
+	}
+
 	@Override
 	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles) {
 		AlbumBean newAlbum = new AlbumBean();
 		newAlbum.setEdited(true);
+		galleryAlbums.setEdited(true);
 
 		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);
 
@@ -169,15 +181,16 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		newAlbum.setAlbumPath(albumFolder.getAbsolutePath());
 
 		if (albumFolder.mkdir()) {
-			for (File picturePath : selectedFiles) {
-				PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
-				if (null != picture) {
-					albumNode.add(new DefaultMutableTreeNode(picture));
-					newAlbum.setImgThumbnail(picture.getImgThumbnail());
+			if (null != selectedFiles) {
+				for (File picturePath : selectedFiles) {
+					PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
+					if (null != picture) {
+						albumNode.add(new DefaultMutableTreeNode(picture));
+						newAlbum.setImgThumbnail(picture.getImgThumbnail());
+					}
 				}
 			}
 		}
-
 		return albumNode;
 	}
 
@@ -207,6 +220,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	@Override
 	public void saveGalleryChanges(JTree jTree) {
 		new GalleryWriter(getGalleryAlbums(), jTree, new File(appGalleryPath.getParent()).getAbsolutePath());
+		saveSettings();
 	}
 
 	@Override
@@ -226,7 +240,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		DefaultTreeModel treeNode = (DefaultTreeModel) jTree.getModel();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeNode.getRoot();
 
-		if (galleryAlbums.isEdited())
+		if (galleryAlbums != null && galleryAlbums.isEdited())
 			return false;
 
 		for (int albumsNr = 0; albumsNr < root.getChildCount(); albumsNr++) {

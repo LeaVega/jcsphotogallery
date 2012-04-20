@@ -38,7 +38,7 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.SubsampleAverageDescriptor;
 
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * This class .

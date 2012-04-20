@@ -46,7 +46,7 @@ import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
  * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
  *          (Tue, 20 Mar 2012) $, by: $Author$
  */
-public class JcsPhotoGallery {
+public class JcsPhotoGallery { 
 
 	private String osName;
 

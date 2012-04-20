@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 import net.dancioi.jcsphotogallery.client.view.PopUpImgShow;
 
 /**

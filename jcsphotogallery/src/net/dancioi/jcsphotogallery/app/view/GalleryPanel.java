@@ -35,7 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 
 /**
  * Panel to edit the gallery.

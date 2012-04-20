@@ -24,9 +24,8 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -35,16 +34,13 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * This class shows the selected image 
- * (from the center panel) on a PopUp panel.
- *  
+ * This class shows the selected image (from the center panel) on a PopUp panel.
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-
-public class PopUpImgShow extends PopupGeneric{
-
-//TODO set the autoplay on popUp (by user).
+/* No MVP pattern implemented here. It works so well as it is :p */
+public class PopUpImgShow extends PopupGeneric {
 
 	private AbsolutePanel ap;
 	private int popUpSizeX;
@@ -55,42 +51,39 @@ public class PopUpImgShow extends PopupGeneric{
 	private AbsolutePanel bottomPanel;
 
 	private PictureBean[] pictures;
-	
-	private int imgStart;				// image id from to start.
-	private String imgPath; 			// images path
-	private ImagePopUp img; 			// image which will be shown.
-	
+
+	private int imgStart; // image id from to start.
+	private String imgPath; // images path
+	private ImagePopUp img; // image which will be shown.
+
 	private Image next;
 	private Image previous;
 	private Image close;
-	
-	
-	private Label lImgName;				// image name
-	private Label lImgComment;			// image comment
+
+	private Label lImgName; // image name
+	private Label lImgComment; // image comment
 
 	private int currentImg;
-	
-	/* add a loading message		*/
+
+	/* add a loading message */
 	private String loading;
 	private Label loadingLabel;
 	private int ind = 1;
 	private Timer t;
-	
-	/* cache the next and previous image		*/
+
+	// cache the next and previous image.
+	// Just brings the images in browser's cache.
 	private Image imgCacheN;
 	private Image imgCacheP;
-	
-	
-	//Button play;				// button AUTO PLAY
+
+	// Button play; // button AUTO PLAY
 	private Image play;
 	private boolean playFlag = true;
 	private boolean autoPlayOn = false;
 	private Timer tPlay;
 	private Label playMode;
-	
-	
 
-	public PopUpImgShow(int imgStart, String imgPath, PictureBean[] pictures){
+	public PopUpImgShow(int imgStart, String imgPath, PictureBean[] pictures) {
 		super();
 		this.imgStart = imgStart;
 		this.imgPath = imgPath;
@@ -99,162 +92,168 @@ public class PopUpImgShow extends PopupGeneric{
 		initialize();
 	}
 
-	/**
-	 * Initialize
-	 */
-	private void initialize(){
+	private void initialize() {
 		setGlassStyleName("gwt-PopupPanelGlass");
-		setGlassEnabled(true); 
-		
+		setGlassEnabled(true);
+
 		getMaximSquareSize();
-		
+
 		setPosition();
 
-		ap = new AbsolutePanel();	
-		ap.setPixelSize(popUpSizeX, popUpSizeY);	
+		ap = new AbsolutePanel();
+		ap.setPixelSize(popUpSizeX, popUpSizeY);
 		ap.setStyleName("popUpPanel");
 
 		imgPanel = new AbsolutePanel();
-		imgPanelSizeX = popUpSizeX-40;
-		imgPanelSizeY = popUpSizeY-40;
+		imgPanelSizeX = popUpSizeX - 40;
+		imgPanelSizeY = popUpSizeY - 40;
 		imgPanel.setPixelSize(imgPanelSizeX, imgPanelSizeY);
-		ap.add(imgPanel, 20,1);
-		
+		ap.add(imgPanel, 20, 1);
+
 		bottomPanel = new AbsolutePanel();
 		bottomPanel.setPixelSize(popUpSizeX, 50);
-		
+
 		next = new Image("ext/next.gif");
 		next.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(!playFlag){autoPlay(false);play.setUrl("ext/play.gif");playFlag = true;}
-				nextImg();}} );
-		bottomPanel.add(next, popUpSizeX-110, 5);
-		
+				if (!playFlag) {
+					autoPlay(false);
+					play.setUrl("ext/play.gif");
+					playFlag = true;
+				}
+				nextImg();
+			}
+		});
+		bottomPanel.add(next, popUpSizeX - 110, 5);
+
 		previous = new Image("ext/previous.gif");
 		previous.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(!playFlag){autoPlay(false);play.setUrl("ext/play.gif");playFlag = true;}
-				previousImg();}} );
-		bottomPanel.add(previous, popUpSizeX-160, 5);
-		
+				if (!playFlag) {
+					autoPlay(false);
+					play.setUrl("ext/play.gif");
+					playFlag = true;
+				}
+				previousImg();
+			}
+		});
+		bottomPanel.add(previous, popUpSizeX - 160, 5);
+
 		close = new Image("ext/close.gif");
 		close.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				closeImg();}} );
-		bottomPanel.add(close, popUpSizeX-40, 5);	
-		
+				closeImg();
+			}
+		});
+		bottomPanel.add(close, popUpSizeX - 40, 5);
+
 		play = new Image("ext/play.gif");
 		play.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(playFlag && currentImg < pictures.length-1){
+				if (playFlag && currentImg < pictures.length - 1) {
 					autoPlay(true);
 					play.setUrl("ext/pause.gif");
 					playFlag = false;
-				}
-				else{
+				} else {
 					stopAutoPlay();
 				}
-				}} );
-		bottomPanel.add(play, popUpSizeX-240, 5);
+			}
+		});
+		bottomPanel.add(play, popUpSizeX - 240, 5);
 
 		lImgName = new Label();
-		bottomPanel.add(lImgName, 20,0);
+		bottomPanel.add(lImgName, 20, 0);
 
 		lImgComment = new Label();
-		bottomPanel.add(lImgComment, 20,20);
-
+		bottomPanel.add(lImgComment, 20, 20);
 
 		loading = "Loading...";
 		loadingLabel = new Label();
 		loadingLabel.setText(loading);
-		bottomPanel.add(loadingLabel, popUpSizeX/2,2);
-		
+		bottomPanel.add(loadingLabel, popUpSizeX / 2, 2);
+
 		playMode = new Label();
-		bottomPanel.add(playMode, popUpSizeX/2,22);
-		
-		ap.add(bottomPanel, 1, popUpSizeY-40);
+		bottomPanel.add(playMode, popUpSizeX / 2, 22);
+
+		ap.add(bottomPanel, 1, popUpSizeY - 40);
 
 		setWidget(ap);
-		addImage(imgPath+pictures[imgStart].getFileName());
+		addImage(imgPath + pictures[imgStart].getFileName());
 
 		checkStartImg();
 	}
 
-	
-	private void stopAutoPlay(){
+	private void stopAutoPlay() {
 		autoPlay(false);
 		play.setUrl("ext/play.gif");
 		playFlag = true;
 	}
-	
-	
-	/**
+
+	/*
 	 * Method to show the next image.
 	 */
-	public void nextImg(){
+	private void nextImg() {
 		showLoadingProcess(false);
-		if(currentImg<(pictures.length-1)){
+		if (currentImg < (pictures.length - 1)) {
 			currentImg++;
 			checkButtons(currentImg);
-			addImage(imgPath+pictures[currentImg].getFileName());
+			addImage(imgPath + pictures[currentImg].getFileName());
 		}
 	}
 
-	/**
+	/*
 	 * Method to show the previous image.
 	 */
-	public void previousImg(){
+	private void previousImg() {
 		showLoadingProcess(false);
-		if(currentImg>0){
+		if (currentImg > 0) {
 			currentImg--;
 			checkButtons(currentImg);
-			addImage(imgPath+pictures[currentImg].getFileName());
+			addImage(imgPath + pictures[currentImg].getFileName());
 		}
 	}
 
-	/**
-	 * Method to check if the selected image is first or the last from album;
-	 * disable the buttons according.
+	/*
+	 * Method to check if the selected image is first or the last from album; disable the buttons according.
+	 * 
 	 * @param id image id
 	 */
-	private void checkButtons(int id){
+	private void checkButtons(int id) {
 		next.setVisible(true);
 		previous.setVisible(true);
-		if(id==(pictures.length-1)){next.setVisible(false);
-			if(autoPlayOn){stopAutoPlay();playMode.setText("Last Picture");}
+		if (id == (pictures.length - 1)) {
+			next.setVisible(false);
+			if (autoPlayOn) {
+				stopAutoPlay();
+				playMode.setText("Last Picture");
+			}
 		}
-		if(id==0) previous.setVisible(false);
+		if (id == 0)
+			previous.setVisible(false);
 	}
 
-
-	
-	
-	
-	/**
-	 * check if the image is first or the last.
-	 * disable the button according.
+	/*
+	 * check if the image is first or the last. disable the button according.
 	 */
-	private void checkStartImg(){
+	private void checkStartImg() {
 		checkButtons(currentImg);
 	}
 
-	/**
+	/*
 	 * Method to close the popup.
 	 */
-	public void closeImg(){
-		if(autoPlayOn)autoPlay(false);
+	private void closeImg() {
+		if (autoPlayOn)
+			autoPlay(false);
 		this.hide();
 	}
 
-	/**
-	 * Method to add image to the panel.
-	 * Because the image size method from the image class can't return the values
-	 * until the image is fully loaded by browser, this method add the image
-	 * on the popup panel's bottom right corner (making the image invisible and
-	 * creating the background loading effect). When the image is complete downloaded, 
-	 * get the image's size and the it's added to the popup panel.
+	/*
+	 * Method to add image to the panel. Because the image size method from the image class can't return the values until the image is fully loaded by browser, this method add the image on the popup
+	 * panel's bottom right corner (making the image invisible and creating the background loading effect). When the image is complete downloaded, get the image's size and the it's added to the popup
+	 * panel.
 	 */
-	private void addImage(String imagePath){
+	private void addImage(String imagePath) {
 		showLoadingProcess(true);
 		img = new ImagePopUp(imagePath, this);
 		imgPanel.add(img, imgPanelSizeX, imgPanelSizeY);
@@ -263,121 +262,122 @@ public class PopUpImgShow extends PopupGeneric{
 	/**
 	 * scale the image to fit the panel
 	 */
-	public void scaleImg(Image im){
+	public void scaleImg(Image im) {
 		showLoadingProcess(false);
-		
+
 		int iox = im.getWidth();
 		int ioy = im.getHeight();
 
-		float scaleX = (float)imgPanelSizeX/iox;
-		float scaleY = (float)imgPanelSizeY/ioy;
-		
-		float scalef = scaleX<=scaleY ? scaleX:scaleY;
-		int ix = (int)(iox*scalef);
-		int iy = (int)(ioy*scalef);
+		float scaleX = (float) imgPanelSizeX / iox;
+		float scaleY = (float) imgPanelSizeY / ioy;
+
+		float scalef = scaleX <= scaleY ? scaleX : scaleY;
+		int ix = (int) (iox * scalef);
+		int iy = (int) (ioy * scalef);
 		img.setPixelSize(ix, iy);
 
 		lImgName.setText(pictures[currentImg].getName());
 		lImgComment.setText(pictures[currentImg].getDescription());
-		
+
 		clearImg();
-		imgPanel.add(img, (imgPanelSizeX-ix)/2, (imgPanelSizeY-iy)/2);
-		
-		getNextAndPrevious(currentImg);	// cache the next and previous pictures;
+		imgPanel.add(img, (imgPanelSizeX - ix) / 2, (imgPanelSizeY - iy) / 2);
+
+		getNextAndPrevious(currentImg); // cache the next and previous pictures;
 	}
 
-
-	/**
+	/*
 	 * Method to get the maxim popup size. The dimension should be the same (square).
 	 */
-	private void getMaximSquareSize(){
+	private void getMaximSquareSize() {
 		getWindowSize();
 		int maxX = getBrowserWindowWidth();
 		int maxY = getBrowserWindowHeight();
-		if(maxX<=maxY){
+		if (maxX <= maxY) {
 			popUpSizeX = maxY;
 			popUpSizeY = maxY;
-		}
-		else{
+		} else {
 			popUpSizeY = maxY;
-			if(maxX>maxY*1.33) popUpSizeX = (int) (maxY*1.33);
-			else popUpSizeX = maxX;
+			if (maxX > maxY * 1.33)
+				popUpSizeX = (int) (maxY * 1.33);
+			else
+				popUpSizeX = maxX;
 		}
-		
-		popUpSizeX-=30;
-		popUpSizeY-=30;
+
+		popUpSizeX -= 30;
+		popUpSizeY -= 30;
 		setSizeX(popUpSizeX);
 		setSizeY(popUpSizeY);
 	}
-	
-	/**
+
+	/*
 	 * Method to clear the old image before add the new one.
 	 */
-	private void clearImg(){
+	private void clearImg() {
 		imgPanel.clear();
 	}
-	
-	/**
+
+	/*
 	 * This method shows the picture's loading process.
 	 */
-	private void showLoadingProcess(boolean show){
-		if(show){
+	private void showLoadingProcess(boolean show) {
+		if (show) {
 			// show the loading bar
 
 			ind = 1;
 			loadingLabel.setText(loading.substring(0, ind));
-			
+
 			t = new Timer() {
-			      @Override
-			      public void run() {
-			    	  if(ind<loading.length()){
-							ind++;
-						}
-						else{
-							ind=1;
-						}
-						loadingLabel.setText(loading.substring(0, ind));
-			      }
-			    };
-			
-			    t.scheduleRepeating(500);
-		}
-		else{
+				@Override
+				public void run() {
+					if (ind < loading.length()) {
+						ind++;
+					} else {
+						ind = 1;
+					}
+					loadingLabel.setText(loading.substring(0, ind));
+				}
+			};
+
+			t.scheduleRepeating(500);
+		} else {
 			// hide the loading bar
 			t.cancel();
 			loadingLabel.setText("");
 		}
 	}
-	
-	/**
-	 * Cache the next and previous pictures to reduce the loading time. 
+
+	/*
+	 * Cache the next and previous pictures to reduce the loading time.
+	 * 
 	 * @param i picture id
 	 */
-	private void getNextAndPrevious(int i){
-		if(i<pictures.length-1)imgCacheN = new Image(imgPath+pictures[i+1].getFileName());
-		if(i>0)imgCacheP = new Image(imgPath+pictures[i-1].getFileName());
+	private void getNextAndPrevious(int i) {
+		if (i < pictures.length - 1)
+			imgCacheN = new Image(imgPath + pictures[i + 1].getFileName());
+		if (i > 0)
+			imgCacheP = new Image(imgPath + pictures[i - 1].getFileName());
 	}
 
-	/**
+	/*
 	 * AutoPlay method.
-	 * @param flag 
+	 * 
+	 * @param flag
 	 */
-	private void autoPlay(boolean flag){
+	private void autoPlay(boolean flag) {
 		autoPlayOn = flag;
-		if(flag){	
+		if (flag) {
 			playMode.setText("Auto Play Mode");
 			tPlay = new Timer() {
-			      @Override
-			      public void run() {
-			    	  nextImg();
-			      }
-			    };
-			    tPlay.scheduleRepeating(8000);	// wait 8 seconds between pictures. 
-		}
-		else{
+				@Override
+				public void run() {
+					nextImg();
+				}
+			};
+			tPlay.scheduleRepeating(8000); // wait 8 seconds between pictures.
+		} else {
 			playMode.setText("");
 			tPlay.cancel();
 		}
 	}
-	
+
 }

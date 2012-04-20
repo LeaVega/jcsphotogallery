@@ -23,6 +23,10 @@
  */
 package net.dancioi.jcsphotogallery.client.model;
 
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 
@@ -30,8 +34,7 @@ import com.google.gwt.xml.client.NodeList;
  * Obtains Albums or Album's photos from an XML element.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public abstract class ElementXML {
 

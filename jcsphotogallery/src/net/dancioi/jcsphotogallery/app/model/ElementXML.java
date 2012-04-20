@@ -24,9 +24,9 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

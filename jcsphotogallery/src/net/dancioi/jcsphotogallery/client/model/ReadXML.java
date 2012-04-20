@@ -24,16 +24,16 @@
 
 package net.dancioi.jcsphotogallery.client.model;
 
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+
 import com.google.gwt.xml.client.Element;
 
 /**
  * Reads the XML files from the web server.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-
 public class ReadXML extends ReadXMLGeneric {
 
 	private ReadXMLCallback readCallback;

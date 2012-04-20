@@ -25,7 +25,7 @@
 package net.dancioi.jcsphotogallery.admin;
 
 import net.dancioi.jcsphotogallery.client.view.CenterPanel;
-import net.dancioi.jcsphotogallery.client.view.Jcsphotogallery;
+import net.dancioi.jcsphotogallery.client.view.JcsPhotoGalleryView;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,26 +36,26 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Image;
 
-
 /**
- * The 3x3 grid where the image thumbnails are shown.
- * CENTER panel. 
+ * The 3x3 grid where the image thumbnails are shown. CENTER panel.
  * 
  * The application contains 3 panels (top, center, bottom).
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 
-public class CenterPanelAdmin extends CenterPanel{
+public class CenterPanelAdmin extends CenterPanel {
 
 	SelectorBox opp[];
 
 	/**
 	 * Constructor.
-	 * @param pg 
+	 * 
+	 * @param pg
 	 */
-	public CenterPanelAdmin(Jcsphotogallery pg) {
+	public CenterPanelAdmin(JcsPhotoGalleryView pg) {
 		super(pg);
 		ini();
 	}
@@ -63,131 +63,114 @@ public class CenterPanelAdmin extends CenterPanel{
 	/**
 	 * Method that initialize the Operator class
 	 */
-	private void ini(){
+	private void ini() {
 		opp = new SelectorBox[9];
 	}
-
 
 	/**
 	 * adds the image to the table.
 	 */
-	@Override
-	protected void showImg(String imagesPath){
-/*		cellID = 0;
-		for(int h=0;h<3;h++){
-			for(int w=0;w<3;w++){
-				if(cellID<imgCountLimit){
-					cell[cellID] = new Image(imagesPath+thumbnails[imgId].getImgThumbnail());
-					cell[cellID].setTitle(thumbnails[imgId].getName());
-					if(cellID==imgCount-1){
-						opp[cellID] = new SelectorBox(cell[cellID], false);
-					}
-					else{
-						opp[cellID] = new SelectorBox(cell[cellID], true);
-					}
-					setWidget(h, w, opp[cellID]);
 
-					//setWidget(h, w, cell[cellID]);
-					cellOn[cellID] = true;
+	protected void showImg(String imagesPath) {
 
-					cellID++;
-					imgId++;
-				}
-				else{
-					cell[cellID] = new Image("ext/cellBackground.gif");
-					setWidget(h, w, cell[cellID]);
-					cellOn[cellID] = false;
-					cellID++;
-				}
-			}
-		}
-		addClickEvent();*/
+		// * cellID = 0; for(int h=0;h<3;h++){ for(int w=0;w<3;w++){
+		// * if(cellID<imgCountLimit){ cell[cellID] = new
+		// * Image(imagesPath+thumbnails[imgId].getImgThumbnail());
+		// * cell[cellID].setTitle(thumbnails[imgId].getName());
+		// * if(cellID==imgCount-1){ opp[cellID] = new SelectorBox(cell[cellID],
+		// * false); } else{ opp[cellID] = new SelectorBox(cell[cellID], true);
+		// }
+		// * setWidget(h, w, opp[cellID]);
+		// *
+		// * //setWidget(h, w, cell[cellID]); cellOn[cellID] = true;
+		// *
+		// * cellID++; imgId++; } else{ cell[cellID] = new
+		// * Image("ext/cellBackground.gif"); setWidget(h, w, cell[cellID]);
+		// * cellOn[cellID] = false; cellID++; } } } addClickEvent();
+
 	}
-	
-	
-	
-	
+
 	/**
 	 * Method that shows the popUp with the selected image.
+	 * 
 	 * @param id
 	 */
-	@Override
-	protected void showPopUpImg(int id){
-//		new PopUpImgShowAdmin(id-1, imgPath, pictures).show();
+
+	protected void showPopUpImg(int id) {
+		// new PopUpImgShowAdmin(id-1, imgPath, pictures).show();
 	}
-	
-	
+
 }
 
-
-
 /**
- * This class add panel to show the image and the check box. 
- *  
- * @version 1.0 
+ * This class add panel to show the image and the check box.
+ * 
+ * @version 1.0
  * @author Daniel Cioi <dan@dancioi.net>
  */
-class SelectorBox extends AbsolutePanel{
+class SelectorBox extends AbsolutePanel {
 	private boolean isChecked;
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param img
-	 * @param checkBox true if the checkBox should be shown.
+	 * @param checkBox
+	 *            true if the checkBox should be shown.
 	 */
-	SelectorBox(Image img, boolean checkBox){
+	SelectorBox(Image img, boolean checkBox) {
 		initialize(img, checkBox);
 	}
 
 	/**
 	 * Initialize.
-	 * @param img thumbnails image 
-	 * @param checkBox true if the checkBox should be shown.
+	 * 
+	 * @param img
+	 *            thumbnails image
+	 * @param checkBox
+	 *            true if the checkBox should be shown.
 	 */
-	void initialize(Image img, boolean checkBox){
-		setPixelSize(204,234);
+	void initialize(Image img, boolean checkBox) {
+		setPixelSize(204, 234);
 
 		CheckBox cb = new CheckBox();
 		cb.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				setChecked(checked);
-				//   Window.alert("It is " + (checked ? "" : "not ") + "checked");
+				// Window.alert("It is " + (checked ? "" : "not ") + "checked");
 			}
 		});
 
-
-		Grid g = new Grid(1,1);
+		Grid g = new Grid(1, 1);
 		g.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 		g.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_MIDDLE);
 		g.getCellFormatter().setHeight(0, 0, "202px");
 		g.getCellFormatter().setWidth(0, 0, "202px");
 		g.setWidget(0, 0, img);
-		add(g, 1,16);
-		if(checkBox){
-			add(cb,1,210);
+		add(g, 1, 16);
+		if (checkBox) {
+			add(cb, 1, 210);
 		}
 
 	}
 
 	/**
 	 * Method to set checked variable.
+	 * 
 	 * @param checked
 	 */
-	private void setChecked(boolean checked){
+	private void setChecked(boolean checked) {
 		isChecked = checked;
 	}
 
 	/**
 	 * Method to get checked variable.
+	 * 
 	 * @return
 	 */
-	public boolean getChecked(){
+	public boolean getChecked() {
 		return isChecked;
 	}
-	
 
-	
 }
-
-

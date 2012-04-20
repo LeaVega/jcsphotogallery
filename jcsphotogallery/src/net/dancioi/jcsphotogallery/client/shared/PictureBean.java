@@ -22,14 +22,13 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.model;
+package net.dancioi.jcsphotogallery.client.shared;
 
 /**
  * This class .
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class PictureBean implements Thumbnails {
@@ -44,8 +43,7 @@ public class PictureBean implements Thumbnails {
 
 	private AlbumBean parent;
 
-	public PictureBean(String name, String fileName, String description,
-			String imgThumbnail) {
+	public PictureBean(String name, String fileName, String description, String imgThumbnail) {
 		super();
 		this.name = name;
 		this.fileName = fileName;

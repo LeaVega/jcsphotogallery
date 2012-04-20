@@ -1,7 +1,7 @@
 /*	
- * 	File    : ImagePopUp.java
+ * 	File    : Model.java
  * 
- * 	Copyright (C) 2010 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -22,36 +22,31 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.view;
+package net.dancioi.jcsphotogallery.client.model;
 
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Image;
+import net.dancioi.jcsphotogallery.client.presenter.Presenter;
 
 /**
- * The image class to generate a event when the image is fully loaded.
+ * JcsPhotoGallery's model.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision: 41 $ Last modified: $Date: 2012-03-20 22:39:16 +0200 (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
-public class ImagePopUp extends Image {
+public abstract class Model {
 
-	private PopUpImgShow pi;
-	private boolean loaded;
+	private Presenter presenter;
 
-	public ImagePopUp(String link, PopUpImgShow pi) {
-		super(link);
-		this.pi = pi;
+	public void bindPresenter(Presenter presenter) {
+		this.presenter = presenter;
+
 	}
 
-	/**
-	 * When the image is fully loaded a event is fired.
-	 */
-	/* The ONLOAD event is fired few times per second, so a flag is required. */
-	public void onBrowserEvent(Event event) {
-		if (event.getTypeInt() == Event.ONLOAD && !loaded) {
-			loaded = true;
-			pi.scaleImg(this);
-		}
+	protected Presenter getPresenter() {
+		return presenter;
 	}
+
+	public abstract void readAlbum(String imagesPath);
+
+	public abstract void readGalleryAlbums(String albumsFilePath);
 
 }

@@ -22,7 +22,7 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.model;
+package net.dancioi.jcsphotogallery.client.shared;
 
 import java.util.ArrayList;
 
@@ -30,8 +30,7 @@ import java.util.ArrayList;
  * The class to keep the albums data.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class GalleryAlbums {
 
@@ -146,8 +145,7 @@ public class GalleryAlbums {
 	}
 
 	/**
-	 * Gets the albums categories. format: [cat 0...nrMaxCategories][album
-	 * 0...length]
+	 * Gets the albums categories. format: [cat 0...nrMaxCategories][album 0...length]
 	 * 
 	 * @return
 	 */

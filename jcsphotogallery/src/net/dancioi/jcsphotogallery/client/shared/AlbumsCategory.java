@@ -22,32 +22,30 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.model;
+package net.dancioi.jcsphotogallery.client.shared;
 
 import java.util.ArrayList;
 
 /**
  * Class to keep albums' index for each category name.
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-
 public class AlbumsCategory {
-	
+
 	private ArrayList<Integer> albums = new ArrayList<Integer>();
 	private String categoryString;
 	private int position;
-	
-	public AlbumsCategory(String categoryString,
-			int position, int albumIndex) {
+
+	public AlbumsCategory(String categoryString, int position, int albumIndex) {
 		super();
 		this.categoryString = categoryString;
 		this.position = position;
 		addAlbumToCategory(albumIndex);
 	}
-	
-	public void addAlbumToCategory(int albumIndex){
+
+	public void addAlbumToCategory(int albumIndex) {
 		albums.add(albumIndex);
 	}
 

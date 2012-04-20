@@ -24,99 +24,100 @@
 
 package net.dancioi.jcsphotogallery.admin;
 
-import net.dancioi.jcsphotogallery.client.controller.GalleryAction;
 import net.dancioi.jcsphotogallery.client.view.BottomPanel;
+import net.dancioi.jcsphotogallery.client.view.PageController;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBox;
 
-
 /**
- * Creates the Bottom Panel. 
+ * Creates the Bottom Panel.
  * 
  * The application contains 3 panels (top, center, bottom).
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
+ *          (Tue, 20 Mar 2012) $, by: $Author$
  */
-public class BottomPanelAdmin extends BottomPanel{
+public class BottomPanelAdmin extends BottomPanel {
 
 	private Image delete;
 	private Image moveUp;
 	private Image albumImg;
 	private TextBox albumLabelTextBox;
-	
+
 	/**
 	 * @param pg
 	 */
-	public BottomPanelAdmin(String galleryVersion, GalleryAction galleryControll){
-		super(galleryVersion, galleryControll); 
+	public BottomPanelAdmin(String galleryVersion, PageController galleryControll) {
+		super(galleryVersion, galleryControll);
 		ini();
 	}
-	
 
 	/**
 	 * Adds delete, move up buttons.
 	 */
-	private void ini(){
+	private void ini() {
 
-		delete = new Image("ext/previous.gif");		// Delete button
+		delete = new Image("ext/previous.gif"); // Delete button
 		delete.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				deleteSelected();}} );
+				deleteSelected();
+			}
+		});
 		add(delete, 10, 40);
-		
-		
-		moveUp = new Image("ext/previous.gif");		// move up button
+
+		moveUp = new Image("ext/previous.gif"); // move up button
 		moveUp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				moveUpSelected();}} );
+				moveUpSelected();
+			}
+		});
 		add(moveUp, 100, 40);
-		
-		albumImg = new Image("ext/previous.gif");		// move up button
+
+		albumImg = new Image("ext/previous.gif"); // move up button
 		albumImg.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				moveUpSelected();}} );
+				moveUpSelected();
+			}
+		});
 		add(albumImg, 190, 40);
-		
-		
+
 		delete.setVisible(true);
 		moveUp.setVisible(true);
 		albumImg.setVisible(true);
 	}
-	
-	
-	private void deleteSelected(){
-		
+
+	private void deleteSelected() {
+
 	}
-	
-	private void moveUpSelected(){
-		
+
+	private void moveUpSelected() {
+
 	}
-	
+
 	/**
-	 * Adds the album label.
-	 * TextBox here.
+	 * Adds the album label. TextBox here.
 	 */
-	@Override
-	protected void addAlbumLabel(){
+
+	protected void addAlbumLabel() {
 		albumLabelTextBox = new TextBox();
 		albumLabelTextBox.setVisibleLength(40);
-		add(albumLabelTextBox, 1,5);
-		
+		add(albumLabelTextBox, 1, 5);
+
 	}
-	
-	
+
 	/**
-	 * Sets the album name 
-	 * (shown on the bottom left corner)
-	 * @param album album name
+	 * Sets the album name (shown on the bottom left corner)
+	 * 
+	 * @param album
+	 *            album name
 	 */
 	@Override
-	public void setAlbumLabel(String album){
+	public void setAlbumLabel(String album) {
 		albumLabelTextBox.setText(album);
 	}
-	
+
 }

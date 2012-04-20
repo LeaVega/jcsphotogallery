@@ -22,16 +22,14 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.model;
+package net.dancioi.jcsphotogallery.client.shared;
 
 /**
  * Album bean.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-
 public class AlbumBean implements Thumbnails {
 
 	private String imgThumbnail;

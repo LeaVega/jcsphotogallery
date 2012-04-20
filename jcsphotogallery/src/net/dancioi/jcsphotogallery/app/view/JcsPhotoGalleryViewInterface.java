@@ -31,9 +31,9 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
-import net.dancioi.jcsphotogallery.client.model.AlbumBean;
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's View interface.

@@ -35,7 +35,19 @@ import javax.swing.UnsupportedLookAndFeelException;
  *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public class CheckOS {
+	
+	/*
+	* this gets rid of exception for not using native acceleration (JAI)
+	*/
+	static
+	{
+	System.setProperty("com.sun.media.jai.disableMediaLib", "true");
+	}
 
+	/**
+	 * Checks the OS.
+	 * @return
+	 */
 	public String getOS() {
 		// get the OS name;
 		String osName = System.getProperties().getProperty("os.name");

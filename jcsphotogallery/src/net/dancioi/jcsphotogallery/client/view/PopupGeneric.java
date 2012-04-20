@@ -28,100 +28,104 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
- * This class is a generic for PopUp panel. 
- * Define the center position. 
- *  
+ * This class is a generic for PopUp panel. Define the center position.
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
+public class PopupGeneric extends PopupPanel {
 
-public class PopupGeneric extends PopupPanel{
+	private int popUpSizeW; // popup size on X
+	private int popUpSizeH; // popup size on Y
+	private int browserWindowW; // browser window size on X
+	private int browserWindowH; // browser window size on Y
 
-	private int popUpSizeW;	// popup size on X
-	private int popUpSizeH;	// popup size on Y
-	private int browserWindowW;	// browser window size on X
-	private int browserWindowH;	// browser window size on Y
-	
 	/**
 	 * 
 	 * @param sizeX
 	 * @param sizeY
 	 */
-	public PopupGeneric(int sizeX, int sizeY){
+	public PopupGeneric(int sizeX, int sizeY) {
 		super(true);
 		popUpSizeW = sizeX;
 		popUpSizeH = sizeY;
 	}
-	
+
 	/**
 	 * Default constructor
 	 */
-	public PopupGeneric(){
+	public PopupGeneric() {
 		super(true);
 	}
-	
-	
+
 	/**
 	 * Method to set the popup panel position.
 	 */
-	protected void setPosition(){		
+	protected void setPosition() {
 		getWindowSize();
-		setPopupPosition((browserWindowW-popUpSizeW)/2,(browserWindowH-popUpSizeH)/2); 
+		setPopupPosition((browserWindowW - popUpSizeW) / 2, (browserWindowH - popUpSizeH) / 2);
 	}
 
 	/**
 	 * Method to get the visible browser window's size.
 	 */
-	protected void getWindowSize(){
+	protected void getWindowSize() {
 		browserWindowW = Window.getClientWidth();
 		browserWindowH = Window.getClientHeight();
 	}
-	
-	
+
 	/**
 	 * Method to set the popup width size.
+	 * 
 	 * @param x
 	 */
-	protected void setSizeX(int x){
+	protected void setSizeX(int x) {
 		popUpSizeW = x;
 	}
-	
+
 	/**
 	 * Method to get the popup width size.
+	 * 
 	 * @return popup width size
 	 */
-	protected int getSizeX(){
+	protected int getSizeX() {
 		return popUpSizeW;
 	}
-	
+
 	/**
 	 * Method to set the popup height size.
+	 * 
 	 * @param y
 	 */
-	protected void setSizeY(int y){
+	protected void setSizeY(int y) {
 		popUpSizeH = y;
 	}
-	
+
 	/**
 	 * Method to get the popup height size.
+	 * 
 	 * @return popup height size
 	 */
-	protected int getSizeY(){
+	protected int getSizeY() {
 		return popUpSizeH;
 	}
-	
+
 	/**
-	 * Method to set the popup height size.
+	 * Method to set the popup width size.
+	 * 
 	 * @return
 	 */
-	protected int getBrowserWindowWidth(){
+	protected int getBrowserWindowWidth() {
 		return browserWindowW;
 	}
-	
-	protected int getBrowserWindowHeight(){
+
+	/**
+	 * Method to set the popup height size.
+	 * 
+	 * @return
+	 */
+	protected int getBrowserWindowHeight() {
 		return browserWindowH;
 	}
-	
-
 
 }

@@ -1,7 +1,7 @@
 /*	
- * 	File    : ImagePopUp.java
+ * 	File    : PageController.java
  * 
- * 	Copyright (C) 2010 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -24,34 +24,18 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Image;
-
 /**
- * The image class to generate a event when the image is fully loaded.
+ * Page navigator on bottom side.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision: 41 $ Last modified: $Date: 2012-03-20 22:39:16 +0200 (Tue, 20 Mar 2012) $, by: $Author: dan.cioi $
  */
-public class ImagePopUp extends Image {
+public interface PageController {
 
-	private PopUpImgShow pi;
-	private boolean loaded;
+	void previousPageEvent();
 
-	public ImagePopUp(String link, PopUpImgShow pi) {
-		super(link);
-		this.pi = pi;
-	}
+	void nextPageEvent();
 
-	/**
-	 * When the image is fully loaded a event is fired.
-	 */
-	/* The ONLOAD event is fired few times per second, so a flag is required. */
-	public void onBrowserEvent(Event event) {
-		if (event.getTypeInt() == Event.ONLOAD && !loaded) {
-			loaded = true;
-			pi.scaleImg(this);
-		}
-	}
+	void upPagesEvent();
 
 }

@@ -23,7 +23,6 @@
  */
 package net.dancioi.jcsphotogallery.client.model;
 
-
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -38,29 +37,28 @@ import com.google.gwt.xml.client.impl.DOMParseException;
  * Generic class for Read XML files.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public abstract class ReadXMLGeneric extends ElementXML{
+public abstract class ReadXMLGeneric extends ElementXML {
 
 	/**
 	 * Gets the XML file from http server.
 	 */
-	public void readXmlFile(final String file, final int flag){
+	public void readXmlFile(final String file, final int flag) {
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, file);
 		try {
 			requestBuilder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					showException("Error sending request");
 				}
+
 				public void onResponseReceived(Request request, Response response) {
 					if (200 == response.getStatusCode()) {
-						parseXMLString(response.getText(), flag);	// careful here, this is an asynchronous callback.
-					} 
-					else if(404 == response.getStatusCode()){
-						showException("File "+file+" not found on server. Wrong name or missing.");
-					}
-					else{
-						showException("Other exception on GET the "+file +" file");
+						parseXMLString(response.getText(), flag); // careful here, this is an asynchronous callback.
+					} else if (404 == response.getStatusCode()) {
+						showException("File " + file + " not found on server. Wrong name or missing.");
+					} else {
+						showException("Other exception on GET the " + file + " file");
 					}
 				}
 			});
@@ -68,35 +66,37 @@ public abstract class ReadXMLGeneric extends ElementXML{
 			new ReadException("Error sending request");
 		}
 	}
-	
+
 	/*
 	 * Parse the xml file.
+	 * 
 	 * @param file
+	 * 
 	 * @return element
 	 */
-	private void parseXMLString(String xmlText, int flag){
+	private void parseXMLString(String xmlText, int flag) {
 		Document document = null;
-		try{
+		try {
 			document = XMLParser.parse(xmlText);
 
 			Element element = document.getDocumentElement();
 			XMLParser.removeWhitespace(element);
-			
-			if(flag == ReadXML.FLAG_ALBUMS) albumsCallback(element);
-			else if (flag == ReadXML.FLAG_ALBUMPHOTOS) albumPhotosCallback(element);
-		}
-		catch(DOMParseException de){
+
+			if (flag == ReadXML.FLAG_ALBUMS)
+				albumsCallback(element);
+			else if (flag == ReadXML.FLAG_ALBUMPHOTOS)
+				albumPhotosCallback(element);
+		} catch (DOMParseException de) {
 			showException("File parse exception. Use a XML editor to avoid syntax errors in xml file.");
 		}
 	}
 
-	private void showException(String msg){
+	private void showException(String msg) {
 		new ReadException(msg);
 	}
-	
 
 	public abstract void albumsCallback(Element element);
-	
+
 	public abstract void albumPhotosCallback(Element element);
-	
+
 }

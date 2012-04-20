@@ -36,7 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * This class .

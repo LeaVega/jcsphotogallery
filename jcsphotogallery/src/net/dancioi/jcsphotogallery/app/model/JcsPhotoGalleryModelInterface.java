@@ -30,8 +30,8 @@ import java.io.File;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.dancioi.jcsphotogallery.client.model.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.model.PictureBean;
+import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's Model interface.
@@ -42,7 +42,9 @@ import net.dancioi.jcsphotogallery.client.model.PictureBean;
  */
 public interface JcsPhotoGalleryModelInterface {
 
-	DefaultMutableTreeNode[] loadGallery(File galleryDefinition);
+	DefaultMutableTreeNode[] loadGallery(File galleryPath);
+	
+	DefaultMutableTreeNode[] createNewGallery(File galleryPath);
 
 	BufferedImage getPicture(PictureBean picture, int maxSize);
 

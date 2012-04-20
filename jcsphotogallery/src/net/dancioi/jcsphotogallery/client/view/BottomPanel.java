@@ -24,8 +24,6 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import net.dancioi.jcsphotogallery.client.controller.GalleryAction;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -35,29 +33,28 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * This class create the Bottom Panel. 
+ * Class for Bottom Panel.
  * 
  * The application contains 3 panels (top, center, bottom).
- *  
+ * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$  Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public class BottomPanel extends AbsolutePanel{
+public class BottomPanel extends AbsolutePanel {
 
-	private GalleryAction galleryControll;
+	private PageController galleryControll;
 	private String jcsPhotoGalleryLinkString;
 	private String galleryVersion;
-	private Label pageNr;		// page number label.
-	private Label albumLabel;	// album label.
+	private Label pageNr; // page number label.
+	private Label albumLabel; // album label.
 
 	private Image buttonIconLeft;
 	private Image buttonIconRight;
 	private Image buttonIconUp;
-	
+
 	String adminLink = "<div> <a href=\"JcsphotogalleryAdmin.html\"><font size=\"1\">Admin</font></a> </div>";
-	
-	
-	public BottomPanel(String galleryVersion, GalleryAction galleryControll){
+
+	public BottomPanel(String galleryVersion, PageController galleryControll) {
 		this.galleryVersion = galleryVersion;
 		this.galleryControll = galleryControll;
 		addVersionNr();
@@ -67,33 +64,34 @@ public class BottomPanel extends AbsolutePanel{
 	/*
 	 * Shows the project name and version number.
 	 */
-	private void addVersionNr(){
-		jcsPhotoGalleryLinkString = 
-			"<div> <a href=\"http://www.dancioi.net/projects/jcsphotogallery/\"><font size=\"1\">jcsPhotoGallery "
-			+galleryVersion+"</font></a> </div>";
+	private void addVersionNr() {
+		jcsPhotoGalleryLinkString = "<div> <a href=\"http://www.dancioi.net/projects/jcsphotogallery/\"><font size=\"1\">jcsPhotoGallery " + galleryVersion + "</font></a> </div>";
 	}
 
-	/*
-	 * Initialize.
-	 */
-	private void initialize(){
+	private void initialize() {
 		setSize("800px", "70px");
-		buttonIconLeft = new Image("ext/previous.gif");			// PREVIOUS button
+		buttonIconLeft = new Image("ext/previous.gif"); // PREVIOUS button
 		buttonIconLeft.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				leftButtonClicked();}} );
+				leftButtonClicked();
+			}
+		});
 		add(buttonIconLeft, 610, 5);
-		
-		buttonIconRight = new Image("ext/next.gif");			// NEXT button
+
+		buttonIconRight = new Image("ext/next.gif"); // NEXT button
 		buttonIconRight.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				rightButtonClicked();}} );
+				rightButtonClicked();
+			}
+		});
 		add(buttonIconRight, 660, 5);
-		
-		buttonIconUp = new Image("ext/albums.gif");				// BACK to albums
+
+		buttonIconUp = new Image("ext/albums.gif"); // BACK to albums
 		buttonIconUp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				upButtonClicked();}} );
+				upButtonClicked();
+			}
+		});
 		add(buttonIconUp, 767, 5);
 
 		pageNr = new Label();
@@ -104,89 +102,97 @@ public class BottomPanel extends AbsolutePanel{
 		HTML jcsPhotoGalleryLink = new HTML(jcsPhotoGalleryLinkString);
 		add(jcsPhotoGalleryLink, 350, 40);
 
-		//HTML adminHtmlLink = new HTML(adminLink);
-		//add(adminHtmlLink, 375, 60);
-		
+		// HTML adminHtmlLink = new HTML(adminLink);
+		// add(adminHtmlLink, 375, 60);
+
 		allOff();
 	}
-	
-	/**
+
+	/*
 	 * Adds the album label.
 	 */
-	protected void addAlbumLabel(){
+	private void addAlbumLabel() {
 		albumLabel = new Label("");
 		albumLabel.setStyleName("bottomAlbumLabel");
-		add(albumLabel, 1,10);
+		add(albumLabel, 1, 10);
 	}
-	
-	
+
 	/*
 	 * PREVIOUS button action.
 	 */
-	private void leftButtonClicked(){
+	private void leftButtonClicked() {
 		galleryControll.previousPageEvent();
 	}
 
 	/*
 	 * NEXT button action.
 	 */
-	private void rightButtonClicked(){
+	private void rightButtonClicked() {
 		galleryControll.nextPageEvent();
 	}
 
 	/*
 	 * BACK to Albums button action.
 	 */
-	private void upButtonClicked(){
-		galleryControll.upToAlbumsEvent();
+	private void upButtonClicked() {
+		galleryControll.upPagesEvent();
 	}
 
 	/**
 	 * Sets enable/disable the PREVIOUS button.
-	 * @param v boolean
+	 * 
+	 * @param v
+	 *            boolean
 	 */
-	public void setLeftButtonVisible(boolean v){
+	public void setLeftButtonVisible(boolean v) {
 		buttonIconLeft.setVisible(v);
 	}
 
 	/**
 	 * Sets enable/disable the NEXT button.
-	 * @param v boolean
+	 * 
+	 * @param v
+	 *            boolean
 	 */
-	public void setRightButtonVisible(boolean v){
+	public void setRightButtonVisible(boolean v) {
 		buttonIconRight.setVisible(v);
 	}
 
 	/**
 	 * Sets enable/disable the BACK to Albums button.
-	 * @param v boolean
+	 * 
+	 * @param v
+	 *            boolean
 	 */
-	public void setUpButtonVisible(boolean v){
-		GWT.log("up visible "+v);
+	public void setUpButtonVisible(boolean v) {
+		GWT.log("up visible " + v);
 		buttonIconUp.setVisible(v);
 	}
 
 	/**
 	 * Sets the page number.
-	 * @param pn page number string
+	 * 
+	 * @param pn
+	 *            page number string
 	 */
-	public void setPageNr(String pn){
+	public void setPageNr(String pn) {
 		pageNr.setText(pn);
 	}
 
 	/**
-	 * Sets the album name 
-	 * (shown on the bottom left corner)
-	 * @param album album name
+	 * Sets the album name (shown on the bottom left corner)
+	 * 
+	 * @param album
+	 *            album name
 	 */
-	public void setAlbumLabel(String album){
-		albumLabel.setText(album);
+	public void setAlbumLabel(String albumName) {
+		albumLabel.setText(albumName);
 	}
 
 	/**
 	 * Disables all buttons on the bottom panel.
 	 */
-	public void allOff(){
+	public void allOff() {
 		setLeftButtonVisible(false);
 		setRightButtonVisible(false);
 		setUpButtonVisible(false);
