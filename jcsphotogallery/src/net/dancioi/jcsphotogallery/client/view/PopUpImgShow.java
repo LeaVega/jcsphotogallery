@@ -28,6 +28,9 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
@@ -105,13 +108,24 @@ public class PopUpImgShow extends PopupGeneric {
 		ap.setStyleName("popUpPanel");
 
 		imgPanel = new AbsolutePanel();
-		imgPanelSizeX = popUpSizeX - 40;
-		imgPanelSizeY = popUpSizeY - 40;
+		imgPanelSizeX = popUpSizeX;
+		imgPanelSizeY = popUpSizeY;
 		imgPanel.setPixelSize(imgPanelSizeX, imgPanelSizeY);
-		ap.add(imgPanel, 20, 1);
+
+		ClickHandler clickHandler = new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				nextImg();
+			}
+		};
+		imgPanel.sinkEvents(Event.ONCLICK);
+		imgPanel.addHandler(clickHandler, ClickEvent.getType());
+
+		ap.add(imgPanel, 1, 1);
 
 		bottomPanel = new AbsolutePanel();
 		bottomPanel.setPixelSize(popUpSizeX, 50);
+		bottomPanel.setStyleName("bottomPanel");
 
 		next = new Image("ext/next.gif");
 		next.addClickHandler(new ClickHandler() {
@@ -162,10 +176,10 @@ public class PopUpImgShow extends PopupGeneric {
 		bottomPanel.add(play, popUpSizeX - 240, 5);
 
 		lImgName = new Label();
-		bottomPanel.add(lImgName, 20, 0);
+		bottomPanel.add(lImgName, 20, 2);
 
 		lImgComment = new Label();
-		bottomPanel.add(lImgComment, 20, 20);
+		bottomPanel.add(lImgComment, 20, 22);
 
 		loading = "Loading...";
 		loadingLabel = new Label();
@@ -178,6 +192,40 @@ public class PopUpImgShow extends PopupGeneric {
 		ap.add(bottomPanel, 1, popUpSizeY - 40);
 
 		setWidget(ap);
+
+		this.addDomHandler(new MouseMoveHandler() {
+
+			private int currentMousePositionX = 0;
+			private int currentMousePositionY = 0;
+			private int ingnore = 5;
+
+			Timer hideBottomPanelTimer = new Timer() {
+				@Override
+				public void run() {
+					bottomPanel.setVisible(false);
+				}
+			};
+
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+				// take as movement event just if the mouse is moved with +-5 pixels than previous position
+				if ((event.getClientX() < currentMousePositionX - ingnore || event.getClientX() > currentMousePositionX + ingnore) || (event.getClientY() < currentMousePositionY - ingnore || event.getClientY() > currentMousePositionY + ingnore)) {
+					triggerMovement();
+				}
+				currentMousePositionX = event.getClientX();
+				currentMousePositionY = event.getClientY();
+			}
+
+			private void triggerMovement() {
+				if (!bottomPanel.isVisible()) {
+					bottomPanel.setVisible(true);
+				}
+				hideBottomPanelTimer.schedule(5000);
+
+			}
+
+		}, MouseMoveEvent.getType());
+
 		addImage(imgPath + pictures[imgStart].getFileName());
 
 		checkStartImg();

@@ -153,7 +153,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 
 	private void showPageNr(int page, int pages) {
 		if (pages <= 1)
-			view.setPageNr("");
+			view.setPageNr("page " + 1 + "/" + 1);
 		else
 			view.setPageNr("page " + page + "/" + pages);
 	}
