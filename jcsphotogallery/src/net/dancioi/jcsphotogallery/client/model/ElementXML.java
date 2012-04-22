@@ -48,6 +48,14 @@ public abstract class ElementXML {
 		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
 		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
 
+		String xmlVersion = null;
+		NodeList elementVersion = element.getElementsByTagName("version");
+		if (elementVersion.getLength() != 0) {
+			xmlVersion = elementVersion.item(0).getFirstChild().getNodeValue();
+		} else {
+			xmlVersion = "1.0.x";
+		}
+
 		String[] tags = null;
 
 		NodeList albums = element.getElementsByTagName("album");
@@ -57,7 +65,12 @@ public abstract class ElementXML {
 		for (int i = 0; i < albumsCount; i++) {
 			Element elAlbum = (Element) albums.item(i);
 			// TODO keep compatibility
-			String allCategories = elAlbum.getAttribute("category");
+			String allCategories = null;
+			if (xmlVersion.startsWith("1.2.")) {
+				allCategories = elAlbum.getAttribute("category");
+			} else if (xmlVersion.startsWith("1.0.")) {// TODO remove this in version 1.2.x
+				allCategories = elAlbum.getAttribute("cat1") + ";" + elAlbum.getAttribute("cat2");
+			}
 			tags = allCategories.split(";");
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags);
 		}

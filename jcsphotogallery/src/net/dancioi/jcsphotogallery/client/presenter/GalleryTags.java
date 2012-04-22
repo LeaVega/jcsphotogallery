@@ -59,7 +59,7 @@ public class GalleryTags {
 
 		AlbumsTag tag = new AlbumsTag("All albums", albums);
 		result.add(tag);
-		tag = new AlbumsTag("Recent albums", albums);// TODO here based on date
+		tag = new AlbumsTag("Recent albums", getAlbumsInReverseOrder(albums));
 		result.add(tag);
 
 		for (AlbumBean album : albums) {
@@ -76,6 +76,14 @@ public class GalleryTags {
 		}
 
 		return result;
+	}
+
+	private AlbumBean[] getAlbumsInReverseOrder(AlbumBean[] albums) {
+		AlbumBean[] reverseAlbums = new AlbumBean[albums.length];
+		for (int i = 0; i < albums.length; i++) {
+			reverseAlbums[i] = albums[albums.length - i - 1];
+		}
+		return reverseAlbums;
 	}
 
 	/**

@@ -24,7 +24,6 @@
 
 package net.dancioi.jcsphotogallery.client.shared;
 
-
 /**
  * The class to keep the albums data.
  * 
@@ -36,9 +35,6 @@ public class GalleryAlbums {
 	private String galleryName;
 	private String galleryHomePage;
 	private AlbumBean[] albums;
-
-	// private ArrayList<String> categoryString = new ArrayList<String>();
-	// private ArrayList<AlbumsCategory> categories = new ArrayList<AlbumsCategory>();
 
 	private boolean edited;
 
@@ -125,42 +121,5 @@ public class GalleryAlbums {
 	public void setEdited(boolean edited) {
 		this.edited = edited;
 	}
-
-	// /*
-	// * gets the album's index for each category string.
-	// */
-	// private void getAllCategories() {
-	// for (int i = 0; i < albums.length; i++) {
-	// String[] albumCategories = albums[i].getCategory();
-	// for (int albumIndex = 0; albumIndex < albumCategories.length; albumIndex++) {
-	// if (categoryString.contains(albumCategories[albumIndex])) {
-	// int index = categoryString.indexOf(albumCategories[albumIndex]);
-	// categories.get(index).addAlbumToCategory(albumIndex);
-	// } else {
-	// categories.add(new AlbumsCategory(albumCategories[albumIndex], categories.size(), albumIndex));
-	// }
-	// }
-	// }
-	// }
-	//
-	// /**
-	// * Gets the albums categories. format: [cat 0...nrMaxCategories][album 0...length]
-	// *
-	// * @return
-	// */
-	// public String[][] getAlbumsCategories() {
-	// String[][] catResult = null;
-	// int catLength = 0;
-	// if (albums.length > 0)
-	// catLength = albums[0].getCategory().length;
-	// catResult = new String[catLength][];
-	// String[] cat = null;
-	// for (int a = 0; a < albums.length; a++) {
-	// cat = albums[a].getCategory();
-	// for (int c = 0; c < cat.length; c++)
-	// catResult[c][a] = cat[c];
-	// }
-	// return catResult;
-	// }
 
 }
