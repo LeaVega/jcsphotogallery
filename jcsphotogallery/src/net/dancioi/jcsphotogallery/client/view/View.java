@@ -82,4 +82,6 @@ public abstract class View implements PageController {
 
 	public abstract void setPageNr(String pageNr);
 
+	public abstract void setAlbumsTags(String[] tags);
+
 }

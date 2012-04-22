@@ -38,22 +38,27 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class TopPanel extends AbsolutePanel {
 
-	private ListBox sortAlbums;
+	private JcsPhotoGalleryView view;
+	private ListBox galleryTags;
 
-	public TopPanel(String homeLink) {
+	public TopPanel(JcsPhotoGalleryView view) {
+		this.view = view;
+		initialize();
+	}
+
+	private void initialize() {
 		setSize("800px", "25px");
 
-		sortAlbums = new ListBox();
-		sortAlbums.setWidth("200px");
-		sortAlbums.addChangeHandler(new ChangeHandler() {
+		galleryTags = new ListBox(false);
+		galleryTags.setWidth("200px");
+		galleryTags.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-				int selected = sortAlbums.getSelectedIndex();
+				int selected = galleryTags.getSelectedIndex();
 				selectedList(selected);
 			}
 		});
-		sortAlbums.addItem("Click to sort albums");
 
-		add(sortAlbums, 597, 1);
+		add(galleryTags, 597, 1);
 	}
 
 	/**
@@ -62,19 +67,8 @@ public class TopPanel extends AbsolutePanel {
 	 * @param selected
 	 *            Sorting ListBox id selected.
 	 */
-	@Deprecated
 	private void selectedList(int selected) {
-		// pg.showSelectedAlbums(selected);
-	}
-
-	/**
-	 * This method add the items to the sorting ListBox.
-	 * 
-	 * @param item
-	 *            a item to be added.
-	 */
-	public void sortAlbumsAdd(String item) {
-		sortAlbums.addItem(item);
+		view.showAlbumsByCategory(selected);
 	}
 
 	/**
@@ -94,12 +88,12 @@ public class TopPanel extends AbsolutePanel {
 	/**
 	 * Method to add the sorted items from SortAlbums class.
 	 * 
-	 * @param sorted
+	 * @param tags
 	 *            a list with sorted items.
 	 */
-	public void setSortedCat(String[] sorted) {
-		for (int i = 0; i < sorted.length; i++) {
-			sortAlbumsAdd(sorted[i]);
+	public void addTagsToListBox(String[] tags) {
+		for (String tag : tags) {
+			galleryTags.addItem(tag);
 		}
 	}
 

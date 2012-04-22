@@ -88,7 +88,7 @@ public class JcsPhotoGalleryView extends View {
 	 * Adds the top panel.
 	 */
 	private void addTopPanel() {
-		topPanel = new TopPanel(homeLink);
+		topPanel = new TopPanel(this);
 		RootPanel.get("topPanel").add(topPanel);
 	}
 
@@ -184,4 +184,12 @@ public class JcsPhotoGalleryView extends View {
 		bottomPanel.setAlbumLabel(albumName);
 	}
 
+	public void showAlbumsByCategory(int selected) {
+		getPresenter().getAlbumsByCategory(selected);
+	}
+
+	@Override
+	public void setAlbumsTags(String[] tags) {
+		topPanel.addTagsToListBox(tags);
+	}
 }

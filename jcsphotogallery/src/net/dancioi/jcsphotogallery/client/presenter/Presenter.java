@@ -46,4 +46,6 @@ public abstract class Presenter {
 	public abstract void responseGalleryAlbums(GalleryAlbums galleryAlbums);
 
 	public abstract void responseSelectedAlbum(AlbumBean album);
+
+	public abstract void getAlbumsByCategory(int selected);
 }

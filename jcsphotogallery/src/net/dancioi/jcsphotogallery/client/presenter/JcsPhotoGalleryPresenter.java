@@ -50,9 +50,11 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	private int currentThumbnailsPagesNr;
 	private int currentThumbnailsPage;
 
+	private GalleryTags galleryTags;
+
 	private int currentAlbumId;
 
-	private int galleryAlbumsCurrentPage = 1;// TODO keep this to return to the same page.
+	private int galleryAlbumsCurrentPage = 1;// TODO keep this to return the last page.
 
 	public JcsPhotoGalleryPresenter(Model model, View view) {
 		this.model = model;
@@ -79,6 +81,8 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	public void responseGalleryAlbums(GalleryAlbums galleryAlbums) {
 		this.galleryAlbums = galleryAlbums;
 		view.setGalleryName(galleryAlbums.getGalleryName(), galleryAlbums.getGalleryHomePage());
+		galleryTags = new GalleryTags(galleryAlbums);
+		view.setAlbumsTags(galleryTags.getTags());
 		setCurrentThumbnails(GALLERY_PATH, galleryAlbums.getAllAlbums());
 	}
 
@@ -101,12 +105,18 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 		view.showImagesOnGrid(currentThumbnailsPath, onePage(currentThumbnails));
 	}
 
-	// TODO check for the case when the album is empty
 	private Thumbnails[] onePage(Thumbnails[] thumbnails) {
+		if (thumbnails.length == 0) {
+			view.setAlbumLabel(galleryTags.getSelectedTags());
+			return new Thumbnails[0];
+		}
+
 		if (thumbnails[0] instanceof PictureBean) {
 			view.setUpButtonVisible(true);
 		} else {
 			view.setUpButtonVisible(false);
+			galleryAlbumsCurrentPage = currentThumbnailsPage; // keep the current albums' page number
+			view.setAlbumLabel(galleryTags.getSelectedTags());
 		}
 
 		if (currentThumbnailsPagesNr > 1 && currentThumbnailsPage < currentThumbnailsPagesNr) {
@@ -147,8 +157,8 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 
 	@Override
 	public void upPagesEvent() {
-		view.setAlbumLabel("");
-		setCurrentThumbnails(GALLERY_PATH, galleryAlbums.getAllAlbums());
+		currentThumbnailsPage = galleryAlbumsCurrentPage;
+		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsBySelectedTags());
 	}
 
 	private void showPageNr(int page, int pages) {
@@ -181,6 +191,11 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	private void getAlbumNr(int nr) {
 		currentAlbumId = nr; // used to keep compatibility with the previous version (1.0.x). On version 1.2.x it will be added as an element in album.xml file.
 		model.readAlbum(GALLERY_PATH + galleryAlbums.getAlbumFolderName(nr));
+	}
+
+	@Override
+	public void getAlbumsByCategory(int selected) {
+		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selected));
 	}
 
 }
