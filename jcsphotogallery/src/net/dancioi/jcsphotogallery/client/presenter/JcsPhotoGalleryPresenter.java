@@ -97,7 +97,10 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 				String token = History.getToken();
 				if (token.startsWith("a")) {
 					String[] split = token.split(";");
-					getAlbumNr(Integer.parseInt(split[1]));
+					int parseInt = Integer.parseInt(split[1]);
+					if (parseInt != currentAlbumId) {
+						getAlbumNr(parseInt);
+					}
 				} else if (token.startsWith("t")) {
 					String[] split = token.split(";");
 					getAlbumsByCategory(Integer.parseInt(split[1]));
@@ -206,7 +209,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	public void clickedCellEvent(int cellID) {
 		if (currentThumbnails[0] instanceof AlbumBean) {
 			int id = getID(cellID) - 1;
-			// getAlbumNr(currentThumbnails[id].getIndex()); // no need any more. it's triggered by history.
+			getAlbumNr(currentThumbnails[id].getIndex());
 			History.newItem("a;" + currentThumbnails[id].getIndex());
 		} else {
 			view.showPopUpImg(getID(cellID), currentThumbnailsPath, (PictureBean[]) currentThumbnails);

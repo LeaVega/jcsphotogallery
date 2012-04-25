@@ -47,8 +47,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * JcsPhotoGallery's View
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-20 22:40:52 +0200
- *          (Tue, 20 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewInterface {
@@ -57,7 +56,6 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	private JcsPhotoGalleryModelInterface model;
 	private AppPanelLeft panelLeft;
 	private AppPanelRight panelRight;
-	private PicturePanelCenter panelCenter;
 
 	/**
 	 * Default constructor.
@@ -161,8 +159,10 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	}
 
 	@Override
-	public void showAlbum(AlbumBean albumBean) {
-		panelRight.editAlbum();
+	public void showAlbum(AlbumBean album) {
+		PictureBean picture = new PictureBean("Album Thumbnail", album.getImgThumbnail(), "the current album's thumbnail", album.getImgThumbnail());
+		picture.setParent(album);
+		panelRight.editAlbum(album, model.getPicture(picture, 200));
 
 	}
 

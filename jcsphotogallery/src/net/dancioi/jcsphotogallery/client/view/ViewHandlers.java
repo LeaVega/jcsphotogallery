@@ -42,12 +42,18 @@ public class ViewHandlers {
 	private BottomPanel bottomPanel;
 	private VersionPanel versionPanel;
 	private int currentScrollPosition = 0;
+	private String browser;
 
 	public ViewHandlers(BottomPanel bottomPanel, VersionPanel versionPanel) {
 		this.bottomPanel = bottomPanel;
 		this.versionPanel = versionPanel;
+		browser = getUserAgent();
 		addResizeBrowserListener();
 	}
+
+	private native String getUserAgent() /*-{
+		return navigator.userAgent.toLowerCase();
+	}-*/;
 
 	private void addResizeBrowserListener() {
 		keepBottomPanelVisible(Window.getClientWidth(), Window.getClientHeight(), currentScrollPosition);
@@ -76,6 +82,9 @@ public class ViewHandlers {
 	 */
 	private void keepBottomPanelVisible(int width, int height, int scrollPosition) {
 		int heightLimit = 810; // in mozilla firefox should be 795, otherwise IE and Chrome are ok.
+		if (browser.contains("firefox")) {
+			heightLimit = 795;
+		}
 		// GWT.log("height = " + height);
 		if (height < heightLimit) {
 			RootPanel.get("bottomPanel").setWidgetPosition(bottomPanel, width / 2 - 400 + 5, height - 40 + scrollPosition);

@@ -33,12 +33,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Obtains Albums or Album's photos from an XML element. Duplicated like in
- * client because of the different import statements.
+ * Obtains Albums or Album's photos from an XML element. Duplicated like in client because of the different import statements.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-03 13:18:31 +0200
- *          (Sat, 03 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public abstract class ElementXML {
 
@@ -63,7 +61,7 @@ public abstract class ElementXML {
 
 			String allCategories = elAlbum.getAttribute("category");
 			tags = allCategories.split(",");
-			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags);
+			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
 		}
 
 		GalleryAlbums galleryAlbums = new GalleryAlbums();

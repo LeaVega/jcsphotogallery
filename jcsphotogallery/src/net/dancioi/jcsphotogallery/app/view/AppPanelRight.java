@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -40,8 +41,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * The Application's right side.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class AppPanelRight extends JPanel {
 
@@ -87,9 +87,10 @@ public class AppPanelRight extends JPanel {
 		galleryPanel.fillUpParameters(galleryAlbums, appGalleryPath);
 	}
 
-	public void editAlbum() {
+	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail) {
 		infoMessage(""); // bottom message when shows editAlbum panel
 		showPanel(EditPanel.ALBUM);
+		albumPanel.setCurrentAlbum(album, albumThumbnail);
 	}
 
 	public void editPicture(PictureBean pictureBean, BufferedImage picture) {

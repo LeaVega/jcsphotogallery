@@ -35,18 +35,14 @@ import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
  * 
  * The Main class of this project :p
  * 
- * For details about this project see the following web pages:
- * http://www.dancioi.net/projects/jcsphotogallery/
- * http://code.google.com/p/jcsphotogallery/
+ * For details about this project see the following web pages: http://www.dancioi.net/projects/jcsphotogallery/ http://code.google.com/p/jcsphotogallery/
  * 
- * For a demo of this project see the following web page:
- * http://www.dancioi.net/projects/jcsphotogallery/demo/
+ * For a demo of this project see the following web page: http://www.dancioi.net/projects/jcsphotogallery/demo/
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public class JcsPhotoGallery { 
+public class JcsPhotoGallery {
 
 	private String osName;
 
@@ -56,6 +52,7 @@ public class JcsPhotoGallery {
 	}
 
 	private void initialize() {
+		// MVC pattern
 		JcsPhotoGalleryModelInterface model = new JcsPhotoGalleryModel();
 		JcsPhotoGalleryViewInterface view = new JcsPhotoGalleryView(model);
 		new JcsPhotoGalleryController(model, view);

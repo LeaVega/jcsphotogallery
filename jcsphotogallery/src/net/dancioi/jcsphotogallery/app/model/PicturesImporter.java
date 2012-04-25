@@ -44,12 +44,10 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * This class .
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-03 13:07:01 +0200
- *          (Sat, 03 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class PicturesImporter {
-
 	private int pictureWidth = 1200;
 	private int pictureHeight = 900;
 
@@ -70,7 +68,12 @@ public class PicturesImporter {
 	 * Loads picture by filepath.
 	 */
 	private PlanarImage loadPicture(String picturePath) {
-		PlanarImage picture = JAI.create("fileload", picturePath);
+		PlanarImage picture = null;
+		try {
+			picture = JAI.create("fileload", picturePath);
+		} catch (IllegalArgumentException e) {
+			picture = JAI.create("fileload", "help/imgNotFound.jpg");
+		}
 		return picture;
 	}
 

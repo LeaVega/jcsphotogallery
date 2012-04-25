@@ -24,30 +24,43 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
+
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 
 /**
  * Panel to edit the photos' album.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class AlbumPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private ImageViewer imageViewer;
 
 	public AlbumPanel() {
 		initialize();
 	}
 
 	private void initialize() {
-		// TODO Auto-generated method stub
+		setLayout(new BorderLayout());
+
+		imageViewer = new ImageViewer();
+		add(imageViewer, BorderLayout.CENTER);
 
 	}
 
-	public void fillUpParameters() {
+	private void showAlbumThumbnail(BufferedImage image) {
+		imageViewer.loadImage(image);
+	}
+
+	public void setCurrentAlbum(AlbumBean album, BufferedImage albumThumbnail) {
+		showAlbumThumbnail(albumThumbnail);
 
 	}
 

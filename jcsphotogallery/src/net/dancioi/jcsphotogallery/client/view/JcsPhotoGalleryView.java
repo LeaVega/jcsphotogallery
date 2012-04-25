@@ -39,8 +39,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class JcsPhotoGalleryView extends View {
 
 	// TODO define background color in albums.xml
-	// TODO add history handler.
-	// TODO add option to remove the selected categories.
+	// TODO add option to remove the selected categories.; not the best yet
 	private String galleryVersion = "1.0.6";
 
 	private Label headerLabel;
