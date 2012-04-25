@@ -1,7 +1,7 @@
 /**
  * 		JcsPhotoGallery
  *
- *	Version 1.0.3
+ *	Version 1.0.6
  * 
  * 
  * For details about this project see the following web pages:
@@ -15,6 +15,14 @@
  
  
  CHANGELOG
+ Version 1.0.6
+ - Add history support;
+ - Keep Control panel visible on any browser's window size;
+ - Hide Control panel (if no mouse movement) on popup window;
+ - Show albums by tags;
+ 
+
+
  Version 1.0.3
  - Add a loading progress; 
  - Cache the next and previous pictures for a faster loading;

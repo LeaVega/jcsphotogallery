@@ -98,4 +98,9 @@ public class PictureBean implements Thumbnails {
 		return parent;
 	}
 
+	@Override
+	public int getIndex() {
+		return 0;
+	}
+
 }

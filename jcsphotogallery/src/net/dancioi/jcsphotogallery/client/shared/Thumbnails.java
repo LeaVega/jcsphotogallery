@@ -36,4 +36,6 @@ public interface Thumbnails {
 
 	String getName();
 
+	int getIndex();
+
 }

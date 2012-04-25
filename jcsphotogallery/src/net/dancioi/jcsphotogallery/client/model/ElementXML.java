@@ -72,7 +72,7 @@ public abstract class ElementXML {
 				allCategories = elAlbum.getAttribute("cat1") + ";" + elAlbum.getAttribute("cat2");
 			}
 			tags = allCategories.split(";");
-			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags);
+			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
 		}
 
 		GalleryAlbums galleryAlbums = new GalleryAlbums();

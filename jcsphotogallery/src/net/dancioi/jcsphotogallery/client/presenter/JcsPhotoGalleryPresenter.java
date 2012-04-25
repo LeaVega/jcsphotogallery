@@ -31,6 +31,10 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
 import net.dancioi.jcsphotogallery.client.view.View;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
+
 /**
  * JcsPhotoGallery's presenter.
  * 
@@ -71,10 +75,37 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	private void bindToModelAndView() {
 		model.bindPresenter(this);
 		view.bindPresenter(this);
+		addHistory();
 	}
 
 	private void populateView() {
 		model.readGalleryAlbums(GALLERY_PATH + "albums.xml");
+	}
+
+	/*
+	 * Adds history support (for Browser's Back button).
+	 */
+	private void addHistory() {
+		String token = History.getToken();
+		if (token.length() == 0) {
+			History.newItem("t;0");
+		}
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				String token = History.getToken();
+				if (token.startsWith("a")) {
+					String[] split = token.split(";");
+					getAlbumNr(Integer.parseInt(split[1]));
+				} else if (token.startsWith("t")) {
+					String[] split = token.split(";");
+					getAlbumsByCategory(Integer.parseInt(split[1]));
+				}
+			}
+
+		});
+		// History.fireCurrentHistoryState();
 	}
 
 	@Override
@@ -174,7 +205,9 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	@Override
 	public void clickedCellEvent(int cellID) {
 		if (currentThumbnails[0] instanceof AlbumBean) {
-			getAlbumNr(getID(cellID) - 1);
+			int id = getID(cellID) - 1;
+			// getAlbumNr(currentThumbnails[id].getIndex()); // no need any more. it's triggered by history.
+			History.newItem("a;" + currentThumbnails[id].getIndex());
 		} else {
 			view.showPopUpImg(getID(cellID), currentThumbnailsPath, (PictureBean[]) currentThumbnails);
 		}
@@ -196,6 +229,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	@Override
 	public void getAlbumsByCategory(int selected) {
 		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selected));
+		// History.newItem("t;" + selected); // add tag history.
 	}
 
 }

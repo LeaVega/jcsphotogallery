@@ -39,6 +39,7 @@ public class AlbumBean implements Thumbnails {
 	private PictureBean[] pictures;
 	private String albumPath;
 	private boolean edited;
+	private int index;
 
 	/**
 	 * Default constructor.
@@ -55,12 +56,13 @@ public class AlbumBean implements Thumbnails {
 	 * @param thumbnail
 	 * @param category
 	 */
-	public AlbumBean(String imgThumbnail, String folderName, String name, String[] category) {
+	public AlbumBean(String imgThumbnail, String folderName, String name, String[] category, int index) {
 		super();
 		this.imgThumbnail = imgThumbnail;
 		this.folderName = folderName;
 		this.name = name;
 		this.category = category;
+		this.index = index;
 	}
 
 	@Override
@@ -124,6 +126,11 @@ public class AlbumBean implements Thumbnails {
 
 	public void setEdited(boolean edited) {
 		this.edited = edited;
+	}
+
+	@Override
+	public int getIndex() {
+		return index;
 	}
 
 }
