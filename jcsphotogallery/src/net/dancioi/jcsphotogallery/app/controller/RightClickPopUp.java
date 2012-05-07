@@ -35,8 +35,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Right click popUp menu.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class RightClickPopUp extends JPopupMenu implements ActionListener {
 
@@ -101,9 +100,9 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 		else if (e.getActionCommand().equals(Action.SET_ALBUM_IMAGE.toString()))
 			controller.setAlbumImage();
 		else if (e.getActionCommand().equals(Action.DELETE_ALBUM.toString()))
-			controller.deleteAlbum();
+			controller.deleteAlbum(treeNode);
 		else if (e.getActionCommand().equals(Action.DELETE_IMAGE.toString()))
-			controller.deleteImage();
+			controller.deleteImage(treeNode);
 
 	}
 

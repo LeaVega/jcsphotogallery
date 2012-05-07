@@ -46,8 +46,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * JcsPhotoGallery's Model.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
@@ -66,8 +65,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	/**
-	 * Method to get the previous configuration. If it's first time when the
-	 * application run, then create a default configs object.
+	 * Method to get the previous configuration. If it's first time when the application run, then create a default configs object.
 	 */
 	private void getPreviousConfigs() {
 		try {
@@ -132,7 +130,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	public DefaultMutableTreeNode[] loadGallery(File galleryPath) {
 		appGalleryPath = galleryPath;
 		ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
-		galleryAlbums = new GalleryReader().getAlbums(appGalleryPath);
+		galleryAlbums = new GalleryReader().getAlbums(new File(appGalleryPath.getAbsoluteFile() + File.separator + "albums.xml"));
 		AlbumBean[] allAlbums = galleryAlbums.getAllAlbums();
 
 		for (AlbumBean album : allAlbums) {
@@ -177,7 +175,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		String folderName = String.valueOf(System.currentTimeMillis());
 		newAlbum.setName(folderName);
 		newAlbum.setFolderName(folderName);
-		File albumFolder = new File(appGalleryPath.getParentFile().getAbsolutePath() + File.separatorChar + folderName);
+		File albumFolder = new File(appGalleryPath.getAbsolutePath() + File.separatorChar + folderName);
 		newAlbum.setAlbumPath(albumFolder.getAbsolutePath());
 
 		if (albumFolder.mkdir()) {
@@ -201,7 +199,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	private String getPicturePath(PictureBean pictureBean) {
-		return appGalleryPath.getParent() + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName();
+		return appGalleryPath + File.separator + pictureBean.getParent().getFolderName() + File.separator + pictureBean.getFileName();
 	}
 
 	@Override
@@ -209,7 +207,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		AlbumBean album = (AlbumBean) albumNode.getUserObject();
 		album.setEdited(true);
 		for (File picturePath : selectedFiles) {
-			PictureBean picture = importPicture(album, new File(appGalleryPath.getParent() + File.separator + album.getFolderName()), picturePath);
+			PictureBean picture = importPicture(album, new File(appGalleryPath + File.separator + album.getFolderName()), picturePath);
 			if (null != picture) {
 				albumNode.add(new DefaultMutableTreeNode(picture));
 			}
@@ -219,7 +217,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	@Override
 	public void saveGalleryChanges(JTree jTree) {
-		new GalleryWriter(getGalleryAlbums(), jTree, new File(appGalleryPath.getParent()).getAbsolutePath());
+		new GalleryWriter(getGalleryAlbums(), jTree, appGalleryPath.getAbsolutePath());
 		saveSettings();
 	}
 

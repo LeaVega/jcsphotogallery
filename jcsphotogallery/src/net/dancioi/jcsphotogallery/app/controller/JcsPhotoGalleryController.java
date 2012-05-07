@@ -42,6 +42,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
@@ -53,8 +54,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * JcsPhotoGallery's Controller.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface, RightClickPopUpInterface {
 
@@ -315,15 +315,17 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	}
 
 	@Override
-	public void deleteImage() {
-		// TODO Auto-generated method stub
-
+	public void deleteImage(DefaultMutableTreeNode treeNode) {
+		// TODO delete also the file
+		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
+		treeModel.removeNodeFromParent(treeNode);
 	}
 
 	@Override
-	public void deleteAlbum() {
-		// TODO Auto-generated method stub
-
+	public void deleteAlbum(DefaultMutableTreeNode treeNode) {
+		// TODO delete also the files
+		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
+		treeModel.removeNodeFromParent(treeNode);
 	}
 
 	@Override

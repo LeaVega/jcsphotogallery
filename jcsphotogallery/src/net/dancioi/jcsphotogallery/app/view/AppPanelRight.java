@@ -82,7 +82,8 @@ public class AppPanelRight extends JPanel {
 	}
 
 	public void editGallery(GalleryAlbums galleryAlbums, String appGalleryPath) {
-		infoMessage("Info: " + "The gallery contains " + galleryAlbums.getTotalAlbumsNumber() + " albums and " + galleryAlbums.getTotalPicturesNumber() + " pictures");
+		// TODO solve info.
+		// infoMessage("Info: " + "The gallery contains " + galleryAlbums.getTotalAlbumsNumber() + " albums and " + galleryAlbums.getTotalPicturesNumber() + " pictures");
 		showPanel(EditPanel.GALLERY);
 		galleryPanel.fillUpParameters(galleryAlbums, appGalleryPath);
 	}

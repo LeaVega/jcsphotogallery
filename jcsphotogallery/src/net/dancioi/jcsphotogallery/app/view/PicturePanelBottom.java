@@ -42,8 +42,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * This class .
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-03 13:07:01 +0200
- *          (Sat, 03 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class PicturePanelBottom extends JPanel implements FocusListener {
@@ -116,7 +115,7 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	}
 
 	private String validateText(String text) {
-
+		// TODO check the text to exclude html tags etc.
 		return text;
 	}
 

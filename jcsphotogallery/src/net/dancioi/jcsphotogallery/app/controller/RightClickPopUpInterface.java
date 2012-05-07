@@ -29,8 +29,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Interface for right click popUp menu.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public interface RightClickPopUpInterface {
 
@@ -40,8 +39,8 @@ public interface RightClickPopUpInterface {
 
 	void setAlbumImage();
 
-	void deleteImage();
+	void deleteImage(DefaultMutableTreeNode treeNode);
 
-	void deleteAlbum();
+	void deleteAlbum(DefaultMutableTreeNode treeNode);
 
 }
