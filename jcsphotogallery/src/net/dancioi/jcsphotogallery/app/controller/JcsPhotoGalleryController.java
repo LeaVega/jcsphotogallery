@@ -147,8 +147,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				folderChooser.setAcceptAllFileFilterUsed(false);
 				folderChooser.setFileFilter(new GalleryFilter());
 				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-
-					openGallery(folderChooser.getSelectedFile());
+					if (folderChooser.getSelectedFile().getAbsolutePath().toLowerCase().endsWith("albums.xml"))
+						openGallery(folderChooser.getSelectedFile().getParentFile());
 				}
 			}
 		});
