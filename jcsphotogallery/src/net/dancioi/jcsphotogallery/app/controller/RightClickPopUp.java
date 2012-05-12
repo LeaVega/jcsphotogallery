@@ -98,7 +98,7 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 		else if (e.getActionCommand().equals(Action.ADD_NEW_IMAGE.toString()))
 			controller.addNewImage(treeNode);
 		else if (e.getActionCommand().equals(Action.SET_ALBUM_IMAGE.toString()))
-			controller.setAlbumImage();
+			controller.setAlbumImage(treeNode);
 		else if (e.getActionCommand().equals(Action.DELETE_ALBUM.toString()))
 			controller.deleteAlbum(treeNode);
 		else if (e.getActionCommand().equals(Action.DELETE_IMAGE.toString()))

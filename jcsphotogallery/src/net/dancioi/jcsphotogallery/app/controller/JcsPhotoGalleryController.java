@@ -61,6 +61,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	private JcsPhotoGalleryModelInterface model;
 	private JcsPhotoGalleryViewInterface view;
 	private RightClickPopUp rightClickPopUp;
+	private DefaultMutableTreeNode currentNode;
 
 	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model, JcsPhotoGalleryViewInterface view) {
 		this.model = model;
@@ -242,15 +243,12 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			if (null != treePath) {
 				DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
 				if (treeNode.getUserObject() instanceof PictureBean) {
-					PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
-					System.out.println(treePath.getLastPathComponent());
-					view.showPicture(pictureBean);
+					selectPicture(treeNode);
 				} else if (treeNode.getUserObject() instanceof AlbumBean) {
+					((DefaultTreeModel) view.getTree().getModel()).nodeChanged(currentNode);// update the previous node;
 					AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
-					System.out.println(treePath.getLastPathComponent());
 					view.showAlbum(albumBean);
 				} else if (treeNode.getUserObject() instanceof String) {
-					System.out.println(treePath.getLastPathComponent());
 					view.showGallery(model.getGalleryAlbums());
 				}
 			}
@@ -272,11 +270,18 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 					}
 					rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
 				}
-				System.out.printf("path = %s%n", treePath);
-
 			}
 		}
 	};
+
+	private void selectPicture(DefaultMutableTreeNode treeNode) {
+		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
+			((DefaultTreeModel) view.getTree().getModel()).nodeChanged(currentNode);
+			currentNode = treeNode;
+			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
+			view.showPicture(pictureBean);
+		}
+	}
 
 	@Override
 	public void addNewAlbum() {
@@ -309,8 +314,13 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	}
 
 	@Override
-	public void setAlbumImage() {
-		// TODO Auto-generated method stub
+	public void setAlbumImage(DefaultMutableTreeNode treeNode) {
+		if (treeNode.getUserObject() instanceof PictureBean) {
+			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
+			AlbumBean album = pictureBean.getParent();
+			album.setImgThumbnail(pictureBean.getFileName());
+			album.setEdited(true);
+		}
 
 	}
 
@@ -333,7 +343,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// nextPictureButton();
+				selectPicture(currentNode.getNextNode());
 			}
 		};
 	}
@@ -343,7 +353,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// previousPictureButton();
+				selectPicture(currentNode.getPreviousNode());
 			}
 		};
 	}

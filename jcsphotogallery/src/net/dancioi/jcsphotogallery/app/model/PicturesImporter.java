@@ -93,7 +93,7 @@ public class PicturesImporter {
 	 * @param destinationFolder
 	 */
 	public PictureBean addPicture(File sourcePicture, File destinationFolder) {
-		long fileName = System.currentTimeMillis() - 10000000;
+		long fileName = System.currentTimeMillis() - 1336300000000l;
 		PlanarImage picture = loadPicture(sourcePicture.getAbsolutePath());
 		int width = picture.getWidth();
 		int height = picture.getHeight();
@@ -105,8 +105,6 @@ public class PicturesImporter {
 
 		PictureBean pictureBean = new PictureBean(sourcePicture.getName(), fileName + ".jpg", "", fileName + "T.jpg");
 		return pictureBean;
-		// TODO throws an exception here if the writePicture and writeThumbnail
-		// are not true;
 	}
 
 	/*

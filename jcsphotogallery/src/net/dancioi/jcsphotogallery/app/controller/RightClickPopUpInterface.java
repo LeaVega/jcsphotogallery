@@ -37,7 +37,7 @@ public interface RightClickPopUpInterface {
 
 	void addNewImage(DefaultMutableTreeNode treeNode);
 
-	void setAlbumImage();
+	void setAlbumImage(DefaultMutableTreeNode treeNode);
 
 	void deleteImage(DefaultMutableTreeNode treeNode);
 

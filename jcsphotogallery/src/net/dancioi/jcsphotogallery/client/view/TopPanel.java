@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.ListBox;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class TopPanel extends AbsolutePanel {
-
+	// TODO the "last albums" should show last 9 albums; remove tag if the same is selected.
 	private JcsPhotoGalleryView view;
 	private ListBox galleryTags;
 
