@@ -232,47 +232,59 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	private MouseListener mouseListener = new MouseAdapter() {
 
 		public void mousePressed(MouseEvent e) {
-			// working on mac, not on windows
+			if (!popUpShow(e)) {// for mac and linux
+				nodeSelected(e);
+			}
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			Point loc = e.getPoint();
-
-			TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
-			System.out.printf("path = %s%n", treePath);
-			if (null != treePath) {
-				DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-				if (treeNode.getUserObject() instanceof PictureBean) {
-					selectPicture(treeNode);
-				} else if (treeNode.getUserObject() instanceof AlbumBean) {
-					((DefaultTreeModel) view.getTree().getModel()).nodeChanged(currentNode);// update the previous node;
-					AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
-					view.showAlbum(albumBean);
-				} else if (treeNode.getUserObject() instanceof String) {
-					view.showGallery(model.getGalleryAlbums());
-				}
-			}
+			// some time the click event is missed.
 		};
 
 		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				Point loc = e.getPoint();
-
-				TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
-				if (null != treePath) {
-					DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-					if (treeNode.getUserObject() instanceof PictureBean) {
-						rightClickPopUp.enableMenus(RightClickPopUp.IMAGES, treeNode);
-					} else if (treeNode.getUserObject() instanceof AlbumBean) {
-						rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS, treeNode);
-					} else {
-						rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
-					}
-					rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
-				}
-			}
+			popUpShow(e); // for windows
 		}
 	};
+
+	private void nodeSelected(MouseEvent e) {
+		Point loc = e.getPoint();
+
+		TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
+		System.out.printf("path = %s%n", treePath);
+		if (null != treePath) {
+			DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+			if (treeNode.getUserObject() instanceof PictureBean) {
+				selectPicture(treeNode);
+			} else if (treeNode.getUserObject() instanceof AlbumBean) {
+				((DefaultTreeModel) view.getTree().getModel()).nodeChanged(currentNode);// update the previous node
+				AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
+				view.showAlbum(albumBean);
+			} else if (treeNode.getUserObject() instanceof String) {
+				view.showGallery(model.getGalleryAlbums());
+			}
+		}
+	}
+
+	private boolean popUpShow(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+			Point loc = e.getPoint();
+
+			TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
+			if (null != treePath) {
+				DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+				if (treeNode.getUserObject() instanceof PictureBean) {
+					rightClickPopUp.enableMenus(RightClickPopUp.IMAGES, treeNode);
+				} else if (treeNode.getUserObject() instanceof AlbumBean) {
+					rightClickPopUp.enableMenus(RightClickPopUp.ALBUMS, treeNode);
+				} else {
+					rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
+				}
+				rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
+			}
+			return true;
+		}
+		return false;
+	}
 
 	private void selectPicture(DefaultMutableTreeNode treeNode) {
 		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
