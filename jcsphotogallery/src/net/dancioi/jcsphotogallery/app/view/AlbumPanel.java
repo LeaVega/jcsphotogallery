@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 
@@ -50,6 +51,7 @@ import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 public class AlbumPanel extends JPanel implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
+	private UpdateTree tree;
 	private ImageViewer imageViewer;
 
 	private AlbumBean albumBean;
@@ -57,7 +59,10 @@ public class AlbumPanel extends JPanel implements FocusListener {
 	private JTextField albumNameTextField;
 	private JTextArea albumCategoriesTextField;
 
-	public AlbumPanel() {
+	private AlbumBean editedAlbum;
+
+	public AlbumPanel(UpdateTree tree) {
+		this.tree = tree;
 		initialize();
 	}
 
@@ -78,7 +83,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 5;
-		c.ipady = 80;
+		c.ipady = 40;
 		c.ipadx = 200;
 		albumCategoriesTextField = new JTextArea();
 		albumCategoriesTextField.setToolTipText("add categories separated by ';'");
@@ -87,7 +92,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		albumCategoriesTextField.addFocusListener(this);
 		JScrollPane areaScrollPane = new JScrollPane(albumCategoriesTextField);
 		areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		areaScrollPane.setPreferredSize(new Dimension(200, 80));
+		areaScrollPane.setPreferredSize(new Dimension(200, 40));
 		editPanel.add(areaScrollPane, c);
 
 		c.gridx = 1;
@@ -120,6 +125,9 @@ public class AlbumPanel extends JPanel implements FocusListener {
 	}
 
 	public void setCurrentAlbum(AlbumBean album, BufferedImage albumThumbnail) {
+		if (editedAlbum != null) {
+			updateEditedAlbum();
+		}
 		showAlbumThumbnail(albumThumbnail);
 		albumBean = album;
 		albumNameTextField.setText(album.getName());
@@ -128,7 +136,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// nothing here
+		editedAlbum = albumBean;
 	}
 
 	@Override
@@ -136,12 +144,20 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		if (e.getSource() instanceof JTextField || e.getSource() instanceof JTextArea) {
 			if (e.isTemporary())
 				return;
-			albumBean.setEdited(true);
-			albumBean.setName(albumNameTextField.getText());
-			String[] categories = albumCategoriesTextField.getText().split(";");
-			albumBean.setCategory(categories);
+			if (editedAlbum != null) {
+				updateEditedAlbum();
+			}
 		}
 
+	}
+
+	private void updateEditedAlbum() {
+		editedAlbum.setEdited(true);
+		editedAlbum.setName(albumNameTextField.getText());
+		String[] categories = albumCategoriesTextField.getText().split(";");
+		editedAlbum.setCategory(categories);
+		tree.updateNode(new DefaultMutableTreeNode(editedAlbum));
+		editedAlbum = null;
 	}
 
 	private String validateText(String text) {

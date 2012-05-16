@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
@@ -56,6 +57,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	private JcsPhotoGalleryModelInterface model;
 	private AppPanelLeft panelLeft;
 	private AppPanelRight panelRight;
+	private int minPictureViewSize = 600;
 
 	/**
 	 * Default constructor.
@@ -73,10 +75,12 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		this.setContentPane(getMainPanel());
-		this.setMinimumSize(new Dimension(1050, 750));
+		this.setMinimumSize(new Dimension(800, 600));
+		this.setPreferredSize(new Dimension(1050, 750));
+
 		this.getRootPane().addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
-				frameResizeEvent();
+				frameResizeEvent(e);
 			}
 
 		});
@@ -84,8 +88,9 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.pack();
 	}
 
-	private void frameResizeEvent() {
-		// panelCenter.resizeEvent();
+	private void frameResizeEvent(ComponentEvent e) {
+		minPictureViewSize = panelRight.getImageViewerMinSize();
+		System.out.println(e.getComponent().getWidth() + "  " + e.getComponent().getHeight());
 	}
 
 	/**
@@ -155,7 +160,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	@Override
 	public void showPicture(PictureBean picture) {
-		panelRight.editPicture(picture, model.getPicture(picture, 600));
+		panelRight.editPicture(picture, model.getPicture(picture, minPictureViewSize));
 	}
 
 	@Override
@@ -163,7 +168,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		String thumbnailFileName = album.getImgThumbnail().isEmpty() ? "help/imgNotFound.jpg" : album.getImgThumbnail();
 		PictureBean picture = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
 		picture.setParent(album);
-		panelRight.editAlbum(album, model.getPicture(picture, 200));
+		panelRight.editAlbum(album, model.getPicture(picture, 150));
 
 	}
 
@@ -177,6 +182,10 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	@Override
 	public void addCloseWindowListener(WindowAdapter windowAdapter) {
 		addWindowListener(windowAdapter);
+	}
+
+	public void updateNode(DefaultMutableTreeNode treeNode) {
+		((DefaultTreeModel) getTree().getModel()).nodeChanged(treeNode);
 	}
 
 }

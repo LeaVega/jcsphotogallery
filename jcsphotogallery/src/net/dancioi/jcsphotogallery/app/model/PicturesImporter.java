@@ -41,7 +41,7 @@ import javax.media.jai.operator.SubsampleAverageDescriptor;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
- * This class .
+ * This class imports resizes and writes a picture .
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
@@ -60,7 +60,7 @@ public class PicturesImporter {
 	 */
 	public BufferedImage getPicture(String picturePath, int maxSize) {
 		PlanarImage picture = loadPicture(picturePath);
-		double scale = picture.getWidth() > picture.getHeight() ? (double) maxSize / picture.getWidth() : (double) maxSize / picture.getHeight();
+		double scale = picture.getWidth() > picture.getHeight() ? (double) maxSize / picture.getHeight() : (double) maxSize / picture.getWidth();
 		return resizePicture(picture, scale);
 	}
 

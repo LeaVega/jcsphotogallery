@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
@@ -43,7 +44,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public class AppPanelRight extends JPanel {
+public class AppPanelRight extends JPanel implements UpdateTree {
 
 	private static final long serialVersionUID = 1L;
 	private JcsPhotoGalleryView view;
@@ -65,9 +66,9 @@ public class AppPanelRight extends JPanel {
 		this.setLayout(new BorderLayout());
 		panels = new JPanel(new CardLayout());
 		helpPanel = new HelpPanel();
-		galleryPanel = new GalleryPanel();
-		albumPanel = new AlbumPanel();
-		picturePanel = new PicturePanel();
+		galleryPanel = new GalleryPanel(this);
+		albumPanel = new AlbumPanel(this);
+		picturePanel = new PicturePanel(this);
 
 		panels.add(helpPanel, EditPanel.HELP.toString());
 		panels.add(galleryPanel, EditPanel.GALLERY.toString());
@@ -134,6 +135,15 @@ public class AppPanelRight extends JPanel {
 
 	enum EditPanel {
 		HELP, GALLERY, ALBUM, PICTURE
+	}
+
+	@Override
+	public void updateNode(DefaultMutableTreeNode treeNode) {
+		view.updateNode(treeNode);
+	}
+
+	public int getImageViewerMinSize() {
+		return picturePanel.getImageViewerMinSize();
 	}
 
 }

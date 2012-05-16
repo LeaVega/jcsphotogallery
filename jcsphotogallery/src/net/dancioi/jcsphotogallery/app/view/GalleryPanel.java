@@ -41,8 +41,7 @@ import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
  * Panel to edit the gallery.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class GalleryPanel extends JPanel implements FocusListener {
 
@@ -51,8 +50,10 @@ public class GalleryPanel extends JPanel implements FocusListener {
 	private JTextField galleryHomePage;
 	private JTextField galleryPath;
 	private GalleryAlbums galleryAlbums;
+	private UpdateTree tree;
 
-	public GalleryPanel() {
+	public GalleryPanel(UpdateTree tree) {
+		this.tree = tree;
 		initialize();
 	}
 

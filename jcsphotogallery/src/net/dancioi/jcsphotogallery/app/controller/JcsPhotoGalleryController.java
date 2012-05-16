@@ -61,6 +61,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	private JcsPhotoGalleryModelInterface model;
 	private JcsPhotoGalleryViewInterface view;
 	private RightClickPopUp rightClickPopUp;
+
 	private DefaultMutableTreeNode currentNode;
 
 	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model, JcsPhotoGalleryViewInterface view) {
@@ -238,7 +239,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			// some time the click event is missed.
+			// some times the click event is missed, mousePressed is used instead.
 		};
 
 		public void mouseReleased(MouseEvent e) {
@@ -256,7 +257,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			if (treeNode.getUserObject() instanceof PictureBean) {
 				selectPicture(treeNode);
 			} else if (treeNode.getUserObject() instanceof AlbumBean) {
-				((DefaultTreeModel) view.getTree().getModel()).nodeChanged(currentNode);// update the previous node
 				AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
 				view.showAlbum(albumBean);
 			} else if (treeNode.getUserObject() instanceof String) {
@@ -288,7 +288,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 	private void selectPicture(DefaultMutableTreeNode treeNode) {
 		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
-			((DefaultTreeModel) view.getTree().getModel()).nodeChanged(currentNode);
 			currentNode = treeNode;
 			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
 			view.showPicture(pictureBean);

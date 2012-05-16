@@ -24,7 +24,6 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -34,8 +33,7 @@ import javax.swing.JPanel;
  * Shows the picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class ImageViewer extends JPanel {
@@ -43,17 +41,6 @@ public class ImageViewer extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private BufferedImage centerImage;
-
-	private int width = 600;
-	private int height = 600;
-
-	public ImageViewer() {
-		initialize();
-	}
-
-	private void initialize() {
-		setPreferredSize(new Dimension(width, height));
-	}
 
 	public void loadImage(BufferedImage image) {
 		centerImage = image;
@@ -68,10 +55,4 @@ public class ImageViewer extends JPanel {
 		}
 	}
 
-	public void updateSize(int width, int height) {
-		this.width = width;
-		this.height = height;
-		setPreferredSize(new Dimension(width, height));
-		repaint();
-	}
 }

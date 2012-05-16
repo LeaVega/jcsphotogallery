@@ -33,8 +33,7 @@ import javax.swing.JPanel;
  * The Application's right side with panels: gallery, album, picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2011-12-04 23:04:24 +0200
- *          (Sun, 04 Dec 2011) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class PicturePanelCenter extends JPanel {
 
@@ -57,13 +56,8 @@ public class PicturePanelCenter extends JPanel {
 		imageViewer.loadImage(image);
 	}
 
-	public void resizeEvent() {
-		imageViewer.updateSize(this.getWidth(), this.getHeight());
-
-	}
-
 	public int getMinVisibleDimension() {
-		return getWidth() > getHeight() ? getWidth() : getHeight();
+		return getWidth() > getHeight() ? getHeight() : getWidth();
 	}
 
 }

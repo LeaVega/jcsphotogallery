@@ -34,12 +34,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
- * This class .
+ * Class that shows the selected picture and allow to edit name and description .
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
@@ -51,11 +52,15 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	private JButton previous;
 	private JButton next;
 	private PictureBean pictureBean;
+	private UpdateTree tree;
 
 	private JTextField nameTextField;
 	private JTextField descriptionTextField;
 
-	public PicturePanelBottom() {
+	private PictureBean editedPicture;
+
+	public PicturePanelBottom(UpdateTree tree) {
+		this.tree = tree;
 		initialize();
 	}
 
@@ -100,17 +105,18 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 
 	@Override
 	public void focusGained(FocusEvent e) {
-		// nothing here
+		editedPicture = pictureBean;
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
+		System.out.println("***  picture panel ");
 		if (e.getSource() instanceof JTextField) {
 			if (e.isTemporary())
 				return;
-			pictureBean.getParent().setEdited(true);
-			pictureBean.setName(nameTextField.getText());
-			pictureBean.setDescription(descriptionTextField.getText());
+			if (editedPicture != null) {
+				updateEditedPicture();
+			}
 		}
 	}
 
@@ -125,10 +131,21 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	}
 
 	public void setCurrentPictureBean(PictureBean pictureBean) {
+		if (editedPicture != null) {
+			updateEditedPicture();
+		}
 		this.pictureBean = pictureBean;
 		nameTextField.setText(pictureBean.getName());
 		descriptionTextField.setText(pictureBean.getDescription());
 
+	}
+
+	private void updateEditedPicture() {
+		editedPicture.getParent().setEdited(true);
+		editedPicture.setName(nameTextField.getText());
+		editedPicture.setDescription(descriptionTextField.getText());
+		tree.updateNode(new DefaultMutableTreeNode(editedPicture));
+		editedPicture = null;
 	}
 
 }

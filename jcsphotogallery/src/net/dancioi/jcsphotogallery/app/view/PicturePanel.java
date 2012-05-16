@@ -28,6 +28,7 @@ import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
@@ -36,24 +37,24 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * Panel to edit the picture.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public class PicturePanel extends JPanel {
+public class PicturePanel extends JPanel implements UpdateTree {
 
 	private static final long serialVersionUID = 1L;
+	private UpdateTree tree;
 	private PicturePanelCenter panelCenter;
 	private PicturePanelBottom panelBottom;
 
-	public PicturePanel() {
-
+	public PicturePanel(UpdateTree tree) {
+		this.tree = tree;
 		initialize();
 	}
 
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		this.add(addCenterPanel(), BorderLayout.CENTER);
-		panelBottom = new PicturePanelBottom();
+		panelBottom = new PicturePanelBottom(this);
 		add(panelBottom, BorderLayout.PAGE_END);
 
 	}
@@ -75,6 +76,15 @@ public class PicturePanel extends JPanel {
 
 	public void attachActions(JcsPhotoGalleryControllerInterface controller) {
 		panelBottom.attachActions(controller);
+	}
+
+	@Override
+	public void updateNode(DefaultMutableTreeNode treeNode) {
+		tree.updateNode(treeNode);
+	}
+
+	public int getImageViewerMinSize() {
+		return panelCenter.getMinVisibleDimension();
 	}
 
 }
