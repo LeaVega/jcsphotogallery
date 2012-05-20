@@ -60,7 +60,7 @@ public abstract class ElementXML {
 			Element elAlbum = (Element) albums.item(i);
 
 			String allCategories = elAlbum.getAttribute("category");
-			tags = allCategories.split(",");
+			tags = allCategories.split(";");
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
 		}
 

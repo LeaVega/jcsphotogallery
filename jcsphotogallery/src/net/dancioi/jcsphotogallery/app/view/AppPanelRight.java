@@ -84,13 +84,13 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 
 	public void editGallery(GalleryAlbums galleryAlbums, String appGalleryPath) {
 		// TODO solve info.
-		// infoMessage("Info: " + "The gallery contains " + galleryAlbums.getTotalAlbumsNumber() + " albums and " + galleryAlbums.getTotalPicturesNumber() + " pictures");
+		infoMessage("Info: " + "The gallery contains " + galleryAlbums.getTotalAlbumsNumber() + " albums and " + galleryAlbums.getTotalPicturesNumber() + " pictures");
 		showPanel(EditPanel.GALLERY);
 		galleryPanel.fillUpParameters(galleryAlbums, appGalleryPath);
 	}
 
 	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail) {
-		infoMessage(""); // bottom message when shows editAlbum panel
+		infoMessage("Info: " + "Edit album's name and categories. It will be automatically updated.");
 		showPanel(EditPanel.ALBUM);
 		albumPanel.setCurrentAlbum(album, albumThumbnail);
 	}

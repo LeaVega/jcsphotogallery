@@ -24,11 +24,11 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * This class create the TOP panel. The application contains 3 panels (top, center, bottom).
@@ -37,9 +37,8 @@ import com.google.gwt.user.client.ui.ListBox;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class TopPanel extends AbsolutePanel {
-	// TODO the "last albums" should show last 9 albums; remove tag if the same is selected.
 	private JcsPhotoGalleryView view;
-	private ListBox galleryTags;
+	private MenuBar galleryTags;
 
 	public TopPanel(JcsPhotoGalleryView view) {
 		this.view = view;
@@ -49,16 +48,11 @@ public class TopPanel extends AbsolutePanel {
 	private void initialize() {
 		setSize("800px", "25px");
 
-		galleryTags = new ListBox(false);
-		galleryTags.setWidth("200px");
-		galleryTags.addChangeHandler(new ChangeHandler() {
-			public void onChange(ChangeEvent event) {
-				int selected = galleryTags.getSelectedIndex();
-				selectedList(selected);
-			}
-		});
-
-		add(galleryTags, 597, 1);
+		galleryTags = new MenuBar(true);
+		MenuBar tagsMenu = new MenuBar();
+		tagsMenu.setStyleName("topAlbumsTags");
+		tagsMenu.addItem("Sort Albums by tag", galleryTags);
+		add(tagsMenu, 650, 1);
 	}
 
 	/**
@@ -92,9 +86,27 @@ public class TopPanel extends AbsolutePanel {
 	 *            a list with sorted items.
 	 */
 	public void addTagsToListBox(String[] tags) {
+		int id = 0;
 		for (String tag : tags) {
-			galleryTags.addItem(tag);
+			MenuItem menuItem = new MenuItem(tag, new AlbumTagsCommand(id));
+			galleryTags.addItem(menuItem);
+			id++;
 		}
+	}
+
+	class AlbumTagsCommand implements Command {
+
+		private final int tagId;
+
+		public AlbumTagsCommand(int tagId) {
+			this.tagId = tagId;
+		}
+
+		@Override
+		public void execute() {
+			selectedList(tagId);
+		}
+
 	}
 
 }

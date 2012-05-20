@@ -66,9 +66,9 @@ public abstract class ElementXML {
 			Element elAlbum = (Element) albums.item(i);
 			// TODO keep compatibility
 			String allCategories = null;
-			if (xmlVersion.startsWith("1.2.")) {
+			if (xmlVersion.startsWith("1.1.")) {
 				allCategories = elAlbum.getAttribute("category");
-			} else if (xmlVersion.startsWith("1.0.")) {// TODO remove this in version 1.2.x
+			} else if (xmlVersion.startsWith("1.0.")) {// TODO remove this in version 1.1.x
 				allCategories = elAlbum.getAttribute("cat1") + ";" + elAlbum.getAttribute("cat2");
 			}
 			tags = allCategories.split(";");

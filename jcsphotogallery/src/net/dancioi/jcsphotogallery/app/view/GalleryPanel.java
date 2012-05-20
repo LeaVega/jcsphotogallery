@@ -34,6 +34,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 
@@ -51,6 +52,7 @@ public class GalleryPanel extends JPanel implements FocusListener {
 	private JTextField galleryPath;
 	private GalleryAlbums galleryAlbums;
 	private UpdateTree tree;
+	private GalleryAlbums editedGallery;
 
 	public GalleryPanel(UpdateTree tree) {
 		this.tree = tree;
@@ -104,6 +106,9 @@ public class GalleryPanel extends JPanel implements FocusListener {
 	}
 
 	public void fillUpParameters(GalleryAlbums galleryAlbums, String appGalleryPath) {
+		if (editedGallery != null) {
+			updateEditedGallery();
+		}
 		this.galleryAlbums = galleryAlbums;
 		galleryName.setText(galleryAlbums.getGalleryName());
 		galleryHomePage.setText(galleryAlbums.getGalleryHomePage());
@@ -112,7 +117,7 @@ public class GalleryPanel extends JPanel implements FocusListener {
 
 	@Override
 	public void focusGained(FocusEvent e) {
-		// nothing here
+		editedGallery = galleryAlbums;
 	}
 
 	@Override
@@ -120,11 +125,19 @@ public class GalleryPanel extends JPanel implements FocusListener {
 		if (e.getSource() instanceof JTextField) {
 			if (e.isTemporary())
 				return;
-			galleryAlbums.setEdited(true);
-			galleryAlbums.setGalleryName(galleryName.getText());
-			galleryAlbums.setGalleryHomePage(galleryHomePage.getText());
+			if (editedGallery != null) {
+				updateEditedGallery();
+			}
 		}
 
+	}
+
+	private void updateEditedGallery() {
+		editedGallery.setEdited(true);
+		editedGallery.setGalleryName(galleryName.getText());
+		editedGallery.setGalleryHomePage(galleryHomePage.getText());
+		tree.updateNode(new DefaultMutableTreeNode(editedGallery));
+		editedGallery = null;
 	}
 
 }

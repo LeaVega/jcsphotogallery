@@ -33,11 +33,11 @@ import javax.swing.JFrame;
  * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
  *          (Tue, 20 Mar 2012) $, by: $Author$
  */
-public class PreferencesFrame extends JFrame {
+public class Preferences extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public PreferencesFrame() {
+	public Preferences() {
 		intialize();
 	}
 

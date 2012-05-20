@@ -184,8 +184,9 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		addWindowListener(windowAdapter);
 	}
 
-	public void updateNode(DefaultMutableTreeNode treeNode) {
+	public void updateNode(final DefaultMutableTreeNode treeNode) {
 		((DefaultTreeModel) getTree().getModel()).nodeChanged(treeNode);
+
 	}
 
 }

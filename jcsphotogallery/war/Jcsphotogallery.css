@@ -11,10 +11,6 @@ JcsPhotoGallery project - http://www.dancioi.net/projects/jcsphotogallery
   	text-align: center;
 }
 
-.bottomAlbumLabel {
-	font-weight: bold;
-}
-
 .gridCell-format {
   	padding: 3px;
   	background-image:url('ext/cellBackground.gif');
@@ -44,4 +40,10 @@ JcsPhotoGallery project - http://www.dancioi.net/projects/jcsphotogallery
 .bottomLinks {
   	font-size: 0.75em;
   	text-align: center;
+}
+
+.topAlbumsTags {
+    cursor                      :   hand;
+    cursor                      :   pointer;
+	border                      :   0px;
 }

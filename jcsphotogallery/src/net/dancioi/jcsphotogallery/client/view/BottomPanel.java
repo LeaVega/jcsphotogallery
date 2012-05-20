@@ -95,7 +95,6 @@ public class BottomPanel extends AbsolutePanel {
 	 */
 	private void addAlbumLabel() {
 		albumLabel = new Label("");
-		albumLabel.setStyleName("bottomAlbumLabel");
 		add(albumLabel, 20, 10);
 	}
 
