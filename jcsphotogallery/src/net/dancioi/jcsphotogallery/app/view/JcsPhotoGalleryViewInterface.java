@@ -39,8 +39,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * JcsPhotoGallery's View interface.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public interface JcsPhotoGalleryViewInterface {
 
@@ -56,9 +55,9 @@ public interface JcsPhotoGalleryViewInterface {
 
 	void addPicturesToAnExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum);
 
-	void showPicture(PictureBean picture);
+	void showPicture(PictureBean picture, DefaultMutableTreeNode treeNode);
 
-	void showAlbum(AlbumBean albumBean);
+	void showAlbum(AlbumBean albumBean, DefaultMutableTreeNode treeNode);
 
 	void showGallery(GalleryAlbums galleryAlbums);
 

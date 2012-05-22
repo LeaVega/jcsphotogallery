@@ -37,12 +37,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * This class shows the gallery structure in a tree. All operations are
- * performed on this tree (add/delete/modify albums, pictures).
+ * This class shows the gallery structure in a tree. All operations are performed on this tree (add/delete/modify albums, pictures).
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-02-09 23:48:14 +0200
- *          (Thu, 09 Feb 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {

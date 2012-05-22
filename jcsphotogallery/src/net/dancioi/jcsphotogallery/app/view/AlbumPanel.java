@@ -60,6 +60,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 	private JTextArea albumCategoriesTextField;
 
 	private AlbumBean editedAlbum;
+	private DefaultMutableTreeNode treeNode;
 
 	public AlbumPanel(UpdateTree tree) {
 		this.tree = tree;
@@ -124,10 +125,11 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		imageViewer.loadImage(image);
 	}
 
-	public void setCurrentAlbum(AlbumBean album, BufferedImage albumThumbnail) {
+	public void setCurrentAlbum(AlbumBean album, BufferedImage albumThumbnail, DefaultMutableTreeNode treeNode) {
 		if (editedAlbum != null) {
 			updateEditedAlbum();
 		}
+		this.treeNode = treeNode;
 		showAlbumThumbnail(albumThumbnail);
 		albumBean = album;
 		albumNameTextField.setText(album.getName());
@@ -156,7 +158,8 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		editedAlbum.setName(albumNameTextField.getText());
 		String[] categories = albumCategoriesTextField.getText().split(";");
 		editedAlbum.setCategory(categories);
-		tree.updateNode(new DefaultMutableTreeNode(editedAlbum));
+		treeNode.setUserObject(editedAlbum);
+		tree.updateNode(treeNode);
 		editedAlbum = null;
 	}
 

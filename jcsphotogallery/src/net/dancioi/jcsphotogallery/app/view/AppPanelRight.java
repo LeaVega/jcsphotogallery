@@ -89,16 +89,16 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 		galleryPanel.fillUpParameters(galleryAlbums, appGalleryPath);
 	}
 
-	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail) {
+	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail, DefaultMutableTreeNode treeNode) {
 		infoMessage("Info: " + "Edit album's name and categories. It will be automatically updated.");
 		showPanel(EditPanel.ALBUM);
-		albumPanel.setCurrentAlbum(album, albumThumbnail);
+		albumPanel.setCurrentAlbum(album, albumThumbnail, treeNode);
 	}
 
-	public void editPicture(PictureBean pictureBean, BufferedImage picture) {
+	public void editPicture(PictureBean pictureBean, BufferedImage picture, DefaultMutableTreeNode treeNode) {
 		infoMessage("Info: " + "Edit picture's name and description. It will be automatically updated.");
 		showPanel(EditPanel.PICTURE);
-		picturePanel.fillUpParameters(pictureBean, picture);
+		picturePanel.fillUpParameters(pictureBean, picture, treeNode);
 	}
 
 	private void showPanel(EditPanel editPanel) {

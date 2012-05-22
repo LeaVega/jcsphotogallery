@@ -58,6 +58,7 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	private JTextField descriptionTextField;
 
 	private PictureBean editedPicture;
+	private DefaultMutableTreeNode treeNode;
 
 	public PicturePanelBottom(UpdateTree tree) {
 		this.tree = tree;
@@ -130,11 +131,12 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		next.addActionListener(controller.addNextPictureActionListener());
 	}
 
-	public void setCurrentPictureBean(PictureBean pictureBean) {
+	public void setCurrentPictureBean(PictureBean pictureBean, DefaultMutableTreeNode treeNode) {
 		if (editedPicture != null) {
 			updateEditedPicture();
 		}
 		this.pictureBean = pictureBean;
+		this.treeNode = treeNode;
 		nameTextField.setText(pictureBean.getName());
 		descriptionTextField.setText(pictureBean.getDescription());
 
@@ -144,7 +146,8 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		editedPicture.getParent().setEdited(true);
 		editedPicture.setName(nameTextField.getText());
 		editedPicture.setDescription(descriptionTextField.getText());
-		tree.updateNode(new DefaultMutableTreeNode(editedPicture));
+		treeNode.setUserObject(editedPicture);
+		tree.updateNode(treeNode);
 		editedPicture = null;
 	}
 

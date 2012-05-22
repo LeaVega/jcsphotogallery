@@ -69,9 +69,9 @@ public class PicturePanel extends JPanel implements UpdateTree {
 		return panelCenter;
 	}
 
-	public void fillUpParameters(PictureBean pictureBean, BufferedImage picture) {
+	public void fillUpParameters(PictureBean pictureBean, BufferedImage picture, DefaultMutableTreeNode treeNode) {
 		panelCenter.showPicture(picture);
-		panelBottom.setCurrentPictureBean(pictureBean);
+		panelBottom.setCurrentPictureBean(pictureBean, treeNode);
 	}
 
 	public void attachActions(JcsPhotoGalleryControllerInterface controller) {

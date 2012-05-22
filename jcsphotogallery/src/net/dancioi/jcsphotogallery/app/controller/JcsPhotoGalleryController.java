@@ -258,7 +258,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				selectPicture(treeNode);
 			} else if (treeNode.getUserObject() instanceof AlbumBean) {
 				AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
-				view.showAlbum(albumBean);
+				view.showAlbum(albumBean, treeNode);
 			} else if (treeNode.getUserObject() instanceof String) {
 				view.showGallery(model.getGalleryAlbums());
 			}
@@ -290,7 +290,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
 			currentNode = treeNode;
 			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
-			view.showPicture(pictureBean);
+			view.showPicture(pictureBean, treeNode);
 		}
 	}
 

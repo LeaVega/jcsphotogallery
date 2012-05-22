@@ -81,6 +81,7 @@ public class PicturesImporter {
 	 * Resizes the picture with scale factor.
 	 */
 	public BufferedImage resizePicture(PlanarImage picture, double scale) {
+		System.out.println("SCALE=" + scale);
 		RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		RenderedOp resizedImage = SubsampleAverageDescriptor.create(picture, scale, scale, qualityHints);
 		return resizedImage.getAsBufferedImage();
@@ -103,7 +104,8 @@ public class PicturesImporter {
 		scale = width > height ? (double) 200 / width : (double) 150 / height;
 		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + "T" + ".jpg");
 
-		PictureBean pictureBean = new PictureBean(sourcePicture.getName(), fileName + ".jpg", "", fileName + "T.jpg");
+		String[] pictureName = sourcePicture.getName().toLowerCase().split(".jpg");
+		PictureBean pictureBean = new PictureBean(pictureName[0], fileName + ".jpg", "", fileName + "T.jpg");
 		return pictureBean;
 	}
 
