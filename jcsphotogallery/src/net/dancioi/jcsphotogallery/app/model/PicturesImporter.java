@@ -48,8 +48,11 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  */
 
 public class PicturesImporter {
-	private int pictureWidth = 1200;
-	private int pictureHeight = 900;
+	private Configs configs;
+
+	public PicturesImporter(Configs configs) {
+		this.configs = configs;
+	}
 
 	/**
 	 * Gets picture by filepath.
@@ -60,7 +63,7 @@ public class PicturesImporter {
 	 */
 	public BufferedImage getPicture(String picturePath, int maxSize) {
 		PlanarImage picture = loadPicture(picturePath);
-		double scale = picture.getWidth() > picture.getHeight() ? (double) maxSize / picture.getHeight() : (double) maxSize / picture.getWidth();
+		double scale = picture.getWidth() > picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
 		return resizePicture(picture, scale);
 	}
 
@@ -99,9 +102,9 @@ public class PicturesImporter {
 		int width = picture.getWidth();
 		int height = picture.getHeight();
 		double scale = 1;
-		scale = width > height ? (double) pictureWidth / width : (double) pictureHeight / height;
+		scale = width > height ? configs.getPictureDimension().getWidth() / (double) width : configs.getPictureDimension().getHeight() / (double) height;
 		writePicture(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + ".jpg");
-		scale = width > height ? (double) 200 / width : (double) 150 / height;
+		scale = width > height ? 200 / (double) width : 150 / (double) height;
 		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + "T" + ".jpg");
 
 		String[] pictureName = sourcePicture.getName().toLowerCase().split(".jpg");

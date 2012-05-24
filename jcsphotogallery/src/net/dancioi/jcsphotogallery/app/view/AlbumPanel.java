@@ -133,7 +133,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		showAlbumThumbnail(albumThumbnail);
 		albumBean = album;
 		albumNameTextField.setText(album.getName());
-		albumCategoriesTextField.setText(album.getCategory().toString());
+		albumCategoriesTextField.setText(album.getCategory() == null ? "no tag" : album.getCategory().toString());
 	}
 
 	@Override

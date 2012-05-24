@@ -119,6 +119,7 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 			mSetAlbumImage.setEnabled(false);
 			mDeleteImage.setEnabled(false);
 		} else if (flag == ROOT) {
+			mAddAlbum.setEnabled(controller.isGalleryCreated());
 			mAddPicture.setEnabled(false);
 			mDeleteAlbum.setEnabled(false);
 			mSetAlbumImage.setEnabled(false);

@@ -24,20 +24,27 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.Serializable;
 
 /**
- * This class .
+ * Application's persistent settings.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class Configs implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private File galleryPath;
+	private Dimension pictureDimension;
+	private boolean removePictures;
+
+	public Configs(Dimension pictureDimension, boolean removePictures) {
+		this.pictureDimension = pictureDimension;
+		this.removePictures = removePictures;
+	}
 
 	public File getGalleryPath() {
 		return galleryPath;
@@ -45,6 +52,26 @@ public class Configs implements Serializable {
 
 	public void setGalleryPath(File galleryPath) {
 		this.galleryPath = galleryPath;
+	}
+
+	public Dimension getPictureDimension() {
+		return pictureDimension;
+	}
+
+	public void setPictureDimension(Dimension pictureDimension) {
+		this.pictureDimension = pictureDimension;
+	}
+
+	public boolean isRemovePictures() {
+		return removePictures;
+	}
+
+	public void setRemovePictures(boolean removePictures) {
+		this.removePictures = removePictures;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

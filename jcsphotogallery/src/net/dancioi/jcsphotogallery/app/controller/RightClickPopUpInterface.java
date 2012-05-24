@@ -43,4 +43,6 @@ public interface RightClickPopUpInterface {
 
 	void deleteAlbum(DefaultMutableTreeNode treeNode);
 
+	boolean isGalleryCreated();
+
 }

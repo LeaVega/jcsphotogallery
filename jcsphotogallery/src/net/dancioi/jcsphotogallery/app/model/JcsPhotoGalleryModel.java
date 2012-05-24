@@ -24,14 +24,18 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.JTree;
@@ -60,28 +64,28 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	private void initialize() {
-		getPreviousConfigs();
-		picturesImport = new PicturesImporter();
+		configs = getPreviousConfigs();
+		picturesImport = new PicturesImporter(configs);
 	}
 
 	/**
 	 * Method to get the previous configuration. If it's first time when the application run, then create a default configs object.
 	 */
-	private void getPreviousConfigs() {
+	private Configs getPreviousConfigs() {
+		Configs previousConfigs = null;
 		try {
 			FileInputStream fis = new FileInputStream(new File("configs.cfg"));
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			configs = (Configs) ois.readObject();
+			previousConfigs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
 			System.out.println("The configs.cfg file is missing. It happens just first time when you run the application");
+			previousConfigs = new Configs(new Dimension(1200, 900), false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		if (configs == null)
-			configs = new Configs();
+		return previousConfigs;
 	}
 
 	/**
@@ -153,21 +157,27 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	public DefaultMutableTreeNode[] createNewGallery(File galleryPath) {
-		appGalleryPath = galleryPath;
-		galleryAlbums = new GalleryAlbums();
-		galleryAlbums.setGalleryName("Change this");
-		galleryAlbums.setGalleryHomePage("http://www.changeThis.com");
-		galleryAlbums.setEdited(true);
+		File galleryFolder = new File(galleryPath.getAbsolutePath() + File.separator + "gallery");
+		if (galleryFolder.mkdir()) {
+			appGalleryPath = galleryFolder;
+			galleryAlbums = new GalleryAlbums();
+			galleryAlbums.setGalleryName("Change this");
+			galleryAlbums.setGalleryHomePage("http://www.changeThis.com");
+			galleryAlbums.setEdited(true);
 
-		configs.setGalleryPath(galleryPath);
+			configs.setGalleryPath(galleryFolder);
 
-		return new DefaultMutableTreeNode[] { addPicturesToNewAlbum(null) };
+			return new DefaultMutableTreeNode[] { addPicturesToNewAlbum(null) };
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles) {
 		AlbumBean newAlbum = new AlbumBean();
 		newAlbum.setEdited(true);
+		// TODO if create an album without create a new gallery exception is thrown
 		galleryAlbums.setEdited(true);
 
 		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);
@@ -179,6 +189,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		newAlbum.setAlbumPath(albumFolder.getAbsolutePath());
 
 		if (albumFolder.mkdir()) {
+			addIndexHtml(albumFolder);
 			if (null != selectedFiles) {
 				for (File picturePath : selectedFiles) {
 					PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
@@ -190,6 +201,22 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			}
 		}
 		return albumNode;
+	}
+
+	/*
+	 * adds an index.html file to avoid listing all files from this folder. It will redirect to gallery application.
+	 */
+	private void addIndexHtml(File albumFolder) {
+		File indexHtml = new File(albumFolder.getAbsolutePath() + File.separator + "index.html");
+		String s = "<!doctype html><html><head><meta http-equiv=\"Refresh\" content=\"0; url=../../\" /></head></html>";
+		try {
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(indexHtml)));
+			writer.write(s, 0, s.length());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private PictureBean importPicture(AlbumBean album, File destinationFolder, File origPicture) {

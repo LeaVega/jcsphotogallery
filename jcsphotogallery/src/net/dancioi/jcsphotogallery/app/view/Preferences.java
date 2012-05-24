@@ -24,26 +24,128 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+import net.dancioi.jcsphotogallery.app.model.Configs;
 
 /**
  * The Preferences modal dialog.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class Preferences extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private Configs configs;
+	private JTextField sizeWidth;
+	private JTextField sizeHeight;
+	private JCheckBox chckbxWhenRemoveA;
 
-	public Preferences() {
+	public Preferences(Configs configs) {
+		this.configs = configs;
+		setTitle("Preferences");
+		this.setMinimumSize(new Dimension(450, 300));
+		// this.setPreferredSize(new Dimension(500, 400));
+		this.setLocationRelativeTo(null);
+
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveSettings();
+			}
+		});
+		btnSave.setBounds(341, 239, 91, 23);
+		panel.add(btnSave);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnCancel.setBounds(209, 239, 91, 23);
+		panel.add(btnCancel);
+
+		chckbxWhenRemoveA = new JCheckBox("When remove a picture from gallery should be also removed from hardisk?");
+		chckbxWhenRemoveA.setBounds(16, 176, 426, 44);
+		panel.add(chckbxWhenRemoveA);
+
+		JPanel panelPictureSize = new JPanel();
+		panelPictureSize.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Picture size (px)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelPictureSize.setBounds(30, 11, 383, 68);
+		panel.add(panelPictureSize);
+		panelPictureSize.setLayout(null);
+
+		JLabel lblConvertImportedPictures = new JLabel("Convert imported pictures to size:");
+		lblConvertImportedPictures.setBounds(88, 11, 185, 23);
+		panelPictureSize.add(lblConvertImportedPictures);
+
+		sizeWidth = new JTextField();
+		sizeWidth.setBounds(77, 37, 69, 20);
+		panelPictureSize.add(sizeWidth);
+		sizeWidth.setColumns(10);
+
+		sizeHeight = new JTextField();
+		sizeHeight.setBounds(268, 37, 69, 20);
+		panelPictureSize.add(sizeHeight);
+		sizeHeight.setEditable(false);
+		sizeHeight.setColumns(10);
+
+		JLabel lblPictureWidth = new JLabel("Width");
+		lblPictureWidth.setBounds(30, 37, 46, 20);
+		panelPictureSize.add(lblPictureWidth);
+
+		JLabel lblPx = new JLabel("px");
+		lblPx.setBounds(156, 37, 26, 20);
+		panelPictureSize.add(lblPx);
+
+		JLabel lblPictureHeight = new JLabel("Height");
+		lblPictureHeight.setBounds(212, 37, 46, 20);
+		panelPictureSize.add(lblPictureHeight);
+
+		JLabel lblPx_1 = new JLabel("px");
+		lblPx_1.setBounds(347, 37, 26, 20);
+		panelPictureSize.add(lblPx_1);
 		intialize();
 	}
 
 	private void intialize() {
 		// TODO Auto-generated method stub
+		setPreviousValues();
 
+		setVisible(true);
+	}
+
+	private void setPreviousValues() {
+		sizeWidth.setText("" + (int) configs.getPictureDimension().getWidth());
+		sizeHeight.setText("" + (int) configs.getPictureDimension().getHeight());
+		chckbxWhenRemoveA.setSelected(configs.isRemovePictures());
+	}
+
+	private void saveSettings() {
+		// TODO add validator for text field!
+		configs.setPictureDimension(new Dimension(Integer.valueOf(sizeWidth.getText()), Integer.valueOf(sizeHeight.getText())));
+		configs.setRemovePictures(chckbxWhenRemoveA.isSelected());
+		// if valid then
+		dispose();
 	}
 
 }

@@ -47,6 +47,7 @@ import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
+import net.dancioi.jcsphotogallery.app.view.Preferences;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -207,8 +208,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuPreferences.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO here
-
+				new Preferences(model.getConfigs());
 			}
 		});
 		return menuPreferences;
@@ -337,16 +337,20 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 	@Override
 	public void deleteImage(DefaultMutableTreeNode treeNode) {
-		// TODO delete also the file
 		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
 		treeModel.removeNodeFromParent(treeNode);
+		if (model.getConfigs().isRemovePictures()) {
+
+		}
 	}
 
 	@Override
 	public void deleteAlbum(DefaultMutableTreeNode treeNode) {
-		// TODO delete also the files
 		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
 		treeModel.removeNodeFromParent(treeNode);
+		if (model.getConfigs().isRemovePictures()) {
+
+		}
 	}
 
 	@Override
@@ -367,6 +371,11 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				selectPicture(currentNode.getPreviousNode());
 			}
 		};
+	}
+
+	@Override
+	public boolean isGalleryCreated() {
+		return model.getAppGalleryPath() == null ? false : true;
 	}
 
 }

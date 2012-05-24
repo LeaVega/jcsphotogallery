@@ -165,7 +165,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	@Override
 	public void showAlbum(AlbumBean album, DefaultMutableTreeNode treeNode) {
-		String thumbnailFileName = album.getImgThumbnail().isEmpty() ? "help/imgNotFound.jpg" : album.getImgThumbnail();
+		String thumbnailFileName = album.getImgThumbnail() == null ? "help/imgNotFound.jpg" : album.getImgThumbnail();
 		PictureBean picture = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
 		picture.setParent(album);
 		panelRight.editAlbum(album, model.getPicture(picture, 150), treeNode);

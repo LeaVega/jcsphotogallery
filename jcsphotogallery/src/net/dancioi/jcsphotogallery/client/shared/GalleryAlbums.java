@@ -52,23 +52,16 @@ public class GalleryAlbums {
 	}
 
 	/**
-	 * Gets the number of all albums in gallery.
-	 * 
-	 * @return number of all albums.
-	 */
-	public int getTotalAlbumsNumber() {
-		return albums.length;
-	}
-
-	/**
 	 * Gets the number of pictures.
 	 * 
 	 * @return
 	 */
 	public int getTotalPicturesNumber() {
 		int result = 0;
-		for (AlbumBean album : albums)
-			result += album.getPictures().length;
+		if (albums != null) {
+			for (AlbumBean album : albums)
+				result += album.getPictures().length;
+		}
 		return result;
 	}
 
