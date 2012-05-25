@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
@@ -83,8 +84,14 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	}
 
 	public void editGallery(GalleryAlbums galleryAlbums, String appGalleryPath) {
-		String albumsLength = galleryAlbums.getAllAlbums() != null ? String.valueOf(galleryAlbums.getAllAlbums().length) : "0";
-		infoMessage("Info: " + "The gallery contains " + albumsLength + " albums and " + galleryAlbums.getTotalPicturesNumber() + " pictures");
+		int nrPictures = 0;
+		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
+		int childCount = treeModel.getChildCount(treeModel.getRoot());
+		for (int i = 0; i < childCount; i++) {
+			DefaultMutableTreeNode child = (DefaultMutableTreeNode) treeModel.getChild(treeModel.getRoot(), i);
+			nrPictures += child.getChildCount();
+		}
+		infoMessage("Info: " + "The gallery contains " + childCount + " albums and " + nrPictures + " pictures");
 		showPanel(EditPanel.GALLERY);
 		galleryPanel.fillUpParameters(galleryAlbums, appGalleryPath);
 	}

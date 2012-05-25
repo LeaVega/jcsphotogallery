@@ -176,7 +176,6 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	public void showGallery(GalleryAlbums galleryAlbums) {
 		if (null != model.getAppGalleryPath())
 			panelRight.editGallery(galleryAlbums, model.getAppGalleryPath().getAbsolutePath());
-
 	}
 
 	@Override

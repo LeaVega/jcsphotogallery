@@ -1,5 +1,5 @@
 /*	
- * 	File    : InputTextValidator.java
+ * 	File    : DeleteReport.java
  * 
  * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -24,12 +24,39 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 /**
- * 
+ * Shows the delete result. Just in case when a file could not be delete (returned false).
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision: $ Last modified: $Date: $, by: $Author: $
  */
-public class InputTextValidator {
+
+public class DeleteReport extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private StringBuilder result;
+
+	public DeleteReport(StringBuilder result) {
+		this.result = result;
+		initialize();
+	}
+
+	private void initialize() {
+		this.setMinimumSize(new Dimension(600, 300));
+		this.setTitle("Delete result");
+		this.setLayout(new BorderLayout());
+		JTextArea textArea = new JTextArea(result.toString());
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		add(scrollPane, BorderLayout.CENTER);
+
+		this.setVisible(true);
+	}
 
 }
