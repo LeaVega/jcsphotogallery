@@ -26,15 +26,26 @@ package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
+import javax.swing.DropMode;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 /**
  * This class shows the gallery structure in a tree. All operations are performed on this tree (add/delete/modify albums, pictures).
@@ -46,6 +57,7 @@ import javax.swing.tree.TreeSelectionModel;
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 
 	private static final long serialVersionUID = 1L;
+	protected static final Object AlbumBean = null;
 	private JcsPhotoGalleryView view; // TODO later
 	private JTree tree;
 	private DefaultMutableTreeNode root;
@@ -78,7 +90,109 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 		root = new DefaultMutableTreeNode("Gallery root");
 
 		tree = new JTree(root);
-		tree.setEditable(false);
+		// tree.setEditable(false);
+		tree.setDragEnabled(true);
+		tree.setDropMode(DropMode.INSERT);
+		tree.setTransferHandler(new TransferHandler() {
+
+			private static final long serialVersionUID = 1L;
+			DefaultTreeModel treeModel = (DefaultTreeModel) tree.getModel();
+			private DataFlavor customDataFlavor = new DataFlavor(TransferableNode.class, "Transferable JTree node");
+			private DefaultMutableTreeNode exportedNode = null;
+			private boolean importedData = false;
+
+			@Override
+			public int getSourceActions(JComponent c) {
+				return MOVE;
+			}
+
+			@Override
+			public boolean canImport(TransferSupport support) {
+				JTree.DropLocation dropLocation = (JTree.DropLocation) support.getDropLocation();
+				int childIndex = dropLocation.getChildIndex();
+				Object lastPathComponent = dropLocation.getPath().getLastPathComponent();
+				if (childIndex == -1)
+					return false;
+
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) treeModel.getChild(lastPathComponent, childIndex);
+				if (child == null || exportedNode == null) {
+					exportedNode = null;
+					return false;
+				}
+
+				if (child.equals(exportedNode))
+					return false;
+
+				if (child.getUserObject() instanceof AlbumBean && exportedNode.getUserObject() instanceof AlbumBean)
+					return true;
+				else if (child.getUserObject() instanceof PictureBean && exportedNode.getUserObject() instanceof PictureBean)
+					return true;
+				else
+					return false;
+			}
+
+			@Override
+			public boolean importData(TransferSupport support) {
+				JTree.DropLocation dropLocation = (JTree.DropLocation) support.getDropLocation();
+				TreePath path = dropLocation.getPath();
+				Transferable transferable = support.getTransferable();
+				DefaultMutableTreeNode transferData;
+
+				try {
+					transferData = (DefaultMutableTreeNode) transferable.getTransferData(customDataFlavor);
+				} catch (IOException e) {
+					return false;
+				} catch (UnsupportedFlavorException e) {
+					return false;
+				}
+
+				int childIndex = dropLocation.getChildIndex();
+				if (childIndex == -1) {
+					childIndex = treeModel.getChildCount(path.getLastPathComponent());
+				}
+
+				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(transferData.getUserObject());
+				DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+
+				if (newNode.getUserObject() instanceof AlbumBean) {
+					AlbumBean album = (AlbumBean) (newNode.getUserObject());
+					PictureBean[] pictures = album.getPictures();
+					treeModel.insertNodeInto(newNode, parentNode, childIndex);
+					int index = 0;
+					for (PictureBean picture : pictures) {
+						treeModel.insertNodeInto(new DefaultMutableTreeNode(picture), newNode, index++);
+					}
+				} else
+					treeModel.insertNodeInto(newNode, parentNode, childIndex);
+				// TODO also copy the files
+
+				TreePath newPath = path.pathByAddingChild(newNode);
+				tree.makeVisible(newPath);
+				tree.scrollRectToVisible(tree.getPathBounds(newPath));
+
+				importedData = true;
+				return true;
+			}
+
+			@Override
+			protected Transferable createTransferable(JComponent c) {
+				DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) ((JTree) c).getLastSelectedPathComponent();
+				exportedNode = treeNode;
+				return new TransferableNode(treeNode, customDataFlavor);
+			}
+
+			@Override
+			protected void exportDone(JComponent source, Transferable data, int action) {
+				if (exportedNode != null && importedData) {
+					treeModel.removeNodeFromParent(exportedNode);
+					// TODO also remove the files
+					importedData = false;
+					exportedNode = null;
+				}
+			}
+
+		});
+
 		tree.setLargeModel(true);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
@@ -86,6 +200,32 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 		tree.addTreeSelectionListener(this);
 		JScrollPane scrollPane = new JScrollPane(tree);
 		return scrollPane;
+	}
+
+	class TransferableNode implements Transferable {
+		private DefaultMutableTreeNode treeNode;
+		private DataFlavor dataFlavor;
+
+		public TransferableNode(DefaultMutableTreeNode treeNode, DataFlavor dataFlavor) {
+			this.treeNode = treeNode;
+			this.dataFlavor = dataFlavor;
+		}
+
+		@Override
+		public DataFlavor[] getTransferDataFlavors() {
+			return new DataFlavor[] { dataFlavor };
+		}
+
+		@Override
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
+			return flavor == dataFlavor;
+		}
+
+		@Override
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+			return treeNode;
+		}
+
 	}
 
 	/**
