@@ -55,6 +55,10 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  */
 
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {
+	// TODO run the import pictures in a separate thread to allow use the application while import
+	// TODO function to rotate the imported pictures clockwise and counterclockwise
+	// TODO show the position in tree when use the next and previous buttons
+	// TODO add a list with used tags
 
 	private static final long serialVersionUID = 1L;
 	protected static final Object AlbumBean = null;
@@ -155,13 +159,15 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 				DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 				if (newNode.getUserObject() instanceof AlbumBean) {
-					AlbumBean album = (AlbumBean) (newNode.getUserObject());
-					PictureBean[] pictures = album.getPictures();
 					treeModel.insertNodeInto(newNode, parentNode, childIndex);
-					int index = 0;
-					for (PictureBean picture : pictures) {
-						treeModel.insertNodeInto(new DefaultMutableTreeNode(picture), newNode, index++);
+
+					for (int pictureNr = 0; pictureNr < transferData.getChildCount(); pictureNr++) {
+						DefaultMutableTreeNode pictureNode = (DefaultMutableTreeNode) transferData.getChildAt(pictureNr);
+						if (pictureNode.getUserObject() instanceof PictureBean) {
+							treeModel.insertNodeInto(new DefaultMutableTreeNode(pictureNode.getUserObject()), newNode, pictureNr);
+						}
 					}
+
 				} else
 					treeModel.insertNodeInto(newNode, parentNode, childIndex);
 				// TODO also copy the files
