@@ -58,6 +58,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	private File appGalleryPath;
 	private PicturesImporter picturesImport;
 	private GalleryAlbums galleryAlbums;
+	private GalleryFiles galleryFiles;
 
 	public JcsPhotoGalleryModel() {
 		initialize();
@@ -66,6 +67,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	private void initialize() {
 		configs = getPreviousConfigs();
 		picturesImport = new PicturesImporter(configs);
+		galleryFiles = new GalleryFiles(this);
 	}
 
 	/**
@@ -177,7 +179,6 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles) {
 		AlbumBean newAlbum = new AlbumBean();
 		newAlbum.setEdited(true);
-		// TODO if create an album without create a new gallery exception is thrown
 		galleryAlbums.setEdited(true);
 
 		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);
@@ -277,6 +278,21 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public void deleteAlbum(AlbumBean albumToDelete) {
+		galleryFiles.deleteAlbum(albumToDelete);
+	}
+
+	@Override
+	public void deletePicture(PictureBean picture) {
+		galleryFiles.deletePicture(picture);
+	}
+
+	@Override
+	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination) {
+		galleryFiles.copyPicture(picture, albumSource, albumDestination);
 	}
 
 }

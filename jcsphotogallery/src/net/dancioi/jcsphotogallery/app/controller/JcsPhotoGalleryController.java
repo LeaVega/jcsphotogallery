@@ -46,7 +46,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
-import net.dancioi.jcsphotogallery.app.view.DeleteReport;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 import net.dancioi.jcsphotogallery.app.view.Preferences;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
@@ -343,14 +342,12 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	@Override
 	public void deleteImage(DefaultMutableTreeNode treeNode) {
 		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
-		selectNode((DefaultMutableTreeNode) treeNode.getParent());
+		selectNode((DefaultMutableTreeNode) treeNode.getParent());// when delete a picture show the album.
 		treeModel.removeNodeFromParent(treeNode);
 		if (model.getConfigs().isRemovePictures()) {
 			PictureBean picture = (PictureBean) treeNode.getUserObject();
-			String pictureBeanPath = model.getAppGalleryPath() + File.separator + picture.getParent().getFolderName() + File.separator;
-			StringBuilder deleteImgFile = deleteFile(new File(pictureBeanPath + picture.getFileName()), new StringBuilder());
-			StringBuilder deleteThumbnailFile = deleteFile(new File(pictureBeanPath + picture.getImgThumbnail()), new StringBuilder());
-			checkDeleteReport(deleteImgFile.append(deleteThumbnailFile));
+
+			model.deletePicture(picture);
 		}
 	}
 
@@ -361,26 +358,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		treeModel.removeNodeFromParent(treeNode);
 		if (model.getConfigs().isRemovePictures()) {
 			AlbumBean albumToDelete = (AlbumBean) treeNode.getUserObject();
-			checkDeleteReport(deleteFile(new File(model.getAppGalleryPath() + File.separator + albumToDelete.getFolderName()), new StringBuilder()));
+			model.deleteAlbum(albumToDelete);
 		}
-	}
-
-	// TODO ask just first time if want to delete also the files
-	private StringBuilder deleteFile(File file, StringBuilder result) {
-		if (file.isDirectory()) {
-			for (File child : file.listFiles()) {
-				deleteFile(child, result);
-			}
-
-		}
-		return result.append(file.getAbsolutePath() + " : " + file.delete() + "\n");
-	}
-
-	private void checkDeleteReport(StringBuilder result) {
-		if (result.indexOf(": false") != -1) {
-			new DeleteReport(result);
-		}
-		System.out.println(result.toString());
 	}
 
 	@Override

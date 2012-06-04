@@ -30,6 +30,7 @@ import java.io.File;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -60,4 +61,10 @@ public interface JcsPhotoGalleryModelInterface {
 	boolean isGallerySaved(JTree jTree);
 
 	Configs getConfigs();
+
+	void deleteAlbum(AlbumBean albumToDelete);
+
+	void deletePicture(PictureBean picture);
+
+	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination);
 }

@@ -59,9 +59,11 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 	// TODO function to rotate the imported pictures clockwise and counterclockwise
 	// TODO show the position in tree when use the next and previous buttons
 	// TODO add a list with used tags
+	// TODO do not cache xml files
 
 	private static final long serialVersionUID = 1L;
 	protected static final Object AlbumBean = null;
+	protected static final String PictureBean = null;
 	private JcsPhotoGalleryView view; // TODO later
 	private JTree tree;
 	private DefaultMutableTreeNode root;
@@ -104,6 +106,7 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 			private DataFlavor customDataFlavor = new DataFlavor(TransferableNode.class, "Transferable JTree node");
 			private DefaultMutableTreeNode exportedNode = null;
 			private boolean importedData = false;
+			private PictureBean pictureToDelete;
 
 			@Override
 			public int getSourceActions(JComponent c) {
@@ -168,9 +171,20 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 						}
 					}
 
-				} else
+					view.getModel().getGalleryAlbums().setEdited(true);
+
+				} else {
 					treeModel.insertNodeInto(newNode, parentNode, childIndex);
-				// TODO also copy the files
+					view.getModel().copyPicture((PictureBean) newNode.getUserObject(), (AlbumBean) ((DefaultMutableTreeNode) exportedNode.getParent()).getUserObject(), (AlbumBean) parentNode.getUserObject());
+
+					PictureBean selectedPicture = (PictureBean) newNode.getUserObject();
+					pictureToDelete = new PictureBean(selectedPicture.getName(), selectedPicture.getFileName(), selectedPicture.getDescription(), selectedPicture.getImgThumbnail());
+					pictureToDelete.setParent(selectedPicture.getParent());
+					selectedPicture.setParent((AlbumBean) parentNode.getUserObject());
+
+					DefaultMutableTreeNode destNode = (DefaultMutableTreeNode) treeModel.getChild(parentNode, childIndex);
+					view.showPicture(selectedPicture, destNode);
+				}
 
 				TreePath newPath = path.pathByAddingChild(newNode);
 				tree.makeVisible(newPath);
@@ -190,8 +204,12 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 			@Override
 			protected void exportDone(JComponent source, Transferable data, int action) {
 				if (exportedNode != null && importedData) {
+
+					if (exportedNode.getUserObject() instanceof PictureBean) {
+						view.getModel().deletePicture(pictureToDelete);
+					}
+
 					treeModel.removeNodeFromParent(exportedNode);
-					// TODO also remove the files
 					importedData = false;
 					exportedNode = null;
 				}

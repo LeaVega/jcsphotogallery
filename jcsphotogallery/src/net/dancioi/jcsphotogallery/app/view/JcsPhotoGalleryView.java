@@ -188,4 +188,8 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	}
 
+	public JcsPhotoGalleryModelInterface getModel() {
+		return model;
+	}
+
 }

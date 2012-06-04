@@ -62,6 +62,7 @@ public class PicturesImporter {
 	 * @return BufferedImage
 	 */
 	public BufferedImage getPicture(String picturePath, int maxSize) {
+		System.out.println("PICTURE PATH = " + picturePath);
 		PlanarImage picture = loadPicture(picturePath);
 		double scale = picture.getWidth() > picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
 		return resizePicture(picture, scale);

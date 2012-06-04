@@ -52,6 +52,7 @@ public class DeleteReport extends JFrame {
 		this.setMinimumSize(new Dimension(600, 300));
 		this.setTitle("Delete result");
 		this.setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
 		JTextArea textArea = new JTextArea(result.toString());
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		add(scrollPane, BorderLayout.CENTER);
