@@ -27,6 +27,7 @@ package net.dancioi.jcsphotogallery.app.view;
 import java.awt.event.WindowAdapter;
 
 import javax.swing.JMenuBar;
+import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -64,5 +65,7 @@ public interface JcsPhotoGalleryViewInterface {
 	void setVisible(boolean b);
 
 	void addCloseWindowListener(WindowAdapter windowAdapter);
+
+	JProgressBar getProgressBar();
 
 }

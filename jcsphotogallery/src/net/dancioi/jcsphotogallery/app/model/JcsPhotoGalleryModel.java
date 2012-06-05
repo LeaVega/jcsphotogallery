@@ -38,6 +38,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -169,17 +170,18 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 			configs.setGalleryPath(galleryFolder);
 
-			return new DefaultMutableTreeNode[] { addPicturesToNewAlbum(null) };
+			return new DefaultMutableTreeNode[] { addPicturesToNewAlbum(null, null) };
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles) {
+	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles, JProgressBar progressBar) {
 		AlbumBean newAlbum = new AlbumBean();
 		newAlbum.setEdited(true);
 		galleryAlbums.setEdited(true);
+		progressBar.setValue(0);
 
 		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);
 
@@ -192,8 +194,12 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		if (albumFolder.mkdir()) {
 			addIndexHtml(albumFolder);
 			if (null != selectedFiles) {
+				float progressBarIncrement = 100 / (float) selectedFiles.length;
+				float progressBarValue = 0;
 				for (File picturePath : selectedFiles) {
 					PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
+					progressBarValue += progressBarIncrement;
+					progressBar.setValue(Math.round(progressBarValue));
 					if (null != picture) {
 						albumNode.add(new DefaultMutableTreeNode(picture));
 						newAlbum.setImgThumbnail(picture.getImgThumbnail());
@@ -231,11 +237,15 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	}
 
 	@Override
-	public DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode albumNode) {
+	public DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode albumNode, JProgressBar progressBar) {
 		AlbumBean album = (AlbumBean) albumNode.getUserObject();
 		album.setEdited(true);
+		float progressBarIncrement = 100 / (float) selectedFiles.length;
+		float progressBarValue = 0;
 		for (File picturePath : selectedFiles) {
 			PictureBean picture = importPicture(album, new File(appGalleryPath + File.separator + album.getFolderName()), picturePath);
+			progressBarValue += progressBarIncrement;
+			progressBar.setValue(Math.round(progressBarValue));
 			if (null != picture) {
 				albumNode.add(new DefaultMutableTreeNode(picture));
 			}

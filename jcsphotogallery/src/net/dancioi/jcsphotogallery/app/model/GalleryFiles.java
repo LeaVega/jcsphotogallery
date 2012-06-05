@@ -53,9 +53,16 @@ public class GalleryFiles {
 			for (File child : file.listFiles()) {
 				deleteFile(child, result);
 			}
-
 		}
-		return result.append(file.getAbsolutePath() + " : " + file.delete() + "\n");
+
+		boolean deleteFileResult = false;
+		if (file.exists()) {
+			deleteFileResult = file.delete();
+			if (!deleteFileResult) {
+				new Thread(new DeleteLater(file)).start();
+			}
+		}
+		return result.append(file.getAbsolutePath() + " : " + deleteFileResult + "\n");
 	}
 
 	private void checkDeleteReport(StringBuilder result) {
@@ -66,11 +73,12 @@ public class GalleryFiles {
 	}
 
 	public void deleteAlbum(AlbumBean albumToDelete) {
+		System.gc(); // gc is called but is not guaranteed to execute before deleteFile method. Thus, delete will run in a thread trying 10 times to delete the file. This is required just on Windows
 		checkDeleteReport(deleteFile(new File(model.getAppGalleryPath() + File.separator + albumToDelete.getFolderName()), new StringBuilder()));
 	}
 
 	public void deletePicture(PictureBean picture) {
-		// System.gc(); // this is required on windows because the picture.getFileName() remains as used resource even if it is not used (the new copied file is selected)
+		System.gc(); // this is required just on windows because the picture.getFileName() remains as used resource even if it is not used (the new copied file is selected)
 		String pictureBeanPath = model.getAppGalleryPath() + File.separator + picture.getParent().getFolderName() + File.separator;
 		StringBuilder deleteImgFile = deleteFile(new File(pictureBeanPath + picture.getFileName()), new StringBuilder());
 		StringBuilder deleteThumbnailFile = deleteFile(new File(pictureBeanPath + picture.getImgThumbnail()), new StringBuilder());
@@ -104,6 +112,34 @@ public class GalleryFiles {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+}
+
+class DeleteLater implements Runnable {
+	private File fileToDelete;
+	private boolean result;
+
+	DeleteLater(File fileToDelete) {
+		this.fileToDelete = fileToDelete;
+	}
+
+	@Override
+	public void run() {
+		for (int count = 0; count < 10; count++) {
+			try {
+				Thread.currentThread().sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("tring to delete file: " + fileToDelete.getAbsolutePath());
+			if (fileToDelete.exists()) {
+				result = fileToDelete.delete();
+				if (result)
+					break;
+			}
+		}
+
 	}
 
 }

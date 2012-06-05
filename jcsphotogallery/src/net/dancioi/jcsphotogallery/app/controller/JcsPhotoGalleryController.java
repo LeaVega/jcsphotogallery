@@ -40,6 +40,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -307,9 +308,23 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		folderChooser.setFileFilter(new PictureFilter());
 		folderChooser.setMultiSelectionEnabled(true);
 		if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			view.addNewAlbumToGallery(model.addPicturesToNewAlbum(folderChooser.getSelectedFiles()));
+			new TaskImportPicturesToNewAlbum(folderChooser.getSelectedFiles()).execute();
+		}
+	}
+
+	class TaskImportPicturesToNewAlbum extends SwingWorker<Void, Void> {
+		private File[] files;
+
+		public TaskImportPicturesToNewAlbum(File[] files) {
+			this.files = files;
 		}
 
+		@Override
+		public Void doInBackground() {
+			DefaultMutableTreeNode picturesToNewAlbum = model.addPicturesToNewAlbum(files, view.getProgressBar());
+			view.addNewAlbumToGallery(picturesToNewAlbum);
+			return null;
+		}
 	}
 
 	@Override
@@ -322,10 +337,26 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			folderChooser.setFileFilter(new PictureFilter());
 			folderChooser.setMultiSelectionEnabled(true);
 			if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				view.addPicturesToAnExistingAlbum(model.addPicturesToExistingAlbum(folderChooser.getSelectedFiles(), treeNode));
+				new TaskImportPicturesToExistingAlbum(folderChooser.getSelectedFiles(), treeNode).execute();
 			}
 		}
+	}
 
+	class TaskImportPicturesToExistingAlbum extends SwingWorker<Void, Void> {
+		private File[] files;
+		private DefaultMutableTreeNode treeNode;
+
+		public TaskImportPicturesToExistingAlbum(File[] files, DefaultMutableTreeNode treeNode) {
+			this.files = files;
+			this.treeNode = treeNode;
+		}
+
+		@Override
+		public Void doInBackground() {
+			DefaultMutableTreeNode picturesToExistingAlbum = model.addPicturesToExistingAlbum(files, treeNode, view.getProgressBar());
+			view.addPicturesToAnExistingAlbum(picturesToExistingAlbum);
+			return null;
+		}
 	}
 
 	@Override

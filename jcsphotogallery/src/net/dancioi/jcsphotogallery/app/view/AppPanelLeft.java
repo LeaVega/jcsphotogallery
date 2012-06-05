@@ -183,7 +183,7 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 					selectedPicture.setParent((AlbumBean) parentNode.getUserObject());
 
 					DefaultMutableTreeNode destNode = (DefaultMutableTreeNode) treeModel.getChild(parentNode, childIndex);
-					view.showPicture(selectedPicture, destNode);
+					view.showPicture(selectedPicture, destNode); // TODO set currentNode in JcsPhotoGalleryController
 				}
 
 				TreePath newPath = path.pathByAddingChild(newNode);
@@ -205,7 +205,8 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 			protected void exportDone(JComponent source, Transferable data, int action) {
 				if (exportedNode != null && importedData) {
 
-					if (exportedNode.getUserObject() instanceof PictureBean) {
+					if (exportedNode.getUserObject() instanceof PictureBean && !pictureToDelete.getParent().equals(((PictureBean) exportedNode.getUserObject()).getParent())) {
+						// if the picture is dnd in the same album do not delete the jpg file.
 						view.getModel().deletePicture(pictureToDelete);
 					}
 

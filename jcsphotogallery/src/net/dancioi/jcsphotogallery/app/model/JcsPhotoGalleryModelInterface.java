@@ -27,6 +27,7 @@ package net.dancioi.jcsphotogallery.app.model;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -48,9 +49,9 @@ public interface JcsPhotoGalleryModelInterface {
 
 	BufferedImage getPicture(PictureBean picture, int maxSize);
 
-	DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles);
+	DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles, JProgressBar progressBar);
 
-	DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode treeNode);
+	DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode treeNode, JProgressBar progressBar);
 
 	void saveGalleryChanges(JTree jTree);
 

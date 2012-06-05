@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -57,6 +58,7 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	private CardLayout switchPanel;
 	private JLabel infoLabel;
 	private EditPanel frontPanel;
+	private JProgressBar progressBar;
 
 	public AppPanelRight(JcsPhotoGalleryView jcsPhotoGalleryView) {
 		this.view = jcsPhotoGalleryView;
@@ -78,7 +80,7 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 		switchPanel = (CardLayout) (panels.getLayout());
 
 		this.add(panels, BorderLayout.CENTER);
-		this.add(infoPanel(), BorderLayout.PAGE_END);
+		this.add(getBottomPanel(), BorderLayout.PAGE_END);
 
 		showPanel(EditPanel.HELP);
 	}
@@ -127,13 +129,36 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 		return picturePanel;
 	}
 
-	private JPanel infoPanel() {
+	private JPanel getBottomPanel() {
+		JPanel bPanel = new JPanel();
+		bPanel.setLayout(new BorderLayout());
+		bPanel.add(getInfoPanel(), BorderLayout.WEST);
+		bPanel.add(getProgressBarPanel(), BorderLayout.EAST);
+		return bPanel;
+	}
+
+	private JPanel getInfoPanel() {
 		JPanel info = new JPanel();
 		infoLabel = new JLabel("Info: " + "Import a gallery from File > Import or create a new one from File > New.");
 		infoLabel.setForeground(Color.BLUE);
-		infoLabel.setPreferredSize(new Dimension(650, 32));
+		infoLabel.setPreferredSize(new Dimension(600, 32));
 		info.add(infoLabel);
 		return info;
+	}
+
+	private JPanel getProgressBarPanel() {
+		JPanel progressBarPanel = new JPanel();
+		progressBar = new JProgressBar(0, 100);
+		progressBar.setValue(0);
+		progressBar.setStringPainted(true);
+		progressBarPanel.setLayout(new BorderLayout());
+		progressBarPanel.setPreferredSize(new Dimension(150, 32));
+		progressBarPanel.add(progressBar, BorderLayout.SOUTH);
+		return progressBarPanel;
+	}
+
+	public JProgressBar getProgressBar() {
+		return progressBar;
 	}
 
 	public void infoMessage(String msg) {
