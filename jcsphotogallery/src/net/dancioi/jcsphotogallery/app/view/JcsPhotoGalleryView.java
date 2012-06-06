@@ -198,4 +198,8 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		return panelRight.getProgressBar();
 	}
 
+	public void selectPicture(DefaultMutableTreeNode destNode) {
+		model.selectNode(destNode);
+	}
+
 }

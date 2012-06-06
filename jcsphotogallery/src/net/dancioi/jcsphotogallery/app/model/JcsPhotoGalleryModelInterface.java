@@ -31,6 +31,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
@@ -68,4 +69,16 @@ public interface JcsPhotoGalleryModelInterface {
 	void deletePicture(PictureBean picture);
 
 	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination);
+
+	void deleteImage(DefaultMutableTreeNode treeNode);
+
+	void deleteAlbum(DefaultMutableTreeNode treeNode);
+
+	void selectNextNode();
+
+	void selectPreviousNode();
+
+	void selectNode(DefaultMutableTreeNode treeNode);
+
+	void bindView(JcsPhotoGalleryViewInterface view);
 }

@@ -42,7 +42,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
+import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
@@ -60,6 +62,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	private PicturesImporter picturesImport;
 	private GalleryAlbums galleryAlbums;
 	private GalleryFiles galleryFiles;
+	private JcsPhotoGalleryViewInterface view;
+	private DefaultMutableTreeNode currentNode;
 
 	public JcsPhotoGalleryModel() {
 		initialize();
@@ -69,6 +73,11 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		configs = getPreviousConfigs();
 		picturesImport = new PicturesImporter(configs);
 		galleryFiles = new GalleryFiles(this);
+	}
+
+	@Override
+	public void bindView(JcsPhotoGalleryViewInterface view) {
+		this.view = view;
 	}
 
 	/**
@@ -303,6 +312,60 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	@Override
 	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination) {
 		galleryFiles.copyPicture(picture, albumSource, albumDestination);
+	}
+
+	@Override
+	public void deleteImage(DefaultMutableTreeNode treeNode) {
+		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
+		selectNode((DefaultMutableTreeNode) treeNode.getParent());// when delete a picture show the album.
+		treeModel.removeNodeFromParent(treeNode);
+		if (getConfigs().isRemovePictures()) {
+			PictureBean picture = (PictureBean) treeNode.getUserObject();
+
+			deletePicture(picture);
+		}
+	}
+
+	@Override
+	public void deleteAlbum(DefaultMutableTreeNode treeNode) {
+		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
+		selectNode((DefaultMutableTreeNode) treeNode.getParent());
+		treeModel.removeNodeFromParent(treeNode);
+		if (getConfigs().isRemovePictures()) {
+			AlbumBean albumToDelete = (AlbumBean) treeNode.getUserObject();
+			deleteAlbum(albumToDelete);
+		}
+	}
+
+	private void selectPicture(DefaultMutableTreeNode treeNode) {
+		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
+			currentNode = treeNode;
+			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
+			view.showPicture(pictureBean, treeNode);
+			view.getTree().setSelectionPath(new TreePath(treeNode.getPath()));
+		}
+	}
+
+	@Override
+	public void selectNode(DefaultMutableTreeNode treeNode) {
+		if (treeNode.getUserObject() instanceof PictureBean) {
+			selectPicture(treeNode);
+		} else if (treeNode.getUserObject() instanceof AlbumBean) {
+			AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
+			view.showAlbum(albumBean, treeNode);
+		} else if (treeNode.getUserObject() instanceof String) {
+			view.showGallery(getGalleryAlbums());
+		}
+	}
+
+	@Override
+	public void selectNextNode() {
+		selectPicture(currentNode.getNextNode());
+	}
+
+	@Override
+	public void selectPreviousNode() {
+		selectPicture(currentNode.getPreviousNode());
 	}
 
 }

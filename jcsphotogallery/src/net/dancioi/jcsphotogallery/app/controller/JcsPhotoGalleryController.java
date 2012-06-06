@@ -43,7 +43,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
@@ -64,8 +63,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	private JcsPhotoGalleryViewInterface view;
 	private RightClickPopUp rightClickPopUp;
 
-	private DefaultMutableTreeNode currentNode;
-
 	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model, JcsPhotoGalleryViewInterface view) {
 		this.model = model;
 		this.view = view;
@@ -74,6 +71,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	}
 
 	private void initialize() {
+		model.bindView(view);
 		rightClickPopUp = new RightClickPopUp(this);
 		view.addMenuBar(getMenu());
 		addListenersToTree();
@@ -255,18 +253,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		System.out.printf("path = %s%n", treePath);
 		if (null != treePath) {
 			DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-			selectNode(treeNode);
-		}
-	}
-
-	private void selectNode(DefaultMutableTreeNode treeNode) {
-		if (treeNode.getUserObject() instanceof PictureBean) {
-			selectPicture(treeNode);
-		} else if (treeNode.getUserObject() instanceof AlbumBean) {
-			AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
-			view.showAlbum(albumBean, treeNode);
-		} else if (treeNode.getUserObject() instanceof String) {
-			view.showGallery(model.getGalleryAlbums());
+			model.selectNode(treeNode);
 		}
 	}
 
@@ -289,14 +276,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			return true;
 		}
 		return false;
-	}
-
-	private void selectPicture(DefaultMutableTreeNode treeNode) {
-		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
-			currentNode = treeNode;
-			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
-			view.showPicture(pictureBean, treeNode);
-		}
 	}
 
 	@Override
@@ -372,25 +351,12 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 	@Override
 	public void deleteImage(DefaultMutableTreeNode treeNode) {
-		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
-		selectNode((DefaultMutableTreeNode) treeNode.getParent());// when delete a picture show the album.
-		treeModel.removeNodeFromParent(treeNode);
-		if (model.getConfigs().isRemovePictures()) {
-			PictureBean picture = (PictureBean) treeNode.getUserObject();
-
-			model.deletePicture(picture);
-		}
+		model.deleteImage(treeNode);
 	}
 
 	@Override
 	public void deleteAlbum(DefaultMutableTreeNode treeNode) {
-		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
-		selectNode((DefaultMutableTreeNode) treeNode.getParent());
-		treeModel.removeNodeFromParent(treeNode);
-		if (model.getConfigs().isRemovePictures()) {
-			AlbumBean albumToDelete = (AlbumBean) treeNode.getUserObject();
-			model.deleteAlbum(albumToDelete);
-		}
+		model.deleteAlbum(treeNode);
 	}
 
 	@Override
@@ -398,7 +364,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				selectPicture(currentNode.getNextNode());
+				// selectPicture(currentNode.getNextNode());
+				model.selectNextNode();
 			}
 		};
 	}
@@ -408,7 +375,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				selectPicture(currentNode.getPreviousNode());
+				// selectPicture(currentNode.getPreviousNode());
+				model.selectPreviousNode();
 			}
 		};
 	}

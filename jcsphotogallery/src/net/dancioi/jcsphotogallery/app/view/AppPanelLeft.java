@@ -55,9 +55,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  */
 
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {
-	// TODO run the import pictures in a separate thread to allow use the application while import
 	// TODO function to rotate the imported pictures clockwise and counterclockwise
-	// TODO show the position in tree when use the next and previous buttons
 	// TODO add a list with used tags
 	// TODO do not cache xml files
 
@@ -183,7 +181,7 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 					selectedPicture.setParent((AlbumBean) parentNode.getUserObject());
 
 					DefaultMutableTreeNode destNode = (DefaultMutableTreeNode) treeModel.getChild(parentNode, childIndex);
-					view.showPicture(selectedPicture, destNode); // TODO set currentNode in JcsPhotoGalleryController
+					view.selectPicture(destNode);
 				}
 
 				TreePath newPath = path.pathByAddingChild(newNode);
