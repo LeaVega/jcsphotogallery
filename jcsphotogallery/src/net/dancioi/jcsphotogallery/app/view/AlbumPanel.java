@@ -34,7 +34,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -57,7 +56,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 	private AlbumBean albumBean;
 
 	private JTextField albumNameTextField;
-	private JTextArea albumCategoriesTextField;
+	private JTextField albumTagsTextField;
 
 	private AlbumBean editedAlbum;
 	private DefaultMutableTreeNode treeNode;
@@ -79,22 +78,18 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.ipadx = 10;
-		editPanel.add(new JLabel("Categories:"), c);
+		c.ipadx = 50;
+		editPanel.add(new JLabel("Tags:"), c);
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 5;
-		c.ipady = 40;
+		c.ipady = 0;
 		c.ipadx = 200;
-		albumCategoriesTextField = new JTextArea();
-		albumCategoriesTextField.setToolTipText("add categories separated by ';'");
-		albumCategoriesTextField.setLineWrap(true);
-		albumCategoriesTextField.setWrapStyleWord(true);
-		albumCategoriesTextField.addFocusListener(this);
-		JScrollPane areaScrollPane = new JScrollPane(albumCategoriesTextField);
-		areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		areaScrollPane.setPreferredSize(new Dimension(200, 40));
-		editPanel.add(areaScrollPane, c);
+		albumTagsTextField = new JTextField();
+		albumTagsTextField.setToolTipText("add tags separated by ';'");
+		albumTagsTextField.addFocusListener(this);
+		albumTagsTextField.setPreferredSize(new Dimension(200, 32));
+		editPanel.add(albumTagsTextField, c);
 
 		c.gridx = 1;
 		c.gridy = 1;
@@ -107,7 +102,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.ipady = 0;
-		c.ipadx = 10;
+		c.ipadx = 50;
 		editPanel.add(new JLabel("Album Name:"), c);
 		c.gridx = 1;
 		c.gridy = 2;
@@ -133,7 +128,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		showAlbumThumbnail(albumThumbnail);
 		albumBean = album;
 		albumNameTextField.setText(album.getName());
-		albumCategoriesTextField.setText(album.getCategory() == null ? "no tag" : album.getCategory().toString());
+		albumTagsTextField.setText(album.getTags() == null ? "no tag" : album.getTagsInOneLine());
 	}
 
 	@Override
@@ -154,10 +149,12 @@ public class AlbumPanel extends JPanel implements FocusListener {
 	}
 
 	private void updateEditedAlbum() {
-		editedAlbum.setEdited(true);
+		editedAlbum.getParent().setEdited(true);
 		editedAlbum.setName(albumNameTextField.getText());
-		String[] categories = albumCategoriesTextField.getText().split(";");
-		editedAlbum.setCategory(categories);
+		String[] tags = albumTagsTextField.getText().split(";");
+		for (int i = 0; i < tags.length; i++)
+			tags[i] = tags[i].trim();// remove whitespace between tags (if there are any).
+		editedAlbum.setTags(tags);
 		treeNode.setUserObject(editedAlbum);
 		tree.updateNode(treeNode);
 		editedAlbum = null;

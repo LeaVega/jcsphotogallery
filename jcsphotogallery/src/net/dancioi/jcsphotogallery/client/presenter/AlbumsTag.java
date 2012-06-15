@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 
 /**
- * Class to keep albums' index for each category name.
+ * Class to keep albums' index for each tag.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
@@ -37,36 +37,36 @@ import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 public class AlbumsTag {
 
 	private ArrayList<AlbumBean> albums = new ArrayList<AlbumBean>();
-	private String category;
+	private String tag;
 
-	public AlbumsTag(String category, AlbumBean album) {
-		this.category = category;
-		addAlbumToCategory(album);
+	public AlbumsTag(String tag, AlbumBean album) {
+		this.tag = tag;
+		addAlbumToTags(album);
 	}
 
-	public AlbumsTag(String category, AlbumBean[] albums) {
-		this.category = category;
+	public AlbumsTag(String tag, AlbumBean[] albums) {
+		this.tag = tag;
 		for (AlbumBean album : albums)
-			addAlbumToCategory(album);
+			addAlbumToTags(album);
 	}
 
-	public void addAlbumToCategory(AlbumBean album) {
+	public void addAlbumToTags(AlbumBean album) {
 		albums.add(album);
 	}
 
-	public String getCategory() {
-		return category;
+	public String getTag() {
+		return tag;
 	}
 
 	@Override
 	public String toString() {
-		return category;
+		return tag;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		String objCat = ((AlbumsTag) obj).getCategory();
-		return category.contentEquals(objCat);
+		String objCat = ((AlbumsTag) obj).getTag();
+		return tag.contentEquals(objCat);
 	}
 
 	public AlbumBean[] getAlbums() {

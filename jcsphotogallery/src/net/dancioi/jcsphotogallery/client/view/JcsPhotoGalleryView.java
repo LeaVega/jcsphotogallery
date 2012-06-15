@@ -181,8 +181,8 @@ public class JcsPhotoGalleryView extends View {
 		bottomPanel.setAlbumLabel(albumName);
 	}
 
-	public void showAlbumsByCategory(int selected) {
-		getPresenter().getAlbumsByCategory(selected);
+	public void showAlbumsByTag(int selected) {
+		getPresenter().getAlbumsByTag(selected);
 	}
 
 	@Override

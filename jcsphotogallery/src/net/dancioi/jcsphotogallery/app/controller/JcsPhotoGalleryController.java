@@ -344,7 +344,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
 			AlbumBean album = pictureBean.getParent();
 			album.setImgThumbnail(pictureBean.getFileName());
-			album.setEdited(true);
+			album.getParent().setEdited(true);
 		}
 
 	}
@@ -364,7 +364,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// selectPicture(currentNode.getNextNode());
 				model.selectNextNode();
 			}
 		};
@@ -375,7 +374,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// selectPicture(currentNode.getPreviousNode());
 				model.selectPreviousNode();
 			}
 		};
@@ -386,46 +384,46 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return model.getAppGalleryPath() == null ? false : true;
 	}
 
-}
+	class GalleryFilter extends FileFilter {
 
-class GalleryFilter extends FileFilter {
+		@Override
+		public boolean accept(File arg0) {
+			if (arg0.isDirectory()) {
+				return true;
+			}
 
-	@Override
-	public boolean accept(File arg0) {
-		if (arg0.isDirectory()) {
-			return true;
+			if (arg0.getName().equals("albums.xml"))
+				return true;
+			else
+				return false;
 		}
 
-		if (arg0.getName().equals("albums.xml"))
-			return true;
-		else
-			return false;
-	}
-
-	@Override
-	public String getDescription() {
-		return "albums.xml filter";
-	}
-
-}
-
-class PictureFilter extends FileFilter {
-
-	@Override
-	public boolean accept(File arg0) {
-		if (arg0.isDirectory()) {
-			return true;
+		@Override
+		public String getDescription() {
+			return "albums.xml filter";
 		}
 
-		if (arg0.getName().toLowerCase().endsWith(".jpg"))
-			return true;
-		else
-			return false;
 	}
 
-	@Override
-	public String getDescription() {
-		return "jpg files filter";
+	class PictureFilter extends FileFilter {
+
+		@Override
+		public boolean accept(File arg0) {
+			if (arg0.isDirectory()) {
+				return true;
+			}
+
+			if (arg0.getName().toLowerCase().endsWith(".jpg"))
+				return true;
+			else
+				return false;
+		}
+
+		@Override
+		public String getDescription() {
+			return "jpg files filter";
+		}
+
 	}
 
 }

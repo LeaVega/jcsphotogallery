@@ -56,7 +56,6 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 	// TODO function to rotate the imported pictures clockwise and counterclockwise
-	// TODO add a list with used tags
 	// TODO do not cache xml files
 
 	private static final long serialVersionUID = 1L;

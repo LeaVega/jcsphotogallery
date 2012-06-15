@@ -47,6 +47,8 @@ public abstract class ElementXML {
 	 * @return Albums
 	 */
 	protected GalleryAlbums getAlbums(Element element) {
+		GalleryAlbums galleryAlbums = new GalleryAlbums();
+
 		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
 		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
 
@@ -59,12 +61,12 @@ public abstract class ElementXML {
 		for (int i = 0; i < albumsCount; i++) {
 			Element elAlbum = (Element) albums.item(i);
 
-			String allCategories = elAlbum.getAttribute("category");
+			String allCategories = elAlbum.getAttribute("tags");
 			tags = allCategories.split(";");
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
+			photoAlbums[i].setParent(galleryAlbums);
 		}
 
-		GalleryAlbums galleryAlbums = new GalleryAlbums();
 		galleryAlbums.setGalleryName(galleryName);
 		galleryAlbums.setGalleryHomePage(galleryHomePage);
 		galleryAlbums.setAlbums(photoAlbums);
@@ -137,7 +139,7 @@ public abstract class ElementXML {
 			albumElement.setAttribute("img", album.getImgThumbnail());
 			albumElement.setAttribute("folderName", album.getFolderName());
 			albumElement.setAttribute("name", album.getName());
-			albumElement.setAttribute("category", "");// album.getCategory().toString());
+			albumElement.setAttribute("tags", album.getTagsInOneLine());
 
 			albumsElement.appendChild(albumElement);
 

@@ -190,6 +190,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		AlbumBean newAlbum = new AlbumBean();
 		newAlbum.setEdited(true);
 		galleryAlbums.setEdited(true);
+		newAlbum.setParent(galleryAlbums);
 		progressBar.setValue(0);
 
 		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);

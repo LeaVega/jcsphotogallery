@@ -62,7 +62,7 @@ public class TopPanel extends AbsolutePanel {
 	 *            Sorting ListBox id selected.
 	 */
 	private void selectedList(int selected) {
-		view.showAlbumsByCategory(selected);
+		view.showAlbumsByTag(selected);
 	}
 
 	/**

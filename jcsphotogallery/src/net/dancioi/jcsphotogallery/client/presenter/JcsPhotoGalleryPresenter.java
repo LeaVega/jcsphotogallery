@@ -103,7 +103,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 					}
 				} else if (token.startsWith("t")) {
 					String[] split = token.split(";");
-					getAlbumsByCategory(Integer.parseInt(split[1]));
+					getAlbumsByTag(Integer.parseInt(split[1]));
 				}
 			}
 
@@ -230,7 +230,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	}
 
 	@Override
-	public void getAlbumsByCategory(int selected) {
+	public void getAlbumsByTag(int selected) {
 		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selected));
 		// History.newItem("t;" + selected); // add tag history.
 	}

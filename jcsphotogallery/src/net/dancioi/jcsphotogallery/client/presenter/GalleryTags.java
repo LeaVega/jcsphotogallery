@@ -30,7 +30,7 @@ import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 
 /**
- * Create the albums' categories and return the selected category (tag).
+ * Create the albums' categories and return the selected tag.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision: 42 $ Last modified: $Date: 2012-04-20 05:50:05 +0300 (Fri, 20 Apr 2012) $, by: $Author: dan.cioi@gmail.com $
@@ -57,20 +57,20 @@ public class GalleryTags {
 	private ArrayList<AlbumsTag> getTags(AlbumBean[] albums) {
 		ArrayList<AlbumsTag> result = new ArrayList<AlbumsTag>();
 
-		AlbumsTag tag = new AlbumsTag("All albums", albums);
-		result.add(tag);
-		tag = new AlbumsTag("Recent albums", getAlbumsInReverseOrder(albums));
-		result.add(tag);
+		AlbumsTag albumsTag = new AlbumsTag("All albums", albums);
+		result.add(albumsTag);
+		albumsTag = new AlbumsTag("Recent albums", getAlbumsInReverseOrder(albums));
+		result.add(albumsTag);
 
 		for (AlbumBean album : albums) {
-			String[] categories = album.getCategory();
-			for (String category : categories) {
-				tag = new AlbumsTag(category, album);
-				int indexOfTags = result.indexOf(tag);
+			String[] tags = album.getTags();
+			for (String tag : tags) {
+				albumsTag = new AlbumsTag(tag, album);
+				int indexOfTags = result.indexOf(albumsTag);
 				if (indexOfTags == -1) {// add the tag to list
-					result.add(tag);
+					result.add(albumsTag);
 				} else {// add the album to the existing tag
-					result.get(indexOfTags).addAlbumToCategory(album);
+					result.get(indexOfTags).addAlbumToTags(album);
 				}
 			}
 		}
@@ -160,7 +160,7 @@ public class GalleryTags {
 		StringBuffer result = new StringBuffer();
 		result.append("Tags: ");
 		for (AlbumsTag shownTag : selectedTags) {
-			result.append(shownTag.getCategory() + "; ");
+			result.append(shownTag.getTag() + "; ");
 		}
 		return result.toString();
 	}

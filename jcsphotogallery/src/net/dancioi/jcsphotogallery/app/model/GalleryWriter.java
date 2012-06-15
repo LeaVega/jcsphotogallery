@@ -52,8 +52,7 @@ import org.w3c.dom.Element;
  * This class traverse the JTree and write the modified albums xml files..
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class GalleryWriter extends ElementXML {
@@ -80,16 +79,15 @@ public class GalleryWriter extends ElementXML {
 			if (albumNode.getUserObject() instanceof AlbumBean) {
 				AlbumBean album = (AlbumBean) albumNode.getUserObject();
 
-				System.out.println("album " + albumNode.getUserObject().toString());
 				ArrayList<PictureBean> pictures = new ArrayList<PictureBean>();
 				for (int pictureNr = 0; pictureNr < albumNode.getChildCount(); pictureNr++) {
 					DefaultMutableTreeNode pictureNode = (DefaultMutableTreeNode) albumNode.getChildAt(pictureNr);
 					if (pictureNode.getUserObject() instanceof PictureBean) {
 						pictures.add((PictureBean) pictureNode.getUserObject());
-						System.out.println("album " + albumNode.getUserObject().toString() + " picture " + pictureNode.getUserObject().toString());
 					}
 				}
 				if (album.isEdited()) {
+					System.out.println("Saved album: " + album.getName());
 					saveAlbum(galleryPath + File.separatorChar + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]));
 					album.setEdited(false);
 				}
@@ -97,6 +95,7 @@ public class GalleryWriter extends ElementXML {
 			}
 		}
 		if (gallery.isEdited()) {
+			System.out.println("Saved gallery albums.xml");
 			gallery.setAlbums(albums.toArray(new AlbumBean[albums.size()]));
 			saveGallery(galleryPath + File.separatorChar, gallery);
 			gallery.setEdited(false);

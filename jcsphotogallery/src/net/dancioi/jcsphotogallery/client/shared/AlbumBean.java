@@ -35,11 +35,12 @@ public class AlbumBean implements Thumbnails {
 	private String imgThumbnail;
 	private String folderName;
 	private String name;
-	private String[] category;
+	private String[] tags;
 	private PictureBean[] pictures;
 	private String albumPath;
 	private boolean edited;
 	private int index;
+	private GalleryAlbums parent;
 
 	/**
 	 * Default constructor.
@@ -54,14 +55,14 @@ public class AlbumBean implements Thumbnails {
 	 * @param folderName
 	 * @param name
 	 * @param thumbnail
-	 * @param category
+	 * @param tags
 	 */
-	public AlbumBean(String imgThumbnail, String folderName, String name, String[] category, int index) {
+	public AlbumBean(String imgThumbnail, String folderName, String name, String[] tags, int index) {
 		super();
 		this.imgThumbnail = imgThumbnail;
 		this.folderName = folderName;
 		this.name = name;
-		this.category = category;
+		this.tags = tags;
 		this.index = index;
 	}
 
@@ -91,12 +92,21 @@ public class AlbumBean implements Thumbnails {
 		this.name = name;
 	}
 
-	public String[] getCategory() {
-		return category;
+	public String[] getTags() {
+		return tags;
 	}
 
-	public void setCategory(String[] category) {
-		this.category = category;
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+
+	public String getTagsInOneLine() {
+		StringBuilder lineTags = new StringBuilder();
+		for (String tag : tags) {
+			lineTags.append(tag);
+			lineTags.append(";");
+		}
+		return lineTags.toString();
 	}
 
 	public PictureBean[] getPictures() {
@@ -131,6 +141,14 @@ public class AlbumBean implements Thumbnails {
 	@Override
 	public int getIndex() {
 		return index;
+	}
+
+	public GalleryAlbums getParent() {
+		return parent;
+	}
+
+	public void setParent(GalleryAlbums parent) {
+		this.parent = parent;
 	}
 
 }
