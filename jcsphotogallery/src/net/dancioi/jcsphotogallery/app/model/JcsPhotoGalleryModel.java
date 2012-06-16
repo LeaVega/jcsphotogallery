@@ -42,7 +42,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
@@ -165,7 +164,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	@Override
 	public BufferedImage getPicture(PictureBean picture, int maxSize) {
-		return picturesImport.getPicture(getPicturePath(picture), maxSize);
+		return picturesImport.getPicture(getPicturePath(picture), maxSize, picture.getRotateDegree());
 	}
 
 	public DefaultMutableTreeNode[] createNewGallery(File galleryPath) {
@@ -191,7 +190,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		newAlbum.setEdited(true);
 		galleryAlbums.setEdited(true);
 		newAlbum.setParent(galleryAlbums);
-		progressBar.setValue(0);
+		if (progressBar != null)
+			progressBar.setValue(0);
 
 		DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(newAlbum);
 
@@ -200,6 +200,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		newAlbum.setFolderName(folderName);
 		File albumFolder = new File(appGalleryPath.getAbsolutePath() + File.separatorChar + folderName);
 		newAlbum.setAlbumPath(albumFolder.getAbsolutePath());
+		newAlbum.setTags(new String[] { "No Tag" });
 
 		if (albumFolder.mkdir()) {
 			addIndexHtml(albumFolder);
@@ -342,8 +343,19 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		if (treeNode != null && treeNode.getUserObject() instanceof PictureBean) {
 			currentNode = treeNode;
 			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
-			view.showPicture(pictureBean, treeNode);
-			view.getTree().setSelectionPath(new TreePath(treeNode.getPath()));
+			BufferedImage picture = getPicture(pictureBean, view.getMinPictureViewSize());
+			view.showPicture(pictureBean, picture, treeNode);
+		}
+	}
+
+	private void selectAlbum(DefaultMutableTreeNode treeNode) {
+		if (treeNode != null && treeNode.getUserObject() instanceof AlbumBean) {
+			AlbumBean album = (AlbumBean) treeNode.getUserObject();
+			String thumbnailFileName = album.getImgThumbnail() == null || album.getImgThumbnail().isEmpty() ? "help/imgNotFound.jpg" : album.getImgThumbnail();
+			PictureBean pictureBean = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
+			pictureBean.setParent(album);
+			BufferedImage picture = getPicture(pictureBean, 150);
+			view.showAlbum(album, picture, treeNode);
 		}
 	}
 
@@ -352,8 +364,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		if (treeNode.getUserObject() instanceof PictureBean) {
 			selectPicture(treeNode);
 		} else if (treeNode.getUserObject() instanceof AlbumBean) {
-			AlbumBean albumBean = (AlbumBean) treeNode.getUserObject();
-			view.showAlbum(albumBean, treeNode);
+			selectAlbum(treeNode);
 		} else if (treeNode.getUserObject() instanceof String) {
 			view.showGallery(getGalleryAlbums());
 		}
@@ -367,6 +378,26 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	@Override
 	public void selectPreviousNode() {
 		selectPicture(currentNode.getPreviousNode());
+	}
+
+	@Override
+	public void rotatePictureClockwise() {
+		if (currentNode.getUserObject() instanceof PictureBean) {
+			PictureBean pictureBean = (PictureBean) currentNode.getUserObject();
+			pictureBean.setRotateDegree(pictureBean.getRotateDegree() + 90);
+			selectPicture(currentNode);
+		}
+
+	}
+
+	@Override
+	public void rotatePictureCounterClockwise() {
+		if (currentNode.getUserObject() instanceof PictureBean) {
+			PictureBean pictureBean = (PictureBean) currentNode.getUserObject();
+			pictureBean.setRotateDegree(pictureBean.getRotateDegree() - 90);
+			selectPicture(currentNode);
+		}
+
 	}
 
 }

@@ -81,4 +81,8 @@ public interface JcsPhotoGalleryModelInterface {
 	void selectNode(DefaultMutableTreeNode treeNode);
 
 	void bindView(JcsPhotoGalleryViewInterface view);
+
+	void rotatePictureClockwise();
+
+	void rotatePictureCounterClockwise();
 }

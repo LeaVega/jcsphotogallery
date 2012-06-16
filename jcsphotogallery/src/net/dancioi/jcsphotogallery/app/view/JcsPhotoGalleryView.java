@@ -29,6 +29,7 @@ import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -38,6 +39,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
@@ -160,16 +162,14 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	}
 
 	@Override
-	public void showPicture(PictureBean picture, DefaultMutableTreeNode treeNode) {
-		panelRight.editPicture(picture, model.getPicture(picture, minPictureViewSize), treeNode);
+	public void showPicture(PictureBean pictureBean, BufferedImage picture, DefaultMutableTreeNode treeNode) {
+		panelRight.editPicture(pictureBean, picture, treeNode);
+		getTree().setSelectionPath(new TreePath(treeNode.getPath()));
 	}
 
 	@Override
-	public void showAlbum(AlbumBean album, DefaultMutableTreeNode treeNode) {
-		String thumbnailFileName = album.getImgThumbnail() == null ? "help/imgNotFound.jpg" : album.getImgThumbnail();
-		PictureBean picture = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
-		picture.setParent(album);
-		panelRight.editAlbum(album, model.getPicture(picture, 150), treeNode);
+	public void showAlbum(AlbumBean album, BufferedImage picture, DefaultMutableTreeNode treeNode) {
+		panelRight.editAlbum(album, picture, treeNode);
 
 	}
 
@@ -200,6 +200,11 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	public void selectPicture(DefaultMutableTreeNode destNode) {
 		model.selectNode(destNode);
+	}
+
+	@Override
+	public int getMinPictureViewSize() {
+		return minPictureViewSize;
 	}
 
 }

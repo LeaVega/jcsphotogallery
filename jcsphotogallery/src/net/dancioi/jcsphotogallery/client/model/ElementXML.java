@@ -27,6 +27,7 @@ import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 
@@ -64,12 +65,11 @@ public abstract class ElementXML {
 
 		for (int i = 0; i < albumsCount; i++) {
 			Element elAlbum = (Element) albums.item(i);
-			// TODO keep compatibility
 			String allCategories = null;
 			if (xmlVersion.startsWith("1.1.")) {
 				allCategories = elAlbum.getAttribute("tags");
-			} else if (xmlVersion.startsWith("1.0.")) {// TODO remove this in version 1.1.x
-				allCategories = elAlbum.getAttribute("cat1") + ";" + elAlbum.getAttribute("cat2");
+			} else {
+				Window.alert("Incompatibility between JcsPhotoGallery Web Application and Gallery xml files. \n Please use JcsPhotoGallery desktop application to correct this.");
 			}
 			tags = allCategories.split(";");
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
@@ -98,7 +98,7 @@ public abstract class ElementXML {
 		for (int i = 0; i < images.getLength(); i++) {
 			Element elAlbum = (Element) images.item(i);
 
-			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
+			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), "T" + elAlbum.getAttribute("img"));
 		}
 
 		AlbumBean albumPhotos = new AlbumBean();

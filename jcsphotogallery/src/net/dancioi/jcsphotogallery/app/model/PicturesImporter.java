@@ -26,6 +26,7 @@ package net.dancioi.jcsphotogallery.app.model;
 
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.renderable.ParameterBlock;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.media.jai.InterpolationNearest;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
@@ -61,11 +63,16 @@ public class PicturesImporter {
 	 * @param maxSize
 	 * @return BufferedImage
 	 */
-	public BufferedImage getPicture(String picturePath, int maxSize) {
+	public BufferedImage getPicture(String picturePath, int maxSize, int rotDegree) {
 		System.out.println("PICTURE PATH = " + picturePath);
 		PlanarImage picture = loadPicture(picturePath);
 		double scale = picture.getWidth() > picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
-		return resizePicture(picture, scale);
+		BufferedImage resizePicture = resizePicture(picture, scale);
+		if (rotDegree == 0)
+			return resizePicture;
+		else
+			return rotatePicture(resizePicture, rotDegree);
+
 	}
 
 	/*
@@ -91,6 +98,18 @@ public class PicturesImporter {
 		return resizedImage.getAsBufferedImage();
 	}
 
+	private BufferedImage rotatePicture(BufferedImage bufferedImage, int rotDegree) {
+		float angle = (float) (rotDegree * (Math.PI / 180.0F));
+		ParameterBlock pb = new ParameterBlock();
+		pb.addSource(bufferedImage);
+		pb.add(bufferedImage.getWidth() / 2f); 
+		pb.add(bufferedImage.getHeight() / 2f); 
+		pb.add(angle);
+		pb.add(new InterpolationNearest());
+		RenderedOp rotatedImage = JAI.create("Rotate", pb, null);
+		return rotatedImage.getAsBufferedImage();
+	}
+
 	/**
 	 * Adds picture to gallery.
 	 * 
@@ -106,10 +125,10 @@ public class PicturesImporter {
 		scale = width > height ? configs.getPictureDimension().getWidth() / (double) width : configs.getPictureDimension().getHeight() / (double) height;
 		writePicture(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + ".jpg");
 		scale = width > height ? 200 / (double) width : 150 / (double) height;
-		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + "T" + ".jpg");
+		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + "T" + fileName + ".jpg");
 
 		String[] pictureName = sourcePicture.getName().toLowerCase().split(".jpg");
-		PictureBean pictureBean = new PictureBean(pictureName[0], fileName + ".jpg", "", fileName + "T.jpg");
+		PictureBean pictureBean = new PictureBean(pictureName[0], fileName + ".jpg", "", "T" + fileName + ".jpg");
 		return pictureBean;
 	}
 

@@ -128,7 +128,6 @@ public class Preferences extends JFrame {
 	}
 
 	private void intialize() {
-		// TODO Auto-generated method stub
 		setPreviousValues();
 
 		setVisible(true);

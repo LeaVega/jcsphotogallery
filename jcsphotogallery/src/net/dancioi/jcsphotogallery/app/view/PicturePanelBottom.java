@@ -60,6 +60,9 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	private PictureBean editedPicture;
 	private DefaultMutableTreeNode treeNode;
 
+	private JButton rotateClockwise;
+	private JButton rotateCounterClockwise;
+
 	public PicturePanelBottom(UpdateTree tree) {
 		this.tree = tree;
 		initialize();
@@ -73,16 +76,37 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 
 	private JPanel controllPanel() {
 		JPanel controll = new JPanel();
+		controll.add(navigateButtons(), BorderLayout.LINE_START);
+		controll.add(rotateButtons(), BorderLayout.LINE_END);
+		return controll;
+	}
+
+	private JPanel navigateButtons() {
+		JPanel navigatePanel = new JPanel();
 		previous = new JButton("Previous");
 		previous.setPreferredSize(new Dimension(100, 32));
 
 		next = new JButton("Next");
 		next.setPreferredSize(new Dimension(100, 32));
 
-		controll.add(previous, BorderLayout.LINE_START);
-		controll.add(next, BorderLayout.LINE_END);
+		navigatePanel.add(previous, BorderLayout.LINE_START);
+		navigatePanel.add(next, BorderLayout.LINE_END);
 
-		return controll;
+		return navigatePanel;
+	}
+
+	private JPanel rotateButtons() {
+		JPanel rotatePanel = new JPanel();
+		rotateClockwise = new JButton("Clockwise");
+		rotateClockwise.setPreferredSize(new Dimension(100, 32));
+
+		rotateCounterClockwise = new JButton("Counterclockwise");
+		rotateCounterClockwise.setPreferredSize(new Dimension(100, 32));
+
+		rotatePanel.add(rotateCounterClockwise, BorderLayout.LINE_START);
+		rotatePanel.add(rotateClockwise, BorderLayout.LINE_END);
+
+		return rotatePanel;
 	}
 
 	private JPanel imageEditPanel() {
@@ -129,6 +153,9 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	public void attachActions(JcsPhotoGalleryControllerInterface controller) {
 		previous.addActionListener(controller.addPreviousPictureActionListener());
 		next.addActionListener(controller.addNextPictureActionListener());
+
+		rotateClockwise.addActionListener(controller.addRotatePictureClockwiseActionListener());
+		rotateCounterClockwise.addActionListener(controller.addRotatePictureCounterClockwiseActionListener());
 	}
 
 	public void setCurrentPictureBean(PictureBean pictureBean, DefaultMutableTreeNode treeNode) {

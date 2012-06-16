@@ -37,7 +37,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * Files manipulation.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: $ Last modified: $Date: $, by: $Author: $
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class GalleryFiles {
 

@@ -380,6 +380,26 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	}
 
 	@Override
+	public ActionListener addRotatePictureClockwiseActionListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model.rotatePictureClockwise();
+			}
+		};
+	}
+
+	@Override
+	public ActionListener addRotatePictureCounterClockwiseActionListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model.rotatePictureCounterClockwise();
+			}
+		};
+	}
+
+	@Override
 	public boolean isGalleryCreated() {
 		return model.getAppGalleryPath() == null ? false : true;
 	}

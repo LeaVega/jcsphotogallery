@@ -34,14 +34,11 @@ package net.dancioi.jcsphotogallery.client.shared;
 public class PictureBean implements Thumbnails {
 
 	private String name;
-
 	private String fileName;
-
 	private String description;
-
 	private String imgThumbnail;
-
 	private AlbumBean parent;
+	private int rotateDegree = 0;
 
 	public PictureBean(String name, String fileName, String description, String imgThumbnail) {
 		super();
@@ -83,6 +80,14 @@ public class PictureBean implements Thumbnails {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getRotateDegree() {
+		return rotateDegree;
+	}
+
+	public void setRotateDegree(int rotateDegree) {
+		this.rotateDegree = rotateDegree;
 	}
 
 	@Override

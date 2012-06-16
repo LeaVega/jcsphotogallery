@@ -30,13 +30,16 @@ import java.awt.event.ActionListener;
  * JcsPhotoGallery's Controller interface.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-03-20 22:39:16 +0200
- *          (Tue, 20 Mar 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public interface JcsPhotoGalleryControllerInterface {
 
 	ActionListener addNextPictureActionListener();
 
 	ActionListener addPreviousPictureActionListener();
+
+	ActionListener addRotatePictureClockwiseActionListener();
+
+	ActionListener addRotatePictureCounterClockwiseActionListener();
 
 }

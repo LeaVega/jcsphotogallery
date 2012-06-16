@@ -89,7 +89,7 @@ public abstract class ElementXML {
 		for (int i = 0; i < images.getLength(); i++) {
 			Element elAlbum = (Element) images.item(i);
 
-			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), elAlbum.getAttribute("imgt"));
+			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), "T" + elAlbum.getAttribute("img"));
 		}
 
 		return pictures;
@@ -102,9 +102,7 @@ public abstract class ElementXML {
 		for (PictureBean picture : pictures) {
 
 			Element photoElement = doc.createElement("i");
-			// use short name to reduce the xml file's size
 
-			photoElement.setAttribute("imgt", picture.getImgThumbnail());
 			photoElement.setAttribute("img", picture.getFileName());
 			photoElement.setAttribute("name", picture.getName());
 			photoElement.setAttribute("comment", picture.getDescription());

@@ -25,6 +25,7 @@
 package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.event.WindowAdapter;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JMenuBar;
 import javax.swing.JProgressBar;
@@ -56,9 +57,9 @@ public interface JcsPhotoGalleryViewInterface {
 
 	void addPicturesToAnExistingAlbum(DefaultMutableTreeNode addPicturesToExistingAlbum);
 
-	void showPicture(PictureBean picture, DefaultMutableTreeNode treeNode);
+	void showPicture(PictureBean pictureBean, BufferedImage picture, DefaultMutableTreeNode treeNode);
 
-	void showAlbum(AlbumBean albumBean, DefaultMutableTreeNode treeNode);
+	void showAlbum(AlbumBean albumBean, BufferedImage picture, DefaultMutableTreeNode treeNode);
 
 	void showGallery(GalleryAlbums galleryAlbums);
 
@@ -67,5 +68,7 @@ public interface JcsPhotoGalleryViewInterface {
 	void addCloseWindowListener(WindowAdapter windowAdapter);
 
 	JProgressBar getProgressBar();
+
+	int getMinPictureViewSize();
 
 }

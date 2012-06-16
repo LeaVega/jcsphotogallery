@@ -35,7 +35,7 @@ import javax.swing.JTextArea;
  * Shows the delete result. Just in case when a file could not be delete (returned false).
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: $ Last modified: $Date: $, by: $Author: $
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
 public class DeleteReport extends JFrame {
