@@ -114,6 +114,14 @@ public class GalleryFiles {
 		}
 	}
 
+	public void deleteFiles(File[] filePaths) {
+		StringBuilder deleteReport = new StringBuilder();
+		for (File filePath : filePaths) {
+			deleteFile(filePath, deleteReport);
+		}
+
+		checkDeleteReport(deleteReport);
+	}
 }
 
 class DeleteLater implements Runnable {

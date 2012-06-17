@@ -24,9 +24,11 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.media.jai.PlanarImage;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -60,11 +62,15 @@ public class GalleryWriter extends ElementXML {
 	private GalleryAlbums gallery;
 	private JTree jTree;
 	private String galleryPath;
+	private GalleryIO galleryIO;
+	private JcsPhotoGalleryModel model;
 
-	public GalleryWriter(GalleryAlbums gallery, JTree jTree, String galleryPath) {
-		this.gallery = gallery;
+	public GalleryWriter(JcsPhotoGalleryModel model, JTree jTree) {
+		this.model = model;
+		this.gallery = model.getGalleryAlbums();
 		this.jTree = jTree;
-		this.galleryPath = galleryPath;
+		this.galleryPath = model.getAppGalleryPath().getAbsolutePath();
+		galleryIO = new GalleryIO();
 		saveChanges();
 	}
 
@@ -72,6 +78,7 @@ public class GalleryWriter extends ElementXML {
 		DefaultTreeModel treeNode = (DefaultTreeModel) jTree.getModel();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeNode.getRoot();
 
+		ArrayList<File> filesToBeDeleted = new ArrayList<File>();
 		ArrayList<AlbumBean> albums = new ArrayList<AlbumBean>();
 
 		for (int albumsNr = 0; albumsNr < root.getChildCount(); albumsNr++) {
@@ -88,7 +95,7 @@ public class GalleryWriter extends ElementXML {
 				}
 				if (album.isEdited()) {
 					System.out.println("Saved album: " + album.getName());
-					saveAlbum(galleryPath + File.separatorChar + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]));
+					saveAlbum(galleryPath + File.separator + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]), filesToBeDeleted);
 					album.setEdited(false);
 				}
 				albums.add(album);
@@ -97,20 +104,51 @@ public class GalleryWriter extends ElementXML {
 		if (gallery.isEdited()) {
 			System.out.println("Saved gallery albums.xml");
 			gallery.setAlbums(albums.toArray(new AlbumBean[albums.size()]));
-			saveGallery(galleryPath + File.separatorChar, gallery);
+			saveGallery(galleryPath + File.separator, gallery);
 			gallery.setEdited(false);
 		}
+
+		File[] files = filesToBeDeleted.toArray(new File[filesToBeDeleted.size()]);
+		model.deletePicturesByFilePath(files);
 	}
 
-	public void saveAlbum(String albumFolder, PictureBean[] pictures) {
+	private void saveAlbum(String albumFolder, PictureBean[] pictures, ArrayList<File> filesToBeDeleted) {
+		saveRotatedPictures(pictures, filesToBeDeleted);
+
 		Document doc;
 		try {
 			doc = getDocument();
 			getAlbumPicturesElements(doc, pictures);
-			writeFileXML(albumFolder + File.separatorChar + "album.xml", doc);
+			writeFileXML(albumFolder + File.separator + "album.xml", doc);
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	// TODO change imgThumbnail for parent (album) with the new file name.
+	// TODO can't delete file if selected - move the selected node
+	private void saveRotatedPictures(PictureBean[] pictures, ArrayList<File> filesToBeDeleted) {
+		for (PictureBean picture : pictures) {
+			if (picture.getRotateDegree() % 360 != 0) {
+				String picturePath = galleryPath + File.separator + picture.getParent().getFolderName() + File.separator;
+				filesToBeDeleted.add(new File(picturePath + picture.getFileName()));
+				filesToBeDeleted.add(new File(picturePath + picture.getImgThumbnail()));
+
+				PlanarImage loadedPicture = galleryIO.loadPicture(picturePath + picture.getFileName());
+				BufferedImage rotatedPicture = galleryIO.rotatePicture(loadedPicture.getAsBufferedImage(), picture.getRotateDegree());
+				picture.setFileName("R" + picture.getFileName());
+				galleryIO.writePicture(rotatedPicture, picturePath + picture.getFileName());
+
+				PlanarImage loadedPictureThumbnail = galleryIO.loadPicture(picturePath + picture.getImgThumbnail());
+				BufferedImage rotatedPictureThumbnail = galleryIO.rotatePicture(loadedPictureThumbnail.getAsBufferedImage(), picture.getRotateDegree());
+				picture.setImgThumbnail("T" + picture.getFileName());
+				galleryIO.writePicture(rotatedPictureThumbnail, picturePath + picture.getImgThumbnail());
+
+				picture.setRotateDegree(0); // reset the rotation for the new one.
+			}
+		}
+
 	}
 
 	public void saveGallery(String galleryPayh, GalleryAlbums gallery) {

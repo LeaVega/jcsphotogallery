@@ -266,7 +266,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	@Override
 	public void saveGalleryChanges(JTree jTree) {
-		new GalleryWriter(getGalleryAlbums(), jTree, appGalleryPath.getAbsolutePath());
+		new GalleryWriter(this, jTree);
 		saveSettings();
 	}
 
@@ -314,6 +314,10 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 	@Override
 	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination) {
 		galleryFiles.copyPicture(picture, albumSource, albumDestination);
+	}
+
+	public void deletePicturesByFilePath(File[] filePaths) {
+		galleryFiles.deleteFiles(filePaths);
 	}
 
 	@Override
@@ -385,6 +389,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		if (currentNode.getUserObject() instanceof PictureBean) {
 			PictureBean pictureBean = (PictureBean) currentNode.getUserObject();
 			pictureBean.setRotateDegree(pictureBean.getRotateDegree() + 90);
+			pictureBean.getParent().setEdited(true);
 			selectPicture(currentNode);
 		}
 
@@ -395,6 +400,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 		if (currentNode.getUserObject() instanceof PictureBean) {
 			PictureBean pictureBean = (PictureBean) currentNode.getUserObject();
 			pictureBean.setRotateDegree(pictureBean.getRotateDegree() - 90);
+			pictureBean.getParent().setEdited(true);
 			selectPicture(currentNode);
 		}
 

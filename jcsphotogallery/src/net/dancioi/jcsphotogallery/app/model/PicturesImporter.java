@@ -26,16 +26,8 @@ package net.dancioi.jcsphotogallery.app.model;
 
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.awt.image.renderable.ParameterBlock;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.media.jai.InterpolationNearest;
-import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.SubsampleAverageDescriptor;
@@ -49,7 +41,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
-public class PicturesImporter {
+public class PicturesImporter extends GalleryIO {
 	private Configs configs;
 
 	public PicturesImporter(Configs configs) {
@@ -66,7 +58,7 @@ public class PicturesImporter {
 	public BufferedImage getPicture(String picturePath, int maxSize, int rotDegree) {
 		System.out.println("PICTURE PATH = " + picturePath);
 		PlanarImage picture = loadPicture(picturePath);
-		double scale = picture.getWidth() > picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
+		double scale = picture.getWidth() > picture.getHeight() && rotDegree % 180 == 0 ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
 		BufferedImage resizePicture = resizePicture(picture, scale);
 		if (rotDegree == 0)
 			return resizePicture;
@@ -76,38 +68,13 @@ public class PicturesImporter {
 	}
 
 	/*
-	 * Loads picture by filepath.
-	 */
-	private PlanarImage loadPicture(String picturePath) {
-		PlanarImage picture = null;
-		try {
-			picture = JAI.create("fileload", picturePath);
-		} catch (IllegalArgumentException e) {
-			picture = JAI.create("fileload", "help/imgNotFound.jpg");
-		}
-		return picture;
-	}
-
-	/*
 	 * Resizes the picture with scale factor.
 	 */
-	public BufferedImage resizePicture(PlanarImage picture, double scale) {
+	private BufferedImage resizePicture(PlanarImage picture, double scale) {
 		System.out.println("SCALE=" + scale);
 		RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		RenderedOp resizedImage = SubsampleAverageDescriptor.create(picture, scale, scale, qualityHints);
 		return resizedImage.getAsBufferedImage();
-	}
-
-	private BufferedImage rotatePicture(BufferedImage bufferedImage, int rotDegree) {
-		float angle = (float) (rotDegree * (Math.PI / 180.0F));
-		ParameterBlock pb = new ParameterBlock();
-		pb.addSource(bufferedImage);
-		pb.add(bufferedImage.getWidth() / 2f); 
-		pb.add(bufferedImage.getHeight() / 2f); 
-		pb.add(angle);
-		pb.add(new InterpolationNearest());
-		RenderedOp rotatedImage = JAI.create("Rotate", pb, null);
-		return rotatedImage.getAsBufferedImage();
 	}
 
 	/**
@@ -130,51 +97,6 @@ public class PicturesImporter {
 		String[] pictureName = sourcePicture.getName().toLowerCase().split(".jpg");
 		PictureBean pictureBean = new PictureBean(pictureName[0], fileName + ".jpg", "", "T" + fileName + ".jpg");
 		return pictureBean;
-	}
-
-	/*
-	 * Writes the picture as jpeg file to gallery.
-	 */
-	private boolean writePicture(BufferedImage picture, String picturePath) {
-		return writeImageWithJAI(picture, picturePath);
-	}
-
-	/*
-	 * Writes the thumbnail.
-	 */
-	private boolean writeThumbnail(BufferedImage picture, String picturePath) {
-		return writeImageWithJAI(picture, picturePath);
-	}
-
-	private boolean writeImageWithJAI(BufferedImage picture, String picturePath) {
-		try {
-			BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(picturePath));
-			JAI.create("encode", picture, output, "JPEG", null);
-			output.flush();
-			output.close();
-			return true;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	private boolean writeFileWithImageIO(BufferedImage img, String fileName) {
-		try {
-			File outputfile = new File(fileName);
-			ImageIO.write(img, "jpg", outputfile);
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
-
-	}
-
-	public void copyToGallery() {
 	}
 
 }
