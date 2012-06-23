@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.Label;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class BottomPanel extends AbsolutePanel {
-
+	// TODO for version 1.1.2, add function to remove tag by clicking on it.
 	private PageController galleryControll;
 	private Label pageNr; // page number label.
 	private Label albumLabel; // album label.

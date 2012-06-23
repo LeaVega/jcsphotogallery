@@ -31,7 +31,6 @@ import java.nio.channels.FileChannel;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import net.dancioi.jcsphotogallery.app.view.DeleteReport;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -82,9 +81,9 @@ public class GalleryFiles {
 	}
 
 	private void checkDeleteReport(StringBuilder result) {
-		if (result.indexOf(": false") != -1) {
-			new DeleteReport(result);
-		}
+		/*
+		 * if (result.indexOf(": false") != -1) { new DeleteReport(result); }
+		 */
 		System.out.println(result.toString());
 	}
 

@@ -30,6 +30,7 @@ import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,11 +84,13 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 
 	private JPanel navigateButtons() {
 		JPanel navigatePanel = new JPanel();
-		previous = new JButton("Previous");
-		previous.setPreferredSize(new Dimension(100, 32));
+		previous = new JButton();
+		previous.setPreferredSize(new Dimension(76, 44));
+		previous.setIcon(new ImageIcon("icons/controlPrevious.png"));
 
-		next = new JButton("Next");
-		next.setPreferredSize(new Dimension(100, 32));
+		next = new JButton();
+		next.setPreferredSize(new Dimension(76, 44));
+		next.setIcon(new ImageIcon("icons/controlNext.png"));
 
 		navigatePanel.add(previous, BorderLayout.LINE_START);
 		navigatePanel.add(next, BorderLayout.LINE_END);
@@ -97,11 +100,13 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 
 	private JPanel rotateButtons() {
 		JPanel rotatePanel = new JPanel();
-		rotateClockwise = new JButton("Clockwise");
-		rotateClockwise.setPreferredSize(new Dimension(100, 32));
+		rotateClockwise = new JButton();
+		rotateClockwise.setPreferredSize(new Dimension(76, 44));
+		rotateClockwise.setIcon(new ImageIcon("icons/controlRotRight.png"));
 
-		rotateCounterClockwise = new JButton("Counterclockwise");
-		rotateCounterClockwise.setPreferredSize(new Dimension(100, 32));
+		rotateCounterClockwise = new JButton();
+		rotateCounterClockwise.setPreferredSize(new Dimension(76, 44));
+		rotateCounterClockwise.setIcon(new ImageIcon("icons/controlRotLeft.png"));
 
 		rotatePanel.add(rotateCounterClockwise, BorderLayout.LINE_START);
 		rotatePanel.add(rotateClockwise, BorderLayout.LINE_END);
