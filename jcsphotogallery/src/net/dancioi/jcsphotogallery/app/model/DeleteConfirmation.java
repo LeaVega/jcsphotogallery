@@ -1,7 +1,7 @@
 /*	
- * 	File    : UpdateTree.java
+ * 	File    : DeleteConfirmation.java
  * 
- * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -21,20 +21,15 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
-package net.dancioi.jcsphotogallery.app.view;
-
-import javax.swing.tree.DefaultMutableTreeNode;
+package net.dancioi.jcsphotogallery.app.model;
 
 /**
- * Interface to update the left JTree.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
+public interface DeleteConfirmation {
 
-public interface UpdateTree {
-
-	void updateNode(DefaultMutableTreeNode treeNode);
+	boolean confirmDeleteFiles();
 
 }

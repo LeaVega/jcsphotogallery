@@ -71,4 +71,6 @@ public interface JcsPhotoGalleryViewInterface {
 
 	int getMinPictureViewSize();
 
+	boolean askForDeleteConfirmation();
+
 }

@@ -126,14 +126,15 @@ public class GalleryWriter extends ElementXML {
 
 	}
 
-	// TODO change imgThumbnail for parent (album) with the new file name.
-	// TODO can't delete file if selected - move the selected node
 	private void saveRotatedPictures(PictureBean[] pictures, ArrayList<File> filesToBeDeleted) {
 		for (PictureBean picture : pictures) {
 			if (picture.getRotateDegree() % 360 != 0) {
 				String picturePath = galleryPath + File.separator + picture.getParent().getFolderName() + File.separator;
 				filesToBeDeleted.add(new File(picturePath + picture.getFileName()));
 				filesToBeDeleted.add(new File(picturePath + picture.getImgThumbnail()));
+
+				if (picture.getParent().getImgThumbnail().equals(picture.getImgThumbnail()))
+					picture.getParent().setImgThumbnail("TR" + picture.getFileName());
 
 				PlanarImage loadedPicture = galleryIO.loadPicture(picturePath + picture.getFileName());
 				BufferedImage rotatedPicture = galleryIO.rotatePicture(loadedPicture.getAsBufferedImage(), picture.getRotateDegree());

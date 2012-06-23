@@ -55,14 +55,12 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  */
 
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {
-	// TODO function to rotate the imported pictures clockwise and counterclockwise
 	// TODO do not cache xml files
-	// TODO when delete an album or picture immediately save the xml files (just if delete from hd is enable)/ or keep a track with delete operations and execute it at save action.
 
 	private static final long serialVersionUID = 1L;
 	protected static final Object AlbumBean = null;
 	protected static final String PictureBean = null;
-	private JcsPhotoGalleryView view; // TODO later
+	private JcsPhotoGalleryView view;
 	private JTree tree;
 	private DefaultMutableTreeNode root;
 

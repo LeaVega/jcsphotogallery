@@ -58,7 +58,9 @@ public class PicturesImporter extends GalleryIO {
 	public BufferedImage getPicture(String picturePath, int maxSize, int rotDegree) {
 		System.out.println("PICTURE PATH = " + picturePath);
 		PlanarImage picture = loadPicture(picturePath);
-		double scale = picture.getWidth() > picture.getHeight() && rotDegree % 180 == 0 ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
+		double scale = picture.getWidth() < picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
+		if (scale > 1)
+			scale = 1;
 		BufferedImage resizePicture = resizePicture(picture, scale);
 		if (rotDegree == 0)
 			return resizePicture;

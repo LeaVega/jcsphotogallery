@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
@@ -205,6 +206,12 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	@Override
 	public int getMinPictureViewSize() {
 		return minPictureViewSize;
+	}
+
+	@Override
+	public boolean askForDeleteConfirmation() {
+		int confirmation = JOptionPane.showConfirmDialog(null, "Should also be deleted the jpg files for removed pictures?", "Delete question", JOptionPane.YES_NO_OPTION);
+		return confirmation == 1 ? true : false;
 	}
 
 }

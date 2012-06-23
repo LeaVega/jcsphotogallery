@@ -36,12 +36,14 @@ import java.io.Serializable;
  */
 public class Configs implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
+	private transient DeleteConfirmation deleteConfirmation;
 	private File galleryPath;
 	private Dimension pictureDimension;
-	private boolean removePictures;
+	private int removePictures = -1;
 
-	public Configs(Dimension pictureDimension, boolean removePictures) {
+	public Configs(DeleteConfirmation deleteConfirmation, Dimension pictureDimension, int removePictures) {
+		this.deleteConfirmation = deleteConfirmation;
 		this.pictureDimension = pictureDimension;
 		this.removePictures = removePictures;
 	}
@@ -63,11 +65,19 @@ public class Configs implements Serializable {
 	}
 
 	public boolean isRemovePictures() {
-		return removePictures;
+		if (removePictures == 1)
+			return true;
+		else if (removePictures == 0)
+			return false;
+		else {
+			boolean confirmDeleteFiles = deleteConfirmation.confirmDeleteFiles();
+			removePictures = confirmDeleteFiles ? 1 : 0;
+			return confirmDeleteFiles;
+		}
 	}
 
 	public void setRemovePictures(boolean removePictures) {
-		this.removePictures = removePictures;
+		this.removePictures = 1;
 	}
 
 	public static long getSerialversionuid() {

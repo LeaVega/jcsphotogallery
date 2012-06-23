@@ -54,7 +54,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
+public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, DeleteConfirmation {
 
 	private Configs configs;
 	private File appGalleryPath;
@@ -90,7 +90,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			previousConfigs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
 			System.out.println("The configs.cfg file is missing. It happens just first time when you run the application");
-			previousConfigs = new Configs(new Dimension(1200, 900), false);
+			previousConfigs = new Configs(this, new Dimension(1200, 900), -1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -266,8 +266,13 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 
 	@Override
 	public void saveGalleryChanges(JTree jTree) {
+		// select the root node to avoid issue deleting an in use resource.
+		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
+		selectNode((DefaultMutableTreeNode) treeModel.getRoot());
+
 		new GalleryWriter(this, jTree);
 		saveSettings();
+		galleryFiles.executeQueuedDeleteOperations();
 	}
 
 	@Override
@@ -358,7 +363,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			String thumbnailFileName = album.getImgThumbnail() == null || album.getImgThumbnail().isEmpty() ? "help/imgNotFound.jpg" : album.getImgThumbnail();
 			PictureBean pictureBean = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
 			pictureBean.setParent(album);
-			BufferedImage picture = getPicture(pictureBean, 150);
+			BufferedImage picture = getPicture(pictureBean, 200);
 			view.showAlbum(album, picture, treeNode);
 		}
 	}
@@ -404,6 +409,11 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface {
 			selectPicture(currentNode);
 		}
 
+	}
+
+	@Override
+	public boolean confirmDeleteFiles() {
+		return view.askForDeleteConfirmation();
 	}
 
 }

@@ -28,6 +28,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import net.dancioi.jcsphotogallery.app.view.DeleteReport;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
@@ -42,12 +44,25 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 public class GalleryFiles {
 
 	private JcsPhotoGalleryModel model;
+	private Queue<File> deleteQueue = new LinkedList<File>();
 
 	public GalleryFiles(JcsPhotoGalleryModel model) {
 		this.model = model;
 	}
 
-	// TODO ask just first time if want to delete also the files
+	private void addToDelete(File file) {
+		deleteQueue.add(file);
+	}
+
+	public void executeQueuedDeleteOperations() {
+		System.gc(); // gc is called but is not guaranteed to execute before deleteFile method. Thus, delete will run in a thread trying 10 times to delete the file. This is required just on Windows
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < deleteQueue.size(); i++) {
+			deleteFile(deleteQueue.poll(), result);
+		}
+		checkDeleteReport(result);
+	}
+
 	private StringBuilder deleteFile(File file, StringBuilder result) {
 		if (file.isDirectory()) {
 			for (File child : file.listFiles()) {
@@ -73,16 +88,13 @@ public class GalleryFiles {
 	}
 
 	public void deleteAlbum(AlbumBean albumToDelete) {
-		System.gc(); // gc is called but is not guaranteed to execute before deleteFile method. Thus, delete will run in a thread trying 10 times to delete the file. This is required just on Windows
-		checkDeleteReport(deleteFile(new File(model.getAppGalleryPath() + File.separator + albumToDelete.getFolderName()), new StringBuilder()));
+		addToDelete(new File(model.getAppGalleryPath() + File.separator + albumToDelete.getFolderName()));
 	}
 
 	public void deletePicture(PictureBean picture) {
-		System.gc(); // this is required just on windows because the picture.getFileName() remains as used resource even if it is not used (the new copied file is selected)
 		String pictureBeanPath = model.getAppGalleryPath() + File.separator + picture.getParent().getFolderName() + File.separator;
-		StringBuilder deleteImgFile = deleteFile(new File(pictureBeanPath + picture.getFileName()), new StringBuilder());
-		StringBuilder deleteThumbnailFile = deleteFile(new File(pictureBeanPath + picture.getImgThumbnail()), new StringBuilder());
-		checkDeleteReport(deleteImgFile.append(deleteThumbnailFile));
+		addToDelete(new File(pictureBeanPath + picture.getFileName()));
+		addToDelete(new File(pictureBeanPath + picture.getImgThumbnail()));
 	}
 
 	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination) {
@@ -115,12 +127,9 @@ public class GalleryFiles {
 	}
 
 	public void deleteFiles(File[] filePaths) {
-		StringBuilder deleteReport = new StringBuilder();
 		for (File filePath : filePaths) {
-			deleteFile(filePath, deleteReport);
+			addToDelete(filePath);
 		}
-
-		checkDeleteReport(deleteReport);
 	}
 }
 

@@ -218,7 +218,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuAbout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO here
+				// TODO here About frame
 
 			}
 		});
@@ -343,7 +343,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		if (treeNode.getUserObject() instanceof PictureBean) {
 			PictureBean pictureBean = (PictureBean) treeNode.getUserObject();
 			AlbumBean album = pictureBean.getParent();
-			album.setImgThumbnail(pictureBean.getFileName());
+			album.setImgThumbnail(pictureBean.getImgThumbnail());
 			album.getParent().setEdited(true);
 		}
 
