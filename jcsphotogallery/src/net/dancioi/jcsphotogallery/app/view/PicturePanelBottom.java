@@ -135,7 +135,6 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		System.out.println("***  picture panel ");
 		if (e.getSource() instanceof JTextField) {
 			if (e.isTemporary())
 				return;

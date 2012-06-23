@@ -94,7 +94,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 
 	private void frameResizeEvent(ComponentEvent e) {
 		minPictureViewSize = panelRight.getImageViewerMinSize();
-		System.out.println(e.getComponent().getWidth() + "  " + e.getComponent().getHeight());
+		// System.out.println(e.getComponent().getWidth() + "  " + e.getComponent().getHeight());
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	@Override
 	public boolean askForDeleteConfirmation() {
 		int confirmation = JOptionPane.showConfirmDialog(null, "Should also be deleted the jpg files for removed pictures?", "Delete question", JOptionPane.YES_NO_OPTION);
-		return confirmation == 1 ? true : false;
+		return confirmation == 0 ? true : false;
 	}
 
 }

@@ -133,7 +133,7 @@ public class GalleryWriter extends ElementXML {
 				filesToBeDeleted.add(new File(picturePath + picture.getFileName()));
 				filesToBeDeleted.add(new File(picturePath + picture.getImgThumbnail()));
 
-				if (picture.getParent().getImgThumbnail().equals(picture.getImgThumbnail()))
+				if (picture.getParent().getImgThumbnail() != null && picture.getParent().getImgThumbnail().equals(picture.getImgThumbnail()))
 					picture.getParent().setImgThumbnail("TR" + picture.getFileName());
 
 				PlanarImage loadedPicture = galleryIO.loadPicture(picturePath + picture.getFileName());

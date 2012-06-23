@@ -58,7 +58,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 
 	private int currentAlbumId;
 
-	private int galleryAlbumsCurrentPage = 1;// TODO keep this to return the last page.
+	private int galleryAlbumsCurrentPage = 1;
 
 	public JcsPhotoGalleryPresenter(Model model, View view) {
 		this.model = model;

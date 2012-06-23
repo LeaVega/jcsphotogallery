@@ -36,16 +36,19 @@ import java.io.Serializable;
  */
 public class Configs implements Serializable {
 
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 	private transient DeleteConfirmation deleteConfirmation;
 	private File galleryPath;
 	private Dimension pictureDimension;
 	private int removePictures = -1;
 
-	public Configs(DeleteConfirmation deleteConfirmation, Dimension pictureDimension, int removePictures) {
-		this.deleteConfirmation = deleteConfirmation;
+	public Configs(Dimension pictureDimension, int removePictures) {
 		this.pictureDimension = pictureDimension;
 		this.removePictures = removePictures;
+	}
+
+	public void setDeleteConfirmation(DeleteConfirmation deleteConfirmation) {
+		this.deleteConfirmation = deleteConfirmation;
 	}
 
 	public File getGalleryPath() {

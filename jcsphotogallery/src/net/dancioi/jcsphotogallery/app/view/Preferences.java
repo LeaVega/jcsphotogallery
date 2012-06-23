@@ -59,7 +59,6 @@ public class Preferences extends JFrame {
 		this.configs = configs;
 		setTitle("Preferences");
 		this.setMinimumSize(new Dimension(450, 300));
-		// this.setPreferredSize(new Dimension(500, 400));
 		this.setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
@@ -84,8 +83,8 @@ public class Preferences extends JFrame {
 		btnCancel.setBounds(209, 239, 91, 23);
 		panel.add(btnCancel);
 
-		chckbxWhenRemoveA = new JCheckBox("When remove a picture from gallery should be also removed from hardisk?");
-		chckbxWhenRemoveA.setBounds(16, 176, 426, 44);
+		chckbxWhenRemoveA = new JCheckBox("Remove also the .jpg files for deleted pictures");
+		chckbxWhenRemoveA.setBounds(16, 136, 426, 44);
 		panel.add(chckbxWhenRemoveA);
 
 		JPanel panelPictureSize = new JPanel();

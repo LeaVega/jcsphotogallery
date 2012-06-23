@@ -33,7 +33,7 @@ import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
  * Create the albums' categories and return the selected tag.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 42 $ Last modified: $Date: 2012-04-20 05:50:05 +0300 (Fri, 20 Apr 2012) $, by: $Author: dan.cioi@gmail.com $
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class GalleryTags {
 

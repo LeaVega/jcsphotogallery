@@ -57,8 +57,9 @@ public class GalleryFiles {
 	public void executeQueuedDeleteOperations() {
 		System.gc(); // gc is called but is not guaranteed to execute before deleteFile method. Thus, delete will run in a thread trying 10 times to delete the file. This is required just on Windows
 		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < deleteQueue.size(); i++) {
-			deleteFile(deleteQueue.poll(), result);
+		int queSize = deleteQueue.size();
+		for (int i = 0; i < queSize; i++) {
+			deleteFile(deleteQueue.remove(), result);
 		}
 		checkDeleteReport(result);
 	}

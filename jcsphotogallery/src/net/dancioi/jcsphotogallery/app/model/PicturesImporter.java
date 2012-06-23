@@ -56,11 +56,9 @@ public class PicturesImporter extends GalleryIO {
 	 * @return BufferedImage
 	 */
 	public BufferedImage getPicture(String picturePath, int maxSize, int rotDegree) {
-		System.out.println("PICTURE PATH = " + picturePath);
+		// System.out.println("PICTURE PATH = " + picturePath);
 		PlanarImage picture = loadPicture(picturePath);
 		double scale = picture.getWidth() < picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
-		if (scale > 1)
-			scale = 1;
 		BufferedImage resizePicture = resizePicture(picture, scale);
 		if (rotDegree == 0)
 			return resizePicture;
@@ -73,7 +71,9 @@ public class PicturesImporter extends GalleryIO {
 	 * Resizes the picture with scale factor.
 	 */
 	private BufferedImage resizePicture(PlanarImage picture, double scale) {
-		System.out.println("SCALE=" + scale);
+		if (scale > 1)
+			scale = 1;
+		// System.out.println("SCALE=" + scale);
 		RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		RenderedOp resizedImage = SubsampleAverageDescriptor.create(picture, scale, scale, qualityHints);
 		return resizedImage.getAsBufferedImage();
@@ -91,9 +91,9 @@ public class PicturesImporter extends GalleryIO {
 		int width = picture.getWidth();
 		int height = picture.getHeight();
 		double scale = 1;
-		scale = width > height ? configs.getPictureDimension().getWidth() / (double) width : configs.getPictureDimension().getHeight() / (double) height;
+		scale = width > height ? configs.getPictureDimension().getWidth() / (double) width : configs.getPictureDimension().getWidth() / (double) height;
 		writePicture(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + ".jpg");
-		scale = width > height ? 200 / (double) width : 150 / (double) height;
+		scale = width > height ? 200 / (double) width : 200 / (double) height;
 		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + "T" + fileName + ".jpg");
 
 		String[] pictureName = sourcePicture.getName().toLowerCase().split(".jpg");
