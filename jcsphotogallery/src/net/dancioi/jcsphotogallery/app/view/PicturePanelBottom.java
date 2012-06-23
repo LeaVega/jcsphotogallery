@@ -144,11 +144,6 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		}
 	}
 
-	private String validateText(String text) {
-		// TODO check the text to exclude html tags etc.
-		return text;
-	}
-
 	public void attachActions(JcsPhotoGalleryControllerInterface controller) {
 		previous.addActionListener(controller.addPreviousPictureActionListener());
 		next.addActionListener(controller.addNextPictureActionListener());
@@ -169,12 +164,22 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	}
 
 	private void updateEditedPicture() {
+		if (!InputTextValidator.validateText(nameTextField.getText()))
+			InfoPanel.setInfoMessage("Error: " + "Name field for picture: " + pictureBean.getName() + " is not a valid text", InfoPanel.RED);
+		else {
+			InfoPanel.setInfoMessage("", InfoPanel.RED);
+			editedPicture.setName(nameTextField.getText());
+		}
+		if (!InputTextValidator.validateText(descriptionTextField.getText()))
+			InfoPanel.setInfoMessage("Error: " + "Description field for picture: " + pictureBean.getName() + " is not a valid text", InfoPanel.RED);
+		else
+			editedPicture.setDescription(descriptionTextField.getText());
+
 		editedPicture.getParent().setEdited(true);
-		editedPicture.setName(nameTextField.getText());
-		editedPicture.setDescription(descriptionTextField.getText());
 		treeNode.setUserObject(editedPicture);
 		tree.updateNode(treeNode);
 		editedPicture = null;
+
 	}
 
 }

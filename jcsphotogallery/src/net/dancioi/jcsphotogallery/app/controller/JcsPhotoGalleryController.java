@@ -46,6 +46,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
+import net.dancioi.jcsphotogallery.app.view.AboutFrame;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 import net.dancioi.jcsphotogallery.app.view.Preferences;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
@@ -218,8 +219,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuAbout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO here About frame
-
+				new AboutFrame().setVisible(true);
 			}
 		});
 		return menuAbout;

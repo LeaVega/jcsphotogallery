@@ -52,20 +52,16 @@ public abstract class View implements PageController {
 	@Override
 	public void previousPageEvent() {
 		presenter.previousPageEvent();
-		// centerPanel.previousPageEvent();
 	}
 
 	@Override
 	public void nextPageEvent() {
 		presenter.nextPageEvent();
-		// centerPanel.nextPageEvent();
 	}
 
 	@Override
 	public void upPagesEvent() {
 		presenter.upPagesEvent();
-		// bottomPanel.allOff();
-		// centerPanel.upToAlbumsEvent();
 	}
 
 	public abstract void showImagesOnGrid(String imagesPath, Thumbnails[] thumbnails);

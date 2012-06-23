@@ -149,20 +149,25 @@ public class AlbumPanel extends JPanel implements FocusListener {
 	}
 
 	private void updateEditedAlbum() {
+		if (!InputTextValidator.validateText(albumNameTextField.getText()))
+			InfoPanel.setInfoMessage("Error: " + "Album Name field for album: " + editedAlbum.getName() + " is not a valid text", InfoPanel.RED);
+		else {
+			InfoPanel.setInfoMessage("", InfoPanel.RED);
+			editedAlbum.setName(albumNameTextField.getText());
+		}
+		if (!InputTextValidator.validateText(albumTagsTextField.getText()))
+			InfoPanel.setInfoMessage("Error: " + "Tags field for album: " + editedAlbum.getName() + " is not a valid text", InfoPanel.RED);
+		else {
+			String[] tags = albumTagsTextField.getText().split(";");
+			for (int i = 0; i < tags.length; i++)
+				tags[i] = tags[i].trim();// remove whitespace between tags (if there are any).
+			editedAlbum.setTags(tags);
+		}
+
 		editedAlbum.getParent().setEdited(true);
-		editedAlbum.setName(albumNameTextField.getText());
-		String[] tags = albumTagsTextField.getText().split(";");
-		for (int i = 0; i < tags.length; i++)
-			tags[i] = tags[i].trim();// remove whitespace between tags (if there are any).
-		editedAlbum.setTags(tags);
 		treeNode.setUserObject(editedAlbum);
 		tree.updateNode(treeNode);
 		editedAlbum = null;
-	}
-
-	private String validateText(String text) {
-		// TODO check the text to exclude html tags etc.
-		return text;
 	}
 
 }

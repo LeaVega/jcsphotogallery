@@ -53,6 +53,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	private String currentThumbnailsPath;
 	private int currentThumbnailsPagesNr;
 	private int currentThumbnailsPage;
+	private int currentSelectedTagsId;
 
 	private GalleryTags galleryTags;
 
@@ -193,6 +194,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	public void upPagesEvent() {
 		currentThumbnailsPage = galleryAlbumsCurrentPage;
 		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsBySelectedTags());
+		History.newItem("t;" + currentSelectedTagsId);
 	}
 
 	private void showPageNr(int page, int pages) {
@@ -232,7 +234,8 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	@Override
 	public void getAlbumsByTag(int selected) {
 		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selected));
-		// History.newItem("t;" + selected); // add tag history.
+		currentSelectedTagsId = selected;
+		History.newItem("t;" + selected); // add tag history.
 	}
 
 }

@@ -54,6 +54,7 @@ public class Preferences extends JFrame {
 	private JTextField sizeWidth;
 	private JTextField sizeHeight;
 	private JCheckBox checkBoxRemoveJpgFiles;
+	private JLabel validationInfo;
 
 	public Preferences(Configs configs) {
 		this.configs = configs;
@@ -86,6 +87,11 @@ public class Preferences extends JFrame {
 		checkBoxRemoveJpgFiles = new JCheckBox("Remove also the .jpg files for deleted pictures");
 		checkBoxRemoveJpgFiles.setBounds(30, 136, 426, 44);
 		panel.add(checkBoxRemoveJpgFiles);
+
+		validationInfo = new JLabel();
+		validationInfo.setBounds(30, 180, 400, 44);
+		validationInfo.setForeground(Color.red);
+		panel.add(validationInfo);
 
 		JPanel panelPictureSize = new JPanel();
 		panelPictureSize.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Picture size (px)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -123,6 +129,7 @@ public class Preferences extends JFrame {
 		JLabel lblPx_1 = new JLabel("px");
 		lblPx_1.setBounds(347, 37, 26, 20);
 		panelPictureSize.add(lblPx_1);
+
 		intialize();
 	}
 
@@ -139,11 +146,19 @@ public class Preferences extends JFrame {
 	}
 
 	private void saveSettings() {
-		// TODO add validator for text field!
-		configs.setPictureDimension(new Dimension(Integer.valueOf(sizeWidth.getText()), Integer.valueOf(sizeHeight.getText())));
-		configs.setRemovePictures(checkBoxRemoveJpgFiles.isSelected());
-		// if valid then
-		dispose();
-	}
+		try {
+			Integer newWidth = Integer.valueOf(sizeWidth.getText());
+			if (newWidth < 2500 && newWidth > 500) {
+				Integer newHeight = (int) (newWidth * 0.75);
 
+				configs.setPictureDimension(new Dimension(newWidth, newHeight));
+				configs.setRemovePictures(checkBoxRemoveJpgFiles.isSelected());
+				dispose();
+			} else {
+				validationInfo.setText("The Width value is out of limits: 500 - 2500 px");
+			}
+		} catch (NumberFormatException e) {
+			validationInfo.setText("The Width value is not an integer number");
+		}
+	}
 }

@@ -26,11 +26,9 @@ package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -56,7 +54,6 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	private AlbumPanel albumPanel;
 	private PicturePanel picturePanel;
 	private CardLayout switchPanel;
-	private JLabel infoLabel;
 	private EditPanel frontPanel;
 	private JProgressBar progressBar;
 
@@ -132,18 +129,9 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	private JPanel getBottomPanel() {
 		JPanel bPanel = new JPanel();
 		bPanel.setLayout(new BorderLayout());
-		bPanel.add(getInfoPanel(), BorderLayout.WEST);
+		bPanel.add(new InfoPanel(), BorderLayout.WEST);
 		bPanel.add(getProgressBarPanel(), BorderLayout.EAST);
 		return bPanel;
-	}
-
-	private JPanel getInfoPanel() {
-		JPanel info = new JPanel();
-		infoLabel = new JLabel("Info: " + "Import a gallery from File > Import or create a new one from File > New.");
-		infoLabel.setForeground(Color.BLUE);
-		infoLabel.setPreferredSize(new Dimension(600, 32));
-		info.add(infoLabel);
-		return info;
 	}
 
 	private JPanel getProgressBarPanel() {
@@ -162,7 +150,7 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	}
 
 	public void infoMessage(String msg) {
-		infoLabel.setText(msg);
+		InfoPanel.setInfoMessage(msg, InfoPanel.BLUE);
 	}
 
 	enum EditPanel {

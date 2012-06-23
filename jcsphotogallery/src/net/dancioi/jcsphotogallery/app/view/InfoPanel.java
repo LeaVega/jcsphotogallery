@@ -1,5 +1,5 @@
 /*	
- * 	File    : InputTextValidator.java
+ * 	File    : InfoPanel.java
  * 
  * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -21,31 +21,43 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
- * Input text validator to prevent interfering with xml files.
+ * The Application's info panel.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public class InputTextValidator {
+public class InfoPanel extends JPanel {
 
-	private static CharSequence[] invalidCharacters = new CharSequence[] { "<", ">", "\"", "&", "'" }; // xml predefined entities.
+	private static final long serialVersionUID = 1L;
+	private static JLabel infoLabel;
+	public static Color RED = Color.red;
+	public static Color BLACK = Color.black;
+	public static Color BLUE = Color.blue;
 
-	/**
-	 * Validate text to do not contain xml entities.
-	 * 
-	 * @param text
-	 * @return
-	 */
-	public static boolean validateText(String text) {
-		for (CharSequence invalidCharacter : invalidCharacters) {
-			boolean contains = text.contains(invalidCharacter);
-			if (contains)
-				return false;
-		}
-		return true;
+	private String GALLERY_INFO = "Import a gallery from File > Import or create a new one from File > New.";
+
+	public InfoPanel() {
+		initialize();
+	}
+
+	private void initialize() {
+		infoLabel = new JLabel("Info: " + GALLERY_INFO);
+		infoLabel.setForeground(Color.BLUE);
+		infoLabel.setPreferredSize(new Dimension(600, 32));
+		this.add(infoLabel);
+	}
+
+	public static void setInfoMessage(String message, Color messageColor) {
+		infoLabel.setForeground(messageColor);
+		infoLabel.setText(message);
 	}
 }

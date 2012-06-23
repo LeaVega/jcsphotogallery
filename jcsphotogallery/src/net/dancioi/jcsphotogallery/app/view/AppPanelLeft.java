@@ -55,7 +55,6 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  */
 
 public class AppPanelLeft extends JPanel implements TreeSelectionListener {
-	// TODO do not cache xml files
 
 	private static final long serialVersionUID = 1L;
 	protected static final Object AlbumBean = null;

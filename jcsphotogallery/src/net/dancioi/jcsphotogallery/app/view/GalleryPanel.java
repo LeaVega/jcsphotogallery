@@ -133,9 +133,18 @@ public class GalleryPanel extends JPanel implements FocusListener {
 	}
 
 	private void updateEditedGallery() {
+		if (!InputTextValidator.validateText(galleryName.getText()))
+			InfoPanel.setInfoMessage("Error: " + "Gallery Name field is not a valid text", InfoPanel.RED);
+		else {
+			InfoPanel.setInfoMessage("", InfoPanel.RED);
+			editedGallery.setGalleryName(galleryName.getText());
+		}
+		if (!InputTextValidator.validateText(galleryHomePage.getText()))
+			InfoPanel.setInfoMessage("Error: " + "Home page field is not a valid text", InfoPanel.RED);
+		else
+			editedGallery.setGalleryHomePage(galleryHomePage.getText());
+
 		editedGallery.setEdited(true);
-		editedGallery.setGalleryName(galleryName.getText());
-		editedGallery.setGalleryHomePage(galleryHomePage.getText());
 		tree.updateNode(new DefaultMutableTreeNode(editedGallery));
 		editedGallery = null;
 	}

@@ -24,7 +24,10 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 /**
  * The About modal dialog.
@@ -41,8 +44,20 @@ public class AboutFrame extends JFrame {
 	}
 
 	private void initialize() {
-		// TODO solve About...
+		this.pack();
+		this.setTitle("About...");
+		this.setLocationRelativeTo(null);
+		this.setPreferredSize(new Dimension(330, 020));
+		this.setMinimumSize(new Dimension(330, 200));
+		this.getContentPane().add(getAboutText());
 
 	}
 
+	private JTextArea getAboutText() {
+		JTextArea aboutText = new JTextArea();
+		aboutText
+				.setText("\nJcsPhotoGallery desktop application, \na pictures manager for JcsPhototGallery client application \nThe application is  released as free software\nunder the GNU General Public License (GPL). \n\n For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ ");
+		aboutText.setEditable(false);
+		return aboutText;
+	}
 }
