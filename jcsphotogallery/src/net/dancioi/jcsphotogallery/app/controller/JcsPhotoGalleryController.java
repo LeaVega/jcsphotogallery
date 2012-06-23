@@ -250,7 +250,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		Point loc = e.getPoint();
 
 		TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
-		System.out.printf("path = %s%n", treePath);
+		// System.out.printf("path = %s%n", treePath);
 		if (null != treePath) {
 			DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
 			model.selectNode(treeNode);

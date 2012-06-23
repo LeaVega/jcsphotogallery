@@ -69,10 +69,10 @@ public abstract class ElementXML {
 			if (xmlVersion.startsWith("1.1.")) {
 				allCategories = elAlbum.getAttribute("tags");
 			} else {
-				Window.alert("Incompatibility between JcsPhotoGallery Web Application and Gallery xml files. \n Please use JcsPhotoGallery desktop application to correct this.");
+				Window.alert("Incompatibility between JcsPhotoGallery Web Application and Gallery xml files. \nPlease use JcsPhotoGallery desktop application to correct this.");
 			}
 			tags = allCategories.split(";");
-			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
+			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("folderName") + "/" + elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
 		}
 
 		GalleryAlbums galleryAlbums = new GalleryAlbums();

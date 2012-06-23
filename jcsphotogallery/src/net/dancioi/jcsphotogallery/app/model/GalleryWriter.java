@@ -173,6 +173,15 @@ public class GalleryWriter extends ElementXML {
 		Comment comment = doc.createComment("jcsPhotoGallery");
 		root.appendChild(comment);
 
+		Element noCache = doc.createElement("meta"); // the browser should not cache the xml files.
+		noCache.setAttribute("http-equiv", "Cache-control");
+		noCache.setAttribute("content", "no-cache");
+		root.appendChild(noCache);
+
+		Element version = doc.createElement("version");
+		version.appendChild(doc.createTextNode("1.1.1"));
+		root.appendChild(version);
+
 		return doc;
 	}
 

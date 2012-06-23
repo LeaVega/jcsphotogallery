@@ -53,7 +53,7 @@ public class Preferences extends JFrame {
 	private Configs configs;
 	private JTextField sizeWidth;
 	private JTextField sizeHeight;
-	private JCheckBox chckbxWhenRemoveA;
+	private JCheckBox checkBoxRemoveJpgFiles;
 
 	public Preferences(Configs configs) {
 		this.configs = configs;
@@ -83,9 +83,9 @@ public class Preferences extends JFrame {
 		btnCancel.setBounds(209, 239, 91, 23);
 		panel.add(btnCancel);
 
-		chckbxWhenRemoveA = new JCheckBox("Remove also the .jpg files for deleted pictures");
-		chckbxWhenRemoveA.setBounds(16, 136, 426, 44);
-		panel.add(chckbxWhenRemoveA);
+		checkBoxRemoveJpgFiles = new JCheckBox("Remove also the .jpg files for deleted pictures");
+		checkBoxRemoveJpgFiles.setBounds(30, 136, 426, 44);
+		panel.add(checkBoxRemoveJpgFiles);
 
 		JPanel panelPictureSize = new JPanel();
 		panelPictureSize.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Picture size (px)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -94,7 +94,7 @@ public class Preferences extends JFrame {
 		panelPictureSize.setLayout(null);
 
 		JLabel lblConvertImportedPictures = new JLabel("Convert imported pictures to size:");
-		lblConvertImportedPictures.setBounds(88, 11, 185, 23);
+		lblConvertImportedPictures.setBounds(50, 11, 220, 23);
 		panelPictureSize.add(lblConvertImportedPictures);
 
 		sizeWidth = new JTextField();
@@ -135,13 +135,13 @@ public class Preferences extends JFrame {
 	private void setPreviousValues() {
 		sizeWidth.setText("" + (int) configs.getPictureDimension().getWidth());
 		sizeHeight.setText("" + (int) configs.getPictureDimension().getHeight());
-		chckbxWhenRemoveA.setSelected(configs.isRemovePictures());
+		checkBoxRemoveJpgFiles.setSelected(configs.isRemovePictures());
 	}
 
 	private void saveSettings() {
 		// TODO add validator for text field!
 		configs.setPictureDimension(new Dimension(Integer.valueOf(sizeWidth.getText()), Integer.valueOf(sizeHeight.getText())));
-		configs.setRemovePictures(chckbxWhenRemoveA.isSelected());
+		configs.setRemovePictures(checkBoxRemoveJpgFiles.isSelected());
 		// if valid then
 		dispose();
 	}

@@ -134,6 +134,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.setJMenuBar(menuBar);
 	}
 
+	// TODO show a dialog if there is any issue with write permission on chose folder.
 	@Override
 	public void populateTree(DefaultMutableTreeNode[] treeNodes) {
 		panelLeft.addGalleryAlbums(treeNodes);
