@@ -53,7 +53,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	private String currentThumbnailsPath;
 	private int currentThumbnailsPagesNr;
 	private int currentThumbnailsPage;
-	private int currentSelectedTagsId;
+	private String currentSelectedTags = "0";
 
 	private GalleryTags galleryTags;
 
@@ -99,12 +99,10 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 				if (token.startsWith("a")) {
 					String[] split = token.split(";");
 					int parseInt = Integer.parseInt(split[1]);
-					if (parseInt != currentAlbumId) {
-						getAlbumNr(parseInt);
-					}
+					getAlbumNr(parseInt);
 				} else if (token.startsWith("t")) {
 					String[] split = token.split(";");
-					getAlbumsByTag(Integer.parseInt(split[1]));
+					showAlbumsByTag(split[2], Integer.parseInt(split[1]));
 				}
 			}
 
@@ -118,20 +116,20 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 		view.setGalleryName(galleryAlbums.getGalleryName(), galleryAlbums.getGalleryHomePage());
 		galleryTags = new GalleryTags(galleryAlbums);
 		view.setAlbumsTags(galleryTags.getTags());
-		setCurrentThumbnails(GALLERY_PATH, galleryAlbums.getAllAlbums());
+		setCurrentThumbnails(GALLERY_PATH, galleryAlbums.getAllAlbums(), -1);
 	}
 
 	@Override
 	public void responseSelectedAlbum(AlbumBean album) {
 		view.setAlbumLabel(galleryAlbums.getAlbumName(currentAlbumId));
-		setCurrentThumbnails(GALLERY_PATH + galleryAlbums.getAlbumFolderName(currentAlbumId) + "/", album.getPictures());
+		setCurrentThumbnails(GALLERY_PATH + galleryAlbums.getAlbumFolderName(currentAlbumId) + "/", album.getPictures(), -1);
 	}
 
-	private void setCurrentThumbnails(String parentFolderPath, Thumbnails[] thumbnails) {
+	private void setCurrentThumbnails(String parentFolderPath, Thumbnails[] thumbnails, int lastPage) {
 		currentThumbnails = thumbnails;
 		currentThumbnailsPath = parentFolderPath;
-		currentThumbnailsPagesNr = (int) Math.ceil(thumbnails.length / 9);
-		currentThumbnailsPage = 1;
+		currentThumbnailsPagesNr = (int) Math.ceil((double) thumbnails.length / 9);
+		currentThumbnailsPage = lastPage > 0 ? lastPage : 1;
 
 		displayThumbnails();
 	}
@@ -170,9 +168,9 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 		if (thumbnails.length <= 9) {
 			return thumbnails;
 		} else {
-			Thumbnails[] result = new Thumbnails[9];
 			int length = thumbnails.length > 9 ? thumbnails.length - (currentThumbnailsPage - 1) * 9 : thumbnails.length;// (currentThumbnailsPage - 1) because is not yet switched to the next page.
 			length = length > 9 ? 9 : length;
+			Thumbnails[] result = new Thumbnails[length];
 			System.arraycopy(thumbnails, (currentThumbnailsPage - 1) * 9, result, 0, length);
 			return result;
 		}
@@ -193,8 +191,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	@Override
 	public void upPagesEvent() {
 		currentThumbnailsPage = galleryAlbumsCurrentPage;
-		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsBySelectedTags());
-		History.newItem("t;" + currentSelectedTagsId);
+		History.newItem("t;" + galleryAlbumsCurrentPage + ";" + currentSelectedTags);
 	}
 
 	private void showPageNr(int page, int pages) {
@@ -232,10 +229,14 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	}
 
 	@Override
-	public void getAlbumsByTag(int selected) {
-		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selected));
-		currentSelectedTagsId = selected;
-		History.newItem("t;" + selected); // add tag history.
+	public void getAlbumsByTag(String selectedTags) {
+		currentSelectedTags = selectedTags;
+		History.newItem("t;" + currentThumbnailsPage + ";" + selectedTags); // add tag history.
+	}
+
+	private void showAlbumsByTag(String selectedTags, int lastPage) {
+		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selectedTags), lastPage);
+
 	}
 
 }

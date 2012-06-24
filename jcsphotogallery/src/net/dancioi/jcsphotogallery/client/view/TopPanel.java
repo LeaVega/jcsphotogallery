@@ -24,6 +24,8 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -39,6 +41,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class TopPanel extends AbsolutePanel {
 	private JcsPhotoGalleryView view;
 	private MenuBar galleryTags;
+	private ArrayList<Integer> selectedTags;
 
 	public TopPanel(JcsPhotoGalleryView view) {
 		this.view = view;
@@ -48,6 +51,7 @@ public class TopPanel extends AbsolutePanel {
 	private void initialize() {
 		setSize("800px", "25px");
 
+		selectedTags = new ArrayList<Integer>();
 		galleryTags = new MenuBar(true);
 		MenuBar tagsMenu = new MenuBar();
 		tagsMenu.setStyleName("topAlbumsTags");
@@ -62,7 +66,26 @@ public class TopPanel extends AbsolutePanel {
 	 *            Sorting ListBox id selected.
 	 */
 	private void selectedList(int selected) {
-		view.showAlbumsByTag(selected);
+		if (selected == 0) {// if show all albums is selected, then previous categories are removed, and don't add it to selectedTags
+			selectedTags.clear();
+		} else {
+			if (selectedTags.contains(selected)) {
+				selectedTags.remove((Integer) selected);
+			} else {
+				selectedTags.add((Integer) selected);
+			}
+		}
+		// TODO very bad design, try to reconsider this in the next version.
+		if (selectedTags.size() == 0)
+			selectedTags.add((Integer) 0);
+		else
+			selectedTags.remove((Integer) 0);
+
+		StringBuilder albumsToShow = new StringBuilder();
+		for (Integer tag : selectedTags)
+			albumsToShow.append(tag + ",");
+
+		view.showAlbumsByTag(albumsToShow.toString());
 	}
 
 	/**

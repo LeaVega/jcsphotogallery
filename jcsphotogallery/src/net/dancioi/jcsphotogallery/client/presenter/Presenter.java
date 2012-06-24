@@ -47,5 +47,5 @@ public abstract class Presenter {
 
 	public abstract void responseSelectedAlbum(AlbumBean album);
 
-	public abstract void getAlbumsByTag(int selected);
+	public abstract void getAlbumsByTag(String selectedTags);
 }

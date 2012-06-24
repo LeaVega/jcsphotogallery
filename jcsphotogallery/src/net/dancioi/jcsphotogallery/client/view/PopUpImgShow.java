@@ -138,7 +138,7 @@ public class PopUpImgShow extends PopupGeneric {
 				nextImg();
 			}
 		});
-		bottomPanel.add(next, popUpSizeX - 110, 5);
+		bottomPanel.add(next, popUpSizeX - 160, 3);
 
 		previous = new Image("ext/previous.gif");
 		previous.addClickHandler(new ClickHandler() {
@@ -151,7 +151,7 @@ public class PopUpImgShow extends PopupGeneric {
 				previousImg();
 			}
 		});
-		bottomPanel.add(previous, popUpSizeX - 160, 5);
+		bottomPanel.add(previous, popUpSizeX - 240, 3);
 
 		close = new Image("ext/close.gif");
 		close.addClickHandler(new ClickHandler() {
@@ -159,7 +159,7 @@ public class PopUpImgShow extends PopupGeneric {
 				closeImg();
 			}
 		});
-		bottomPanel.add(close, popUpSizeX - 40, 5);
+		bottomPanel.add(close, popUpSizeX - 70, 3);
 
 		play = new Image("ext/play.gif");
 		play.addClickHandler(new ClickHandler() {
@@ -173,7 +173,7 @@ public class PopUpImgShow extends PopupGeneric {
 				}
 			}
 		});
-		bottomPanel.add(play, popUpSizeX - 240, 5);
+		bottomPanel.add(play, popUpSizeX - 330, 3);
 
 		lImgName = new Label();
 		bottomPanel.add(lImgName, 20, 2);

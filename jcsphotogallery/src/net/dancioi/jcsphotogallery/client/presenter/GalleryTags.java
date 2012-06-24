@@ -100,16 +100,11 @@ public class GalleryTags {
 		return result;
 	}
 
-	public AlbumBean[] getAlbumsByTagId(int tagId) {
-		if (tagId == 0) {// if show all albums is selected, then previous categories are removed, and don't add it to selectedTags
-			selectedTags.clear();
-		} else {
-			AlbumsTag albumsTag = tags.get(tagId);
-			if (selectedTags.contains(albumsTag)) {
-				selectedTags.remove(albumsTag);
-			} else {
-				selectedTags.add(albumsTag);
-			}
+	public AlbumBean[] getAlbumsByTagId(String tagsSeparated) {
+		String[] tagsIds = tagsSeparated.split(",");
+		selectedTags.clear();
+		for (String tagId : tagsIds) {
+			selectedTags.add(tags.get(Integer.parseInt(tagId)));
 		}
 		return findAlbumsIntersectionByTags();
 	}
@@ -140,15 +135,6 @@ public class GalleryTags {
 			}
 			return result;
 		}
-	}
-
-	/**
-	 * Gets just the albums that correspond to the selected tags
-	 * 
-	 * @return
-	 */
-	public AlbumBean[] getAlbumsBySelectedTags() {
-		return findAlbumsIntersectionByTags();
 	}
 
 	/**

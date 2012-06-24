@@ -64,7 +64,7 @@ public class BottomPanel extends AbsolutePanel {
 				leftButtonClicked();
 			}
 		});
-		add(buttonIconLeft, 600, 5);
+		add(buttonIconLeft, 550, 3);
 
 		buttonIconRight = new Image("ext/next.gif"); // NEXT button
 		buttonIconRight.addClickHandler(new ClickHandler() {
@@ -72,7 +72,7 @@ public class BottomPanel extends AbsolutePanel {
 				rightButtonClicked();
 			}
 		});
-		add(buttonIconRight, 650, 5);
+		add(buttonIconRight, 630, 3);
 
 		buttonIconUp = new Image("ext/albums.gif"); // BACK to albums
 		buttonIconUp.addClickHandler(new ClickHandler() {
@@ -80,7 +80,7 @@ public class BottomPanel extends AbsolutePanel {
 				upButtonClicked();
 			}
 		});
-		add(buttonIconUp, 757, 5);
+		add(buttonIconUp, 720, 3);
 
 		pageNr = new Label();
 		add(pageNr, 370, 10);
