@@ -299,10 +299,15 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		}
 
 		@Override
-		public Void doInBackground() {
+		protected Void doInBackground() {
 			DefaultMutableTreeNode picturesToNewAlbum = model.addPicturesToNewAlbum(files, view.getProgressBar());
 			view.addNewAlbumToGallery(picturesToNewAlbum);
 			return null;
+		}
+
+		@Override
+		protected void done() {
+
 		}
 	}
 
@@ -331,10 +336,15 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		}
 
 		@Override
-		public Void doInBackground() {
+		protected Void doInBackground() {
 			DefaultMutableTreeNode picturesToExistingAlbum = model.addPicturesToExistingAlbum(files, treeNode, view.getProgressBar());
 			view.addPicturesToAnExistingAlbum(picturesToExistingAlbum);
 			return null;
+		}
+
+		@Override
+		protected void done() {
+
 		}
 	}
 

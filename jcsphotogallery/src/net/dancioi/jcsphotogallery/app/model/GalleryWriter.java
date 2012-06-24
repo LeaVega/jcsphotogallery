@@ -96,6 +96,8 @@ public class GalleryWriter extends ElementXML {
 				if (album.isEdited()) {
 					System.out.println("Saved album: " + album.getName());
 					saveAlbum(galleryPath + File.separator + album.getFolderName(), pictures.toArray(new PictureBean[pictures.size()]), filesToBeDeleted);
+					if (album.getImgThumbnail().isEmpty() && pictures.size() > 0)
+						album.setImgThumbnail(pictures.get(0).getImgThumbnail());
 					album.setEdited(false);
 				}
 				albums.add(album);

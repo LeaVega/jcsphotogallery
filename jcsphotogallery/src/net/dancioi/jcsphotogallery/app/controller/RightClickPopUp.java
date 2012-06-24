@@ -65,7 +65,7 @@ public class RightClickPopUp extends JPopupMenu implements ActionListener {
 		mAddAlbum.setActionCommand(Action.ADD_NEW_ALBUM.toString());
 		add(mAddAlbum);
 
-		mAddPicture = new JMenuItem("Add new image");
+		mAddPicture = new JMenuItem("Add new image(s)");
 		mAddPicture.addActionListener(this);
 		mAddPicture.setActionCommand(Action.ADD_NEW_IMAGE.toString());
 		add(mAddPicture);

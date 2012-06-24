@@ -85,11 +85,11 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	private JPanel navigateButtons() {
 		JPanel navigatePanel = new JPanel();
 		previous = new JButton();
-		previous.setPreferredSize(new Dimension(76, 44));
+		previous.setPreferredSize(new Dimension(76, 34));
 		previous.setIcon(new ImageIcon("icons/controlPrevious.png"));
 
 		next = new JButton();
-		next.setPreferredSize(new Dimension(76, 44));
+		next.setPreferredSize(new Dimension(76, 34));
 		next.setIcon(new ImageIcon("icons/controlNext.png"));
 
 		navigatePanel.add(previous, BorderLayout.LINE_START);
@@ -101,11 +101,11 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 	private JPanel rotateButtons() {
 		JPanel rotatePanel = new JPanel();
 		rotateClockwise = new JButton();
-		rotateClockwise.setPreferredSize(new Dimension(76, 44));
+		rotateClockwise.setPreferredSize(new Dimension(76, 34));
 		rotateClockwise.setIcon(new ImageIcon("icons/controlRotRight.png"));
 
 		rotateCounterClockwise = new JButton();
-		rotateCounterClockwise.setPreferredSize(new Dimension(76, 44));
+		rotateCounterClockwise.setPreferredSize(new Dimension(76, 34));
 		rotateCounterClockwise.setIcon(new ImageIcon("icons/controlRotLeft.png"));
 
 		rotatePanel.add(rotateCounterClockwise, BorderLayout.LINE_START);

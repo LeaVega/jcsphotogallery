@@ -191,6 +191,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 		newAlbum.setEdited(true);
 		galleryAlbums.setEdited(true);
 		newAlbum.setParent(galleryAlbums);
+		newAlbum.setImgThumbnail(""); // for new album without any picture
 		if (progressBar != null)
 			progressBar.setValue(0);
 
@@ -211,7 +212,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 				for (File picturePath : selectedFiles) {
 					PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
 					progressBarValue += progressBarIncrement;
-					progressBar.setValue(Math.round(progressBarValue));
+					progressBar.setValue(Math.round(progressBarValue)); // TODO for version 1.1.2, show one progress value if more than one task are running concomitantly
 					if (null != picture) {
 						albumNode.add(new DefaultMutableTreeNode(picture));
 						newAlbum.setImgThumbnail(picture.getImgThumbnail());
@@ -329,7 +330,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	@Override
 	public void deleteImage(DefaultMutableTreeNode treeNode) {
 		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
-		selectNode((DefaultMutableTreeNode) treeNode.getParent());// when delete a picture show the album.
+		selectNextNode();
 		treeModel.removeNodeFromParent(treeNode);
 		PictureBean picture = (PictureBean) treeNode.getUserObject();
 		picture.getParent().setEdited(true);
@@ -341,7 +342,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	@Override
 	public void deleteAlbum(DefaultMutableTreeNode treeNode) {
 		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
-		selectNode((DefaultMutableTreeNode) treeNode.getParent());
+		// selectNode((DefaultMutableTreeNode) treeNode.getParent()); // not required since deleteQueue
 		treeModel.removeNodeFromParent(treeNode);
 		AlbumBean albumToDelete = (AlbumBean) treeNode.getUserObject();
 		albumToDelete.getParent().setEdited(true);

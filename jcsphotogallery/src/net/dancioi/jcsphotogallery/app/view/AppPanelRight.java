@@ -96,7 +96,7 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	}
 
 	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail, DefaultMutableTreeNode treeNode) {
-		infoMessage("Info: " + "Edit album's name and categories. It will be automatically updated.");
+		infoMessage("Info: " + "Use character \";\" to separate tags");
 		showPanel(EditPanel.ALBUM);
 		albumPanel.setCurrentAlbum(album, albumThumbnail, treeNode);
 	}
