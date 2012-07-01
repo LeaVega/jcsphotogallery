@@ -54,7 +54,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 
-public class AppPanelLeft extends JPanel implements TreeSelectionListener {
+public class AppPanelLeft extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	protected static final Object AlbumBean = null;
@@ -217,7 +217,6 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 
-		tree.addTreeSelectionListener(this);
 		JScrollPane scrollPane = new JScrollPane(tree);
 		return scrollPane;
 	}
@@ -273,10 +272,6 @@ public class AppPanelLeft extends JPanel implements TreeSelectionListener {
 		root.add(node);
 	}
 
-	@Override
-	public void valueChanged(TreeSelectionEvent arg0) {
-
-	}
 
 	public JTree getTree() {
 		return tree;

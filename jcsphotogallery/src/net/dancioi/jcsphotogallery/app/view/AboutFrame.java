@@ -24,9 +24,13 @@
 
 package net.dancioi.jcsphotogallery.app.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
@@ -47,16 +51,25 @@ public class AboutFrame extends JFrame {
 		this.pack();
 		this.setTitle("About...");
 		this.setLocationRelativeTo(null);
-		this.setPreferredSize(new Dimension(330, 020));
-		this.setMinimumSize(new Dimension(330, 200));
-		this.getContentPane().add(getAboutText());
-
+		this.setSize(460, 200);
+		this.setResizable(false);
+		this.setLayout(new FlowLayout());
+		JPanel panel = new JPanel();
+		panel.add(getAboutArea());
+		this.getContentPane().add(panel);
 	}
 
+	private Component getAboutArea(){
+		JScrollPane aboutScrollPanel = new JScrollPane(getAboutText());
+		aboutScrollPanel.setPreferredSize(new Dimension(420, 150));
+		aboutScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		aboutScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		return aboutScrollPanel;
+	}
+	
 	private JTextArea getAboutText() {
 		JTextArea aboutText = new JTextArea();
-		aboutText
-				.setText("\nJcsPhotoGallery desktop application, \na pictures manager for JcsPhototGallery client application \nThe application is  released as free software\nunder the GNU General Public License (GPL). \n\n For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ ");
+		aboutText.setText("\n JcsPhotoGallery desktop application, \n a pictures manager for JcsPhototGallery client application \n The application is  released as free software\n under the GNU General Public License (GPL). \n\n For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ ");
 		aboutText.setEditable(false);
 		return aboutText;
 	}

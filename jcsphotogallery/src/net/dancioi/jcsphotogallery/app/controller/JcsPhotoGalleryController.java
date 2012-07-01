@@ -41,6 +41,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -227,14 +229,22 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 	private void addListenersToTree() {
 		view.getTree().addMouseListener(mouseListener);
+		view.getTree().addTreeSelectionListener(new TreeSelectionListener() {
+			  public void valueChanged(TreeSelectionEvent tse) {
+				  TreePath treePath = tse.getPath();
+					// System.out.printf("path = %s%n", treePath);
+					if (null != treePath) {
+						DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+						model.selectNode(treeNode);
+					}		   
+			  } 
+			}); 
 	}
 
 	private MouseListener mouseListener = new MouseAdapter() {
 
 		public void mousePressed(MouseEvent e) {
-			if (!popUpShow(e)) {// for mac and linux
-				nodeSelected(e);
-			}
+			popUpShow(e); // for mac and linux
 		}
 
 		public void mouseClicked(MouseEvent e) {
@@ -245,17 +255,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			popUpShow(e); // for windows
 		}
 	};
-
-	private void nodeSelected(MouseEvent e) {
-		Point loc = e.getPoint();
-
-		TreePath treePath = view.getTree().getPathForLocation(loc.x, loc.y);
-		// System.out.printf("path = %s%n", treePath);
-		if (null != treePath) {
-			DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-			model.selectNode(treeNode);
-		}
-	}
 
 	private boolean popUpShow(MouseEvent e) {
 		if (e.isPopupTrigger()) {

@@ -90,7 +90,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 			previousConfigs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
 			System.out.println("The configs.cfg file is missing. It happens just first time when you run the application");
-			previousConfigs = new Configs(new Dimension(1200, 900), -1);
+			previousConfigs = new Configs(new Dimension(1280, 960), -1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -334,7 +334,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 		treeModel.removeNodeFromParent(treeNode);
 		PictureBean picture = (PictureBean) treeNode.getUserObject();
 		picture.getParent().setEdited(true);
-		if (getConfigs().isRemovePictures()) {
+		if (getConfigs().isRemovePictures(false)) {
 			deletePicture(picture);
 		}
 	}
@@ -342,11 +342,10 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	@Override
 	public void deleteAlbum(DefaultMutableTreeNode treeNode) {
 		DefaultTreeModel treeModel = (DefaultTreeModel) view.getTree().getModel();
-		// selectNode((DefaultMutableTreeNode) treeNode.getParent()); // not required since deleteQueue
 		treeModel.removeNodeFromParent(treeNode);
 		AlbumBean albumToDelete = (AlbumBean) treeNode.getUserObject();
 		albumToDelete.getParent().setEdited(true);
-		if (getConfigs().isRemovePictures()) {
+		if (getConfigs().isRemovePictures(false)) {
 			deleteAlbum(albumToDelete);
 		}
 	}

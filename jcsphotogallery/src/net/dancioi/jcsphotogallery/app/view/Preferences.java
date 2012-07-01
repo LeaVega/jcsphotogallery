@@ -142,7 +142,7 @@ public class Preferences extends JFrame {
 	private void setPreviousValues() {
 		sizeWidth.setText("" + (int) configs.getPictureDimension().getWidth());
 		sizeHeight.setText("" + (int) configs.getPictureDimension().getHeight());
-		checkBoxRemoveJpgFiles.setSelected(configs.isRemovePictures());
+		checkBoxRemoveJpgFiles.setSelected(configs.isRemovePictures(true));
 	}
 
 	private void saveSettings() {

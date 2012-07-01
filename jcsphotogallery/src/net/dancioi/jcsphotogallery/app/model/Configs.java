@@ -67,12 +67,13 @@ public class Configs implements Serializable {
 		this.pictureDimension = pictureDimension;
 	}
 
-	public boolean isRemovePictures() {
+	public boolean isRemovePictures(boolean preferences) {
 		if (removePictures == 1)
 			return true;
 		else if (removePictures == 0)
 			return false;
 		else {
+			if(preferences)return false;
 			boolean confirmDeleteFiles = deleteConfirmation.confirmDeleteFiles();
 			removePictures = confirmDeleteFiles ? 1 : 0;
 			return confirmDeleteFiles;
