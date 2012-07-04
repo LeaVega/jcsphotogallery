@@ -1,0 +1,63 @@
+<project name="JcsPhotoGallery" default="dist" basedir=".">
+
+<description>
+	JcsPhotoGallery desktop application build
+</description>
+
+<property name="src1" 		location="src/net/dancioi/jcsphotogallery/client/shared"/>
+<property name="src2" 		location="src/net/dancioi/jcsphotogallery/app"/>
+<property name="build" 		location="build"/>
+<property name="dist"  		location="dist"/>
+<property name="version"	location="1.1.1"/>
+
+<path id="classpath">
+	<fileset dir="lib" includes="*.jar"/>
+</path>
+
+<target name="init" depends="clean">
+	<mkdir dir="${build}"/>
+</target>
+
+<presetdef name="javac">
+	<javac includeantruntime="false" />
+</presetdef>
+
+<target name="compile" depends="init"
+	description="compile the app" >
+	<javac srcdir="${src1}" destdir="${build}"/>
+	<javac srcdir="${src2}" destdir="${build}" classpathref="classpath"/>
+
+</target>
+
+<target name="dist" depends="compile"
+	description="generate the JcsPhotGallery application jar file" >
+	<mkdir dir="${dist}"/>
+
+	<copy todir="${dist}/icons">
+		<fileset dir="icons" includes="**"/>
+	</copy>
+
+	<copy todir="${dist}/help">
+		<fileset dir="help" includes="**"/>
+	</copy>
+         
+	<jar jarfile="${dist}/JcsPhotoGallery-1.1.1.jar" basedir="${build}">
+
+		<zipgroupfileset dir="lib/">
+			<include name="*.jar"/>
+			<exclude name="WebDAVclient.jar"/>
+		</zipgroupfileset>
+    	    	
+		<manifest>
+			<attribute name="Main-Class" value="net.dancioi.jcsphotogallery.app.Main"/>
+		</manifest>
+	</jar>
+</target>
+
+<target name="clean"
+	description="clean previous build" >
+	<delete dir="${build}"/>
+	<delete dir="${dist}"/>
+</target>
+ 
+</project>
