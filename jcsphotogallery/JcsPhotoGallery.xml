@@ -34,7 +34,7 @@
 	<mkdir dir="${dist}"/>
 
 	<copy todir="${build}/help">
-		<fileset dir="help"/>
+		<fileset dir="src/help"/>
 	</copy>
 	
 	<copy todir="${build}/icons">
