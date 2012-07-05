@@ -42,7 +42,8 @@ import javax.media.jai.RenderedOp;
  * Gallery Input/Output.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-06-23 11:17:37 +0300
+ *          (Sat, 23 Jun 2012) $, by: $Author$
  */
 public class GalleryIO {
 
@@ -54,7 +55,7 @@ public class GalleryIO {
 		try {
 			picture = JAI.create("fileload", picturePath);
 		} catch (IllegalArgumentException e) {
-			picture = JAI.create("fileload", "help/imgNotFound.jpg");
+			picture = JAI.create("fileload", getClass().getClassLoader().getResource("icons/imgNotFound.jpg"));
 		}
 		return picture;
 	}
@@ -66,7 +67,8 @@ public class GalleryIO {
 	 * @param rotDegree
 	 * @return
 	 */
-	protected BufferedImage rotatePicture(BufferedImage bufferedImage, int rotDegree) {
+	protected BufferedImage rotatePicture(BufferedImage bufferedImage,
+			int rotDegree) {
 		float angle = (float) (rotDegree * (Math.PI / 180.0F));
 		ParameterBlock pb = new ParameterBlock();
 		pb.addSource(bufferedImage);
@@ -94,7 +96,8 @@ public class GalleryIO {
 
 	private boolean writeImageWithJAI(BufferedImage picture, String picturePath) {
 		try {
-			BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(picturePath));
+			BufferedOutputStream output = new BufferedOutputStream(
+					new FileOutputStream(picturePath));
 			JAI.create("encode", picture, output, "JPEG", null);
 			output.flush();
 			output.close();

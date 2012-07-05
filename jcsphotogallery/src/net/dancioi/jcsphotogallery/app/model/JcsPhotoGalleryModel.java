@@ -362,7 +362,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	private void selectAlbum(DefaultMutableTreeNode treeNode) {
 		if (treeNode != null && treeNode.getUserObject() instanceof AlbumBean) {
 			AlbumBean album = (AlbumBean) treeNode.getUserObject();
-			String thumbnailFileName = album.getImgThumbnail() == null || album.getImgThumbnail().isEmpty() ? "help/imgNotFound.jpg" : album.getImgThumbnail();
+			String thumbnailFileName = album.getImgThumbnail() == null || album.getImgThumbnail().isEmpty() ? "icons/imgNotFound.jpg" : album.getImgThumbnail();
 			PictureBean pictureBean = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
 			pictureBean.setParent(album);
 			BufferedImage picture = getPicture(pictureBean, 200);

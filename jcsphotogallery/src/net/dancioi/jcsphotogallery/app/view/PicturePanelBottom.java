@@ -86,11 +86,11 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		JPanel navigatePanel = new JPanel();
 		previous = new JButton();
 		previous.setPreferredSize(new Dimension(76, 34));
-		previous.setIcon(new ImageIcon("icons/controlPrevious.png"));
+		previous.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/controlPrevious.png")));
 
 		next = new JButton();
 		next.setPreferredSize(new Dimension(76, 34));
-		next.setIcon(new ImageIcon("icons/controlNext.png"));
+		next.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/controlNext.png")));
 
 		navigatePanel.add(previous, BorderLayout.LINE_START);
 		navigatePanel.add(next, BorderLayout.LINE_END);
@@ -102,11 +102,11 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		JPanel rotatePanel = new JPanel();
 		rotateClockwise = new JButton();
 		rotateClockwise.setPreferredSize(new Dimension(76, 34));
-		rotateClockwise.setIcon(new ImageIcon("icons/controlRotRight.png"));
+		rotateClockwise.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/controlRotRight.png")));
 
 		rotateCounterClockwise = new JButton();
 		rotateCounterClockwise.setPreferredSize(new Dimension(76, 34));
-		rotateCounterClockwise.setIcon(new ImageIcon("icons/controlRotLeft.png"));
+		rotateCounterClockwise.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/controlRotLeft.png")));
 
 		rotatePanel.add(rotateCounterClockwise, BorderLayout.LINE_START);
 		rotatePanel.add(rotateClockwise, BorderLayout.LINE_END);

@@ -33,13 +33,14 @@
 	description="generate the JcsPhotGallery application jar file" >
 	<mkdir dir="${dist}"/>
 
-	<copy todir="${dist}/icons">
-		<fileset dir="icons" includes="**"/>
+	<copy todir="${build}/help">
+		<fileset dir="help"/>
 	</copy>
-
-	<copy todir="${dist}/help">
-		<fileset dir="help" includes="**"/>
+	
+	<copy todir="${build}/icons">
+    	<fileset dir="src/icons"/>
 	</copy>
+	
          
 	<jar jarfile="${dist}/JcsPhotoGallery-1.1.1.jar" basedir="${build}">
 
@@ -47,7 +48,7 @@
 			<include name="*.jar"/>
 			<exclude name="WebDAVclient.jar"/>
 		</zipgroupfileset>
-    	    	
+
 		<manifest>
 			<attribute name="Main-Class" value="net.dancioi.jcsphotogallery.app.Main"/>
 		</manifest>

@@ -66,7 +66,7 @@ public class HelpPanel extends JPanel {
 	}
 
 	private URL getHelpHtml() throws MalformedURLException {
-		return new URL("file:help/JcsPhotoGalleryHelp.html");
+		return getClass().getClassLoader().getResource("help/JcsPhotoGalleryHelp.html");
 	}
 
 }
