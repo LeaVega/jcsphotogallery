@@ -55,7 +55,7 @@ public class GalleryIO {
 		try {
 			picture = JAI.create("fileload", picturePath);
 		} catch (IllegalArgumentException e) {
-			picture = JAI.create("fileload", getClass().getClassLoader().getResource("icons/imgNotFound.jpg"));
+			picture = JAI.create("fileload", "icons/imgNotFound.jpg");
 		}
 		return picture;
 	}
