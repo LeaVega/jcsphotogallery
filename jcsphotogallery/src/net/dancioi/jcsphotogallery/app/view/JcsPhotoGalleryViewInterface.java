@@ -73,4 +73,5 @@ public interface JcsPhotoGalleryViewInterface {
 
 	boolean askForDeleteConfirmation();
 
+	void showHelp();
 }

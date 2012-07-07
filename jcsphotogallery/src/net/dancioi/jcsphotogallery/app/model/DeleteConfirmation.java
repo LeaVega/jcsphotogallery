@@ -29,7 +29,7 @@ package net.dancioi.jcsphotogallery.app.model;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public interface DeleteConfirmation {
-
+//TODO preference has default delete file true
 	boolean confirmDeleteFiles();
 
 }

@@ -96,7 +96,7 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	}
 
 	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail, DefaultMutableTreeNode treeNode) {
-		infoMessage("Info: " + "Use character \";\" to separate tags");
+		infoMessage("Info: " + "Use character ; to separate tags");
 		showPanel(EditPanel.ALBUM);
 		albumPanel.setCurrentAlbum(album, albumThumbnail, treeNode);
 	}
@@ -105,6 +105,11 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 		infoMessage("Info: " + "Edit picture's name and description. It will be automatically updated.");
 		showPanel(EditPanel.PICTURE);
 		picturePanel.fillUpParameters(pictureBean, picture, treeNode);
+	}
+	
+	public void showHelp(){
+		infoMessage("Help...");
+		showPanel(EditPanel.HELP);
 	}
 
 	private void showPanel(EditPanel editPanel) {

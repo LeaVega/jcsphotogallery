@@ -110,6 +110,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 		JMenu menuHelp = new JMenu("Help");
 		menuHelp.setMnemonic(KeyEvent.VK_H);
+		menuHelp.add(getHelpContents());
 		menuHelp.add(getMenuAbout());
 
 		menuBar.add(menuFile);
@@ -216,6 +217,18 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return menuPreferences;
 	}
 
+	
+	private JMenuItem getHelpContents() {
+		JMenuItem menuAbout = new JMenuItem("Help Contents");
+		menuAbout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.showHelp();
+			}
+		});
+		return menuAbout;
+	}
+	
 	private JMenuItem getMenuAbout() {
 		JMenuItem menuAbout = new JMenuItem("About...");
 		menuAbout.addActionListener(new ActionListener() {

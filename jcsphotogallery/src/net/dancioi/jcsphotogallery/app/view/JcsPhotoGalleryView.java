@@ -174,6 +174,11 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		panelRight.editAlbum(album, picture, treeNode);
 
 	}
+	
+	@Override
+	public void showHelp(){
+		panelRight.showHelp();
+	}
 
 	@Override
 	public void showGallery(GalleryAlbums galleryAlbums) {

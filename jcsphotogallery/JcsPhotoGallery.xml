@@ -33,8 +33,8 @@
 	description="generate the JcsPhotGallery application jar file" >
 	<mkdir dir="${dist}"/>
 
-	<copy todir="${build}/help">
-		<fileset dir="src/help"/>
+	<copy todir="${dist}/help">
+		<fileset dir="help"/>
 	</copy>
 	
 	<copy todir="${build}/icons">
