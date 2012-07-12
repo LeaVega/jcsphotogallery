@@ -26,11 +26,13 @@ package net.dancioi.jcsphotogallery.app.model;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -63,6 +65,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	private GalleryFiles galleryFiles;
 	private JcsPhotoGalleryViewInterface view;
 	private DefaultMutableTreeNode currentNode;
+	private File configsCfgFile;
 
 	public JcsPhotoGalleryModel() {
 		initialize();
@@ -83,21 +86,54 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	 * Method to get the previous configuration. If it's first time when the application run, then create a default configs object.
 	 */
 	private Configs getPreviousConfigs() {
+		Configs previousConfigs = getConfigs(new File("configs.cfg"));
+		if (previousConfigs == null) {
+			File configsIniFile = getConfigsIni(new File("configs.ini")); // added to win. Because in Program Files can't be added a new file "configs.cfg" after setup, the UserAppData is used instead. A configs.ini file with the path to configs.cfg is added at setup.
+			if (configsIniFile != null)
+				configsCfgFile = configsIniFile;
+			previousConfigs = getConfigs(configsIniFile);
+			if (previousConfigs == null) {
+				configsCfgFile = new File("configs.cfg");
+				previousConfigs = new Configs(new Dimension(1280, 960), -1);
+			}
+		}
+
+		previousConfigs.setDeleteConfirmation(this);
+		return previousConfigs;
+	}
+
+	private Configs getConfigs(File configsFile) {
 		Configs previousConfigs = null;
 		try {
-			FileInputStream fis = new FileInputStream(new File("configs.cfg"));
+			FileInputStream fis = new FileInputStream(configsFile);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			previousConfigs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
 			System.out.println("The configs.cfg file is missing. It happens just first time when you run the application");
-			previousConfigs = new Configs(new Dimension(1280, 960), -1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		previousConfigs.setDeleteConfirmation(this);
 		return previousConfigs;
+	}
+
+	private File getConfigsIni(File configsFile) {
+		BufferedReader configsIni = null;
+		try {
+			configsIni = new BufferedReader(new FileReader(configsFile));
+			String line = null;
+			while ((line = configsIni.readLine()) != null) {
+				if (line.startsWith("CONFIGS_PATH")) {
+					return new File(line.substring(13));
+				}
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("configs.ini could not be found");
+		} catch (IOException e) {
+			System.out.println("error reading configs.ini");
+		}
+		return null;
 	}
 
 	/**
@@ -105,7 +141,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	 */
 	private void setCurrentSettings() {
 		try {
-			FileOutputStream fos = new FileOutputStream(new File("configs.cfg"));
+			FileOutputStream fos = new FileOutputStream(configsCfgFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(configs);
 		} catch (FileNotFoundException e) {
@@ -165,7 +201,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 
 	@Override
 	public BufferedImage getPicture(PictureBean picture, int maxSize) {
-		if(picture.getFileName().contains("albumThumbnail"))return picturesImport.getPicture(picture.getFileName(), maxSize, picture.getRotateDegree());
+		if (picture.getFileName().contains("albumThumbnail"))
+			return picturesImport.getPicture(picture.getFileName(), maxSize, picture.getRotateDegree());
 		return picturesImport.getPicture(getPicturePath(picture), maxSize, picture.getRotateDegree());
 	}
 
