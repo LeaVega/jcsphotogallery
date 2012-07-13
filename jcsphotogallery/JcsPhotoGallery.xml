@@ -41,6 +41,11 @@
     	<fileset dir="src/icons"/>
 	</copy>
 	
+	<copy todir="${dist}">
+    	<fileset dir="run"/>
+		<fileset file="Readme.txt"/>
+		<fileset file="COPYING.txt"/>
+	</copy>
          
 	<jar jarfile="${dist}/JcsPhotoGallery-1.1.1.jar" basedir="${build}">
 
