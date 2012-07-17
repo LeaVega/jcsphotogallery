@@ -20,6 +20,7 @@ LicenseFile=COPYING.txt
 Source: "jre-7u5-windows-x64.exe"; DestDir: "{app}"
 Source: "JcsPhotoGallery.exe"; DestDir: "{app}"
 Source: "Readme.txt"; DestDir: "{app}"; Flags: isreadme
+Source: "help\*"; DestDir: "{app}\help"
 
 [Icons]
 Name: "{group}\JcsPhotoGallery"; Filename: "{app}\JcsPhotoGallery.exe"

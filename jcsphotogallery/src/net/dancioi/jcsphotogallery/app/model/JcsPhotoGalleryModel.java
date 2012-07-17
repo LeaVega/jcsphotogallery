@@ -89,11 +89,14 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 		Configs previousConfigs = getConfigs(new File("configs.cfg"));
 		if (previousConfigs == null) {
 			File configsIniFile = getConfigsIni(new File("configs.ini")); // added to win. Because in Program Files can't be added a new file "configs.cfg" after setup, the UserAppData is used instead. A configs.ini file with the path to configs.cfg is added at setup.
-			if (configsIniFile != null)
+			if (configsIniFile != null) {
 				configsCfgFile = configsIniFile;
-			previousConfigs = getConfigs(configsIniFile);
+				previousConfigs = getConfigs(configsIniFile);
+			}
 			if (previousConfigs == null) {
-				configsCfgFile = new File("configs.cfg");
+				if (configsCfgFile == null) {
+					configsCfgFile = new File("configs.cfg");
+				}
 				previousConfigs = new Configs(new Dimension(1280, 960), -1);
 			}
 		}
