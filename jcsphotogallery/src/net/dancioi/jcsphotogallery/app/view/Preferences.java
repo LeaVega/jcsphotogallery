@@ -59,7 +59,7 @@ public class Preferences extends JFrame {
 	public Preferences(Configs configs) {
 		this.configs = configs;
 		setTitle("Preferences");
-		this.setMinimumSize(new Dimension(450, 300));
+		this.setMinimumSize(new Dimension(450, 220));
 		this.setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
@@ -72,7 +72,7 @@ public class Preferences extends JFrame {
 				saveSettings();
 			}
 		});
-		btnSave.setBounds(341, 239, 91, 23);
+		btnSave.setBounds(341, 160, 91, 23);
 		panel.add(btnSave);
 
 		JButton btnCancel = new JButton("Cancel");
@@ -81,15 +81,15 @@ public class Preferences extends JFrame {
 				dispose();
 			}
 		});
-		btnCancel.setBounds(209, 239, 91, 23);
+		btnCancel.setBounds(209, 160, 91, 23);
 		panel.add(btnCancel);
 
 		checkBoxRemoveJpgFiles = new JCheckBox("Remove also the .jpg files for deleted pictures");
-		checkBoxRemoveJpgFiles.setBounds(30, 136, 426, 44);
+		checkBoxRemoveJpgFiles.setBounds(30, 80, 426, 44);
 		panel.add(checkBoxRemoveJpgFiles);
 
 		validationInfo = new JLabel();
-		validationInfo.setBounds(30, 180, 400, 44);
+		validationInfo.setBounds(30, 115, 400, 44);
 		validationInfo.setForeground(Color.red);
 		panel.add(validationInfo);
 

@@ -198,7 +198,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		if (model.isGallerySaved(view.getTree())) {
 			exitApplication();
 		} else {
-			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes that you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (exitQuestion == JOptionPane.YES_OPTION) {
 				saveGalleryChanges();
 			}
@@ -217,7 +217,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		return menuPreferences;
 	}
 
-	
 	private JMenuItem getHelpContents() {
 		JMenuItem menuAbout = new JMenuItem("Help Contents");
 		menuAbout.addActionListener(new ActionListener() {
@@ -228,7 +227,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		});
 		return menuAbout;
 	}
-	
+
 	private JMenuItem getMenuAbout() {
 		JMenuItem menuAbout = new JMenuItem("About...");
 		menuAbout.addActionListener(new ActionListener() {
@@ -243,15 +242,15 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	private void addListenersToTree() {
 		view.getTree().addMouseListener(mouseListener);
 		view.getTree().addTreeSelectionListener(new TreeSelectionListener() {
-			  public void valueChanged(TreeSelectionEvent tse) {
-				  TreePath treePath = tse.getPath();
-					// System.out.printf("path = %s%n", treePath);
-					if (null != treePath) {
-						DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-						model.selectNode(treeNode);
-					}		   
-			  } 
-			}); 
+			public void valueChanged(TreeSelectionEvent tse) {
+				TreePath treePath = tse.getPath();
+				// System.out.printf("path = %s%n", treePath);
+				if (null != treePath) {
+					DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+					model.selectNode(treeNode);
+				}
+			}
+		});
 	}
 
 	private MouseListener mouseListener = new MouseAdapter() {

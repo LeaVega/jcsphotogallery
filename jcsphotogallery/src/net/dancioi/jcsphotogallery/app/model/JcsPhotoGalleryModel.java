@@ -86,7 +86,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	 * Method to get the previous configuration. If it's first time when the application run, then create a default configs object.
 	 */
 	private Configs getPreviousConfigs() {
-		Configs previousConfigs = getConfigs(new File("configs.cfg"));
+		configsCfgFile = new File("configs.cfg");
+		Configs previousConfigs = getConfigs(configsCfgFile);
 		if (previousConfigs == null) {
 			File configsIniFile = getConfigsIni(new File("configs.ini")); // added to win. Because in Program Files can't be added a new file "configs.cfg" after setup, the UserAppData is used instead. A configs.ini file with the path to configs.cfg is added at setup.
 			if (configsIniFile != null) {

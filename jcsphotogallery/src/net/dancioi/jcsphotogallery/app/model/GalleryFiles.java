@@ -84,7 +84,7 @@ public class GalleryFiles {
 		/*
 		 * if (result.indexOf(": false") != -1) { new DeleteReport(result); }
 		 */
-		System.out.println(result.toString());
+		// System.out.println(result.toString());
 	}
 
 	public void deleteAlbum(AlbumBean albumToDelete) {
@@ -149,7 +149,7 @@ class DeleteLater implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("tring to delete file: " + fileToDelete.getAbsolutePath());
+			// System.out.println("tring to delete file: " + fileToDelete.getAbsolutePath());
 			if (fileToDelete.exists()) {
 				result = fileToDelete.delete();
 				if (result)

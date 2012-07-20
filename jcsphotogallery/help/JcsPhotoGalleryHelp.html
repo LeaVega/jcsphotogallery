@@ -2,84 +2,74 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>JcsPhotoGallery</title>
-</head>
-<body style="  color: rgb(0, 0, 0); background-color: rgb(224, 224,
-    224);" alink="#000099" link="#000099" vlink="#990099">
- 
-<table style="background-color: white; width: 550px; height: 572px; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="0">
+<title>JcsPhotoGallery - manager</title>
 
-      <tbody>
-        <tr style="font-family: Georgia;" align="center">
-          <td style="vertical-align: middle; text-align: left; height: 70px;">
-            <div style="text-align: center;"><big><big><big>JcsPhotoGallery</big></big></big><br>
-              Just Client Side Photo Gallery<br>
-            </div>
-          </td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td>
-            <table style="width: 90%; height: 100%; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="2" cellspacing="2">
-              <tbody>
-                <tr>
-                  <td style="text-align: center; vertical-align: top; width: 720px;">
-                    <div style="text-align: left; font-family: Arial;"><br>
-                      <br>
+<meta content="Daniel Cioi" name="author">
+<meta name ="keywords" content="JcsPhotoGallery, Gallery, Manager">
+<meta name ="description" content="JcsPhotoGallery (Just Client Side Photo Gallery) - gallery manager.">
+<!-- Edited in a hurry, improvement is required  -->
+
+</head>
+<body>
+<br><br>
+JcsPhotoGallery desktop application - a gallery manager  for JcsPhotoGallery client.
+<br><br>
                       JcsPhotoGallery (Just Client Side Photo Gallery),
                       a photo gallery project developed in GWT
-                      and&nbsp;released as free software under the <a href="http://www.gnu.org/licenses/gpl.txt">GNU
-                        General Public License</a> (GPL). <br>
-                      &nbsp;<br>
-                      <br>
-                      To see a <a href="http://www.dancioi.net/projects/jcsphotogallery/demo/Jcsphotogallery.html">
-                        demo</a> of this project, follow the link (<a href="http://www.dancioi.net/projects/jcsphotogallery/demo/Jcsphotogallery.html">JcsPhotoGallery
-
-                        demo</a>). <br>
-                      <br>
-                      The project is hosted on&nbsp; <a href="http://code.google.com/p/jcsphotogallery/">Google
-Project
-
-                        Hosting</a> (here you can download the
-                      application and source code). <br>
-                      <br>
-                      For my web page see <a href="http://www.dancioi.net">Daniel Cioi's web
-                        page</a>.<br>
-                      <br>
-                      <br>
-                      JcsPhotoGallery screenshots:<br>
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td> <a href="img/JcsPhotoGallery_demo_img01.jpg"><img style="border: 0px solid; width: 250px; height: 235px;" alt="JcsPhotoGallery - albums view" src="img/JcsPhotoGallery_demo_img01s.jpg"></a>
-                            </td>
-                            <td> <a href="img/JcsPhotoGallery_demo_img02.jpg"><img src="img/JcsPhotoGallery_demo_img02s.jpg" alt="JcsPhotoGallery - a photo
-                                  view" style="border: 0px solid; width: 250px; height: 234px;"></a> </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <br>
-                      <br>
-                      
-                      </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td style="height: 40px; text-align: center;">
-            <p>&copy; Copyrights 2010-2012 Daniel Cioi - All rights reserved 
-            </p>
-            <img alt="GNU General Public License (GPL)" src="img/gplv3-88x31.png">
-          </td>
-        </tr>
-      </tbody>
-    
-</table>
-                      
-
-</body>
+                      <br>and&nbsp;released as free software under the <a href="http://www.gnu.org/licenses/gpl.txt">GNU
+                        General Public License</a> (GPL).<br>This application allows easily gallery management for JcsPhotoGallery client.<br><br>Content:<br>
+                        <A Href="#createNewGallery">create new gallery</A> 
+                        <br>
+                        <A Href="#saveGallery">save gallery</A>
+                        <br>
+                        <A Href="#preferences">preferences</A> 
+                        <br>
+                        <A Href="#importGallery">import gallery</A>
+                        <br><br>
+                        <A NAME="createNewGallery">create new gallery</A>
+                        <br>File &gt; New &gt; Choose the folder to create gallery.
+                        <br>A &quot;gallery&quot; folder will be created at selected location. 
+                        The pictures and xml files will be saved on this folder.
+                        <br>The content from this gallery folder will be copied later to gallery folder on the web server where JcsPhotGallery client is installed.
+                        <br>A first album will be created (application's left side represented in a tree).
+                        <br>On the application's right side (gallery panel), Gallery name and Home page should be updated. 
+                        <br>Just change the text and it will be automatically updated.
+                        <br><br>By mouse left click action on the new created album (a number like &quot;1342635573899&quot;), the album edit panel will be shown.
+                        <br>By mouse right click action on an album (just one empty album at this moment), a popup menu will be shown. 
+                        <br>Choose &quot;Add new image(s)&quot; and a choose file dialog will be shown as in the bellow screenshot. Multi-selection is allowed.<br>
+                        <br>
+                        <img style="border: 0px solid; width: 600px;" alt="JcsPhotoGallery - Add images to album" src="AddImagesToAlbum.png">
+                        <br><br>
+                        <br>After pictures import (shown in the right-bottom progress bar), 
+                        <br>expand the album node and it will display the new imported pictures in a tree hierarchy. 
+                        <br>Just click on one of it and the image will be shown in Picture Panel.
+                        <br>Name and description can be edited for each picture.
+                        <br>To rotate or navigate to the next/previous picture use the buttons or navigation arrows keys (up/down).
+                        <br>Mouse right click on any picture allows functions as delete or set the album thumbnail (the album's image).
+                        <br>Add new album or delete the selected album are also on the popup menu.
+                        <br>For each album should be defined tags (at least one tag) separated by ; character.
+                        <br>On JcsPhotoGallery client these tags help sorting the albums as shown in bellow screenshot.<br>
+                        <br>
+                        <img style="border: 0px solid; width: 600px;" alt="JcsPhotoGallery - sort by tags" src="JcsPhotoGalleryTags.png"><br>
+                        <br><br>
+                        <A Name="saveGallery">Save gallery</A>
+                        <br>File> Save
+                        <br>If any changes are performed, at close application's action a message will ask to save them.
+                        <br><br>
+                        <A Name="preferences">Preferences</A>
+                        <br>All images added to gallery are resized to the resolution specified in preferences dialog (default and recommended: 1280x960 pixels).
+                        <br>Because usual screens fit properly a picture with this size and the file size is bellow 100kB allow  a faster load over internet.
+                        <br>Higher resolution decrease performance over slow internet connections (as many users still have),
+                        <br>so do not change that unless you need the pictures outside of JcsPhotGallery client.
+                        <br>The check box: Remove also the .jpg files... 
+                        <br>means that the deleted pictures in this application will be also deleted from storage not just from xml files (recommended enable).
+                        <br><br>
+                        <A Name="importGallery">Import gallery</A>
+                        <br>File&gt; Import &gt; Choose the gallery.xml file
+                        <br>look for a gallery.xml file.
+                        <br>The gallery format used in previous version (1.0.x) can't be imported.
+                        <br>Every time the application is started it will open the last edited gallery.
+                        <br>
+                        
+                        </body>
 </html>

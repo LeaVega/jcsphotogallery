@@ -5,7 +5,6 @@
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
- *	This file is part of JcsPhotGallery.
  *
  *  JcsPhotGallery is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +24,7 @@
  Current version: 
  
  JcsPhohoGallery - Client side: 	1.1.1 - first version of 1.1.x
- 				latest of 1.0.x is 1.0.6
+ 	for previous gallery format use - latest of 1.0.x is 1.0.6
  				
  JcsPhotoGallery - Gallery manager: 1.1.1 - first version, runs on Windows, Linux, Mac OS
  
