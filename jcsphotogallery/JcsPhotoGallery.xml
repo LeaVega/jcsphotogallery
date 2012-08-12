@@ -55,7 +55,17 @@
 		</zipgroupfileset>
 
 		<manifest>
-			<attribute name="Main-Class" value="net.dancioi.jcsphotogallery.app.Main"/>
+			<attribute name="Main-Class" value="net.dancioi.jcsphotogallery.app.Main"/>			
+			
+			<!-- Bellow required by jai_imageio-1.1 (Issue just on Mac OS - exception: Provider com.sun.media.imageioimpl.plugins.jpeg.CLibJPEGImageWriterSpi could not be instantiated: java.lang.IllegalArgumentException: vendorName == null!) -->
+			<attribute name="Specification-Title" value="Java Advanced Imaging Image I/O Tools"/>
+			<attribute name="Specification-Version" value="1.1"/>
+			<attribute name="Specification-Vendor" value="Sun Microsystems, Inc."/>
+			<attribute name="Implementation-Title" value="com.sun.media.imageio"/>
+			<attribute name="Implementation-Version" value="1.1"/>
+			<attribute name="Implementation-Vendor" value="Sun Microsystems, Inc."/>
+			<attribute name="Sealed" value="false"/>
+
 		</manifest>
 	</jar>
 </target>
