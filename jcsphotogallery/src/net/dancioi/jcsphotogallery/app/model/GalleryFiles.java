@@ -115,14 +115,25 @@ public class GalleryFiles {
 	}
 
 	private void copyFile(String pictureSource, String pictureDestination) {
+		FileChannel in = null;
+		FileChannel out = null;
 		try {
-			FileChannel in = new FileInputStream(pictureSource).getChannel();
-			FileChannel out = new FileOutputStream(pictureDestination).getChannel();
+			in = new FileInputStream(pictureSource).getChannel();
+			out = new FileOutputStream(pictureDestination).getChannel();
 			in.transferTo(0, in.size(), out);
-			in.close();
-			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(in!=null)
+				in.close();
+				if(out!=null)
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
@@ -145,7 +156,7 @@ class DeleteLater implements Runnable {
 	public void run() {
 		for (int count = 0; count < 10; count++) {
 			try {
-				Thread.currentThread().sleep(1000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

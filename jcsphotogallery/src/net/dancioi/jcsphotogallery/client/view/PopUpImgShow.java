@@ -76,7 +76,9 @@ public class PopUpImgShow extends PopupGeneric {
 
 	// cache the next and previous image.
 	// Just brings the images in browser's cache.
+	@SuppressWarnings("unused")
 	private Image imgCacheN;
+	@SuppressWarnings("unused")
 	private Image imgCacheP;
 
 	// Button play; // button AUTO PLAY

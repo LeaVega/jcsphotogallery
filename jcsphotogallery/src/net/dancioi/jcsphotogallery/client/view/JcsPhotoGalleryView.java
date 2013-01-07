@@ -38,8 +38,10 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class JcsPhotoGalleryView extends View {
 
-	// TODO define background color in albums.xml
-	private String galleryVersion = "1.1.1";
+	// TODO define background color in albums.xml o create templates
+	// FIXME Recent Albums tag is added to tags instead to clear all tags and show it
+	// FIXME in Sort Albums by Tags menu, disable the tags that added to current tags will show no albums! 
+	private String galleryVersion = "1.1.2beta";
 
 	private Label headerLabel;
 	private TopPanel topPanel;

@@ -108,9 +108,11 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 
 	private Configs getConfigs(File configsFile) {
 		Configs previousConfigs = null;
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
 		try {
-			FileInputStream fis = new FileInputStream(configsFile);
-			ObjectInputStream ois = new ObjectInputStream(fis);
+			fis = new FileInputStream(configsFile);
+			ois = new ObjectInputStream(fis);
 			previousConfigs = (Configs) ois.readObject();
 		} catch (FileNotFoundException e) {
 			System.out.println("The configs.cfg file is missing. It happens just first time when you run the application");
@@ -118,7 +120,17 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} finally{
+			try {
+				if(fis!=null)
+				fis.close();
+				if(ois!=null)
+				ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
 		return previousConfigs;
 	}
 
@@ -136,6 +148,13 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 			System.out.println("configs.ini could not be found");
 		} catch (IOException e) {
 			System.out.println("error reading configs.ini");
+		} finally{
+			try {
+				if(configsIni!=null)
+				configsIni.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -144,14 +163,22 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	 * Method to save on configs.cfg file the current settings
 	 */
 	private void setCurrentSettings() {
+		ObjectOutputStream oos = null;
 		try {
 			FileOutputStream fos = new FileOutputStream(configsCfgFile);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos = new ObjectOutputStream(fos);
 			oos.writeObject(configs);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally{
+			try {
+				if(oos!=null)
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
