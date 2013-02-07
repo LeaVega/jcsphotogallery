@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.media.jai.InterpolationNearest;
@@ -55,7 +56,8 @@ public class GalleryIO {
 		try {
 			picture = JAI.create("fileload", picturePath);
 		} catch (IllegalArgumentException e) {
-			picture = JAI.create("fileload", "icons/imgNotFound.png");
+			URL resource = this.getClass().getResource("/icons/imgNotFound.png");
+			picture = JAI.create("fileload", resource);
 		}
 		return picture;
 	}
