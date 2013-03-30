@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
- * This class create the TOP panel. The application contains 3 panels (top, center, bottom).
+ * Creates the TOP panel. The application contains 3 panels (top, center, bottom).
  * 
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
@@ -60,26 +60,34 @@ public class TopPanel extends AbsolutePanel {
 	}
 
 	/**
-	 * This method get the selected item from ListBox and pass it.
+	 * Gets the selected item from ListBox and pass it.
 	 * 
 	 * @param selected
 	 *            Sorting ListBox id selected.
 	 */
 	private void selectedList(int selected) {
-		if (selected == 0) {// if show all albums is selected, then previous categories are removed, and don't add it to selectedTags
+		if (selected == 0) { // if "All Albums" is selected, then previous categories are removed, and don't add it to selectedTags
 			selectedTags.clear();
-		} else {
-			if (selectedTags.contains(selected)) {
+			selectedTags.add((Integer) 0); // 0 is the id for All Albums
+		}else if (selected == 1) { // if "Recent Albums" is selected, then previous categories are removed, and don't add it to selectedTags
+			selectedTags.clear();
+			selectedTags.add((Integer) 1); // 1 is the id for Recent Albums
+		} 
+		
+		else {
+			if (selectedTags.contains(0)) { // if "All Albums" already in selected tags, then remove it
+				selectedTags.remove((Integer) 0);
+			}
+			if (selectedTags.contains(1)) { // if "Recent Albums" already in selected tags, then remove it
+				selectedTags.remove((Integer) 1);
+			}
+			
+			if (selectedTags.contains(selected)) { // if already in selected tags, then remove it
 				selectedTags.remove((Integer) selected);
-			} else {
+			} else {	// otherwise add it to selected tags
 				selectedTags.add((Integer) selected);
 			}
 		}
-		// TODO very bad design, try to reconsider this in the next version.
-		if (selectedTags.size() == 0)
-			selectedTags.add((Integer) 0);
-		else
-			selectedTags.remove((Integer) 0);
 
 		StringBuilder albumsToShow = new StringBuilder();
 		for (Integer tag : selectedTags)
@@ -89,7 +97,7 @@ public class TopPanel extends AbsolutePanel {
 	}
 
 	/**
-	 * This method add the gallery owner home link web page. the owner is read from albums.xml file.
+	 * Adds the gallery owner home link web page. the owner is read from albums.xml file.
 	 * 
 	 * @param name
 	 *            the gallery owner's name

@@ -38,10 +38,10 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class JcsPhotoGalleryView extends View {
 
-	// FIXME Recent Albums tag is added to tags instead to clear all tags and show it
 	// FIXME in Sort Albums by Tags menu, disable the tags that added to current tags will show no albums! 
 	// TODO if no albums can be shown (because too many selected tags) give a hint to how to remove tags
-	// improve info message when gallery is missing
+	// TODO improve info message when gallery is missing
+	// TODO for version 1.1.2, add function to remove tag by clicking on it.
 	private String galleryVersion = "1.1.2 beta";
 
 	private Label headerLabel;
