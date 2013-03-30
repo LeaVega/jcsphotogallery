@@ -58,7 +58,7 @@ public class BottomPanel extends AbsolutePanel {
 		this.setPixelSize(790, 40);
 		this.setStyleName("bottomPanel", true);
 
-		buttonIconLeft = new Image("ext/previous.gif"); // PREVIOUS button
+		buttonIconLeft = new Image("template/ext/previous.gif"); // PREVIOUS button
 		buttonIconLeft.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leftButtonClicked();
@@ -66,7 +66,7 @@ public class BottomPanel extends AbsolutePanel {
 		});
 		add(buttonIconLeft, 550, 3);
 
-		buttonIconRight = new Image("ext/next.gif"); // NEXT button
+		buttonIconRight = new Image("template/ext/next.gif"); // NEXT button
 		buttonIconRight.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				rightButtonClicked();
@@ -74,7 +74,7 @@ public class BottomPanel extends AbsolutePanel {
 		});
 		add(buttonIconRight, 630, 3);
 
-		buttonIconUp = new Image("ext/albums.gif"); // BACK to albums
+		buttonIconUp = new Image("template/ext/albums.gif"); // BACK to albums
 		buttonIconUp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				upButtonClicked();

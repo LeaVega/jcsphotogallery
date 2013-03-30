@@ -92,7 +92,7 @@ public class CenterPanel extends Grid {
 					cellOn[cellID] = true;
 					imgId++;
 				} else { // for less than 9 thumbnails, fill it with empty image.
-					cell[cellID] = new Image("ext/cellBackground.gif");
+					cell[cellID] = new Image("template/ext/cellBackground.gif");
 					cellOn[cellID] = false;
 				}
 				setWidget(h, w, cell[cellID]);

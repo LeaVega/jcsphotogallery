@@ -2,6 +2,11 @@
 JcsPhotoGallery project - http://www.dancioi.net/projects/jcsphotogallery
 */
 
+body {
+    background: none repeat scroll 0 0 #000000 !important;
+
+}
+
 .h1 {
 	font-family:Georgia;
   	font-size: 2em;

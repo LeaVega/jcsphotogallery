@@ -129,12 +129,12 @@ public class PopUpImgShow extends PopupGeneric {
 		bottomPanel.setPixelSize(popUpSizeX, 50);
 		bottomPanel.setStyleName("bottomPanel");
 
-		next = new Image("ext/next.gif");
+		next = new Image("template/ext/next.gif");
 		next.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (!playFlag) {
 					autoPlay(false);
-					play.setUrl("ext/play.gif");
+					play.setUrl("template/ext/play.gif");
 					playFlag = true;
 				}
 				nextImg();
@@ -142,12 +142,12 @@ public class PopUpImgShow extends PopupGeneric {
 		});
 		bottomPanel.add(next, popUpSizeX - 160, 3);
 
-		previous = new Image("ext/previous.gif");
+		previous = new Image("template/ext/previous.gif");
 		previous.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (!playFlag) {
 					autoPlay(false);
-					play.setUrl("ext/play.gif");
+					play.setUrl("template/ext/play.gif");
 					playFlag = true;
 				}
 				previousImg();
@@ -155,7 +155,7 @@ public class PopUpImgShow extends PopupGeneric {
 		});
 		bottomPanel.add(previous, popUpSizeX - 240, 3);
 
-		close = new Image("ext/close.gif");
+		close = new Image("template/ext/close.gif");
 		close.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				closeImg();
@@ -163,12 +163,12 @@ public class PopUpImgShow extends PopupGeneric {
 		});
 		bottomPanel.add(close, popUpSizeX - 70, 3);
 
-		play = new Image("ext/play.gif");
+		play = new Image("template/ext/play.gif");
 		play.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (playFlag && currentImg < pictures.length - 1) {
 					autoPlay(true);
-					play.setUrl("ext/pause.gif");
+					play.setUrl("template/ext/pause.gif");
 					playFlag = false;
 				} else {
 					stopAutoPlay();
@@ -235,7 +235,7 @@ public class PopUpImgShow extends PopupGeneric {
 
 	private void stopAutoPlay() {
 		autoPlay(false);
-		play.setUrl("ext/play.gif");
+		play.setUrl("template/ext/play.gif");
 		playFlag = true;
 	}
 
