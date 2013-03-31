@@ -68,6 +68,8 @@ public abstract class View implements PageController {
 
 	public abstract void setAlbumLabel(String albumName);
 
+	public abstract void setTagsLabel(String selectedTags);
+
 	public abstract void showPopUpImg(int id, String imgPath, PictureBean[] pictures);
 
 	public abstract void setLeftButtonVisible(boolean visible);
@@ -79,5 +81,9 @@ public abstract class View implements PageController {
 	public abstract void setPageNr(String pageNr);
 
 	public abstract void setAlbumsTags(String[] tags);
+
+	public abstract void noGalleryToShow();
+
+	public abstract void showAlertMessage(String msg);
 
 }

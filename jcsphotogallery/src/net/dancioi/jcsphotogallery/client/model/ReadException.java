@@ -24,7 +24,6 @@
 
 package net.dancioi.jcsphotogallery.client.model;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -69,7 +68,7 @@ public class ReadException extends Exception {
 	 * @param msg
 	 */
 	private void popUpMessage(String msg) {
-		GWT.log(msg);
+		// GWT.log(msg);
 		Window.alert("Error message : " + msg);
 	}
 

@@ -102,7 +102,9 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 					getAlbumNr(parseInt);
 				} else if (token.startsWith("t")) {
 					String[] split = token.split(";");
-					showAlbumsByTag(split[2], Integer.parseInt(split[1]));
+					if (split.length > 2) {
+						showAlbumsByTag(split[2], Integer.parseInt(split[1]));
+					}
 				}
 			}
 
@@ -140,7 +142,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 
 	private Thumbnails[] onePage(Thumbnails[] thumbnails) {
 		if (thumbnails.length == 0) {
-			view.setAlbumLabel(galleryTags.getSelectedTags());
+			view.setTagsLabel(galleryTags.getSelectedTags());
 			return new Thumbnails[0];
 		}
 
@@ -229,14 +231,17 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	}
 
 	@Override
-	public void getAlbumsByTag(String selectedTags) {
+	public void showAlbumsByTag(String selectedTags) {
 		currentSelectedTags = selectedTags;
 		History.newItem("t;" + currentThumbnailsPage + ";" + selectedTags); // add tag history.
 	}
 
 	private void showAlbumsByTag(String selectedTags, int lastPage) {
-		setCurrentThumbnails(GALLERY_PATH, galleryTags.getAlbumsByTagId(selectedTags), lastPage);
-
+		AlbumBean[] albumsByTags = galleryTags.getAlbumsByTagId(selectedTags);
+		setCurrentThumbnails(GALLERY_PATH, albumsByTags, lastPage);
+		if (albumsByTags.length == 0) {
+			view.noGalleryToShow();
+		}
 	}
 
 }

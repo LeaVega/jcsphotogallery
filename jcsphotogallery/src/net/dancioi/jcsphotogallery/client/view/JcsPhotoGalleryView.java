@@ -27,6 +27,7 @@ package net.dancioi.jcsphotogallery.client.view;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -38,10 +39,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class JcsPhotoGalleryView extends View {
 
-	// FIXME in Sort Albums by Tags menu, disable the tags that added to current tags will show no albums! 
-	// TODO if no albums can be shown (because too many selected tags) give a hint to how to remove tags
 	// TODO improve info message when gallery is missing
 	// TODO for version 1.1.2, add function to remove tag by clicking on it.
+	// TODO catch possible error if the user put ";" in tag
 	private String galleryVersion = "1.1.2 beta";
 
 	private Label headerLabel;
@@ -181,15 +181,31 @@ public class JcsPhotoGalleryView extends View {
 
 	@Override
 	public void setAlbumLabel(String albumName) {
-		bottomPanel.setAlbumLabel(albumName);
+		bottomPanel.setLeftCornerLabel(albumName);
+	}
+
+	@Override
+	public void setTagsLabel(String selectedTags) {
+		bottomPanel.setLeftCornerLabel(selectedTags);
 	}
 
 	public void showAlbumsByTag(String selectedTags) {
-		getPresenter().getAlbumsByTag(selectedTags);
+		getPresenter().showAlbumsByTag(selectedTags);
 	}
 
 	@Override
 	public void setAlbumsTags(String[] tags) {
 		topPanel.addTagsToListBox(tags);
+	}
+
+	@Override
+	public void noGalleryToShow() {
+		bottomPanel.setLeftCornerLabelAlertMode();
+		showAlertMessage("The selected tags togheter returns no albums!\nPlease remove one of the tags by selecting again \"Sort Albums by tag\".");
+	}
+
+	@Override
+	public void showAlertMessage(String msg) {
+		Window.alert(msg);
 	}
 }

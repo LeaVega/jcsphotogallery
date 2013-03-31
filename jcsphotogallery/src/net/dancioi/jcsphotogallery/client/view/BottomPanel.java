@@ -24,7 +24,6 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -43,7 +42,7 @@ public class BottomPanel extends AbsolutePanel {
 
 	private PageController galleryControll;
 	private Label pageNr; // page number label.
-	private Label albumLabel; // album label.
+	private Label leftCornerLabel; // album/tags label.
 
 	private Image buttonIconLeft;
 	private Image buttonIconRight;
@@ -94,8 +93,8 @@ public class BottomPanel extends AbsolutePanel {
 	 * Adds the album label.
 	 */
 	private void addAlbumLabel() {
-		albumLabel = new Label("");
-		add(albumLabel, 20, 10);
+		leftCornerLabel = new Label("");
+		add(leftCornerLabel, 20, 10);
 	}
 
 	/*
@@ -146,7 +145,7 @@ public class BottomPanel extends AbsolutePanel {
 	 *            boolean
 	 */
 	public void setUpButtonVisible(boolean v) {
-		//GWT.log("up visible " + v);
+		// GWT.log("up visible " + v);
 		buttonIconUp.setVisible(v);
 	}
 
@@ -166,8 +165,16 @@ public class BottomPanel extends AbsolutePanel {
 	 * @param album
 	 *            album name
 	 */
-	public void setAlbumLabel(String albumName) {
-		albumLabel.setText(albumName);
+	public void setLeftCornerLabel(String label) {
+		String styleName = leftCornerLabel.getStyleName();
+		if (!styleName.equals("gwt-Label")) {
+			leftCornerLabel.setStyleName("gwt-Label");
+		}
+		leftCornerLabel.setText(label);
+	}
+
+	public void setLeftCornerLabelAlertMode() {
+		leftCornerLabel.setStyleName("gwt-Label-alert");
 	}
 
 	/**
@@ -178,7 +185,7 @@ public class BottomPanel extends AbsolutePanel {
 		setRightButtonVisible(false);
 		setUpButtonVisible(false);
 		setPageNr("");
-		setAlbumLabel("");
+		setLeftCornerLabel("");
 	}
 
 }
