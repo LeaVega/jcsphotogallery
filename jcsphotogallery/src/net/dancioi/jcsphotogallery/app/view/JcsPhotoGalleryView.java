@@ -130,6 +130,11 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	}
 
 	@Override
+	public JPanel getLeftPanel() {
+		return panelLeft;
+	}
+
+	@Override
 	public void addMenuBar(JMenuBar menuBar) {
 		this.setJMenuBar(menuBar);
 	}
@@ -174,9 +179,9 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		panelRight.editAlbum(album, picture, treeNode);
 
 	}
-	
+
 	@Override
-	public void showHelp(){
+	public void showHelp() {
 		panelRight.showHelp();
 	}
 

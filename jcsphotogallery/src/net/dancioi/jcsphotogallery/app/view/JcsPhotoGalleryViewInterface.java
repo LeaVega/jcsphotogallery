@@ -28,6 +28,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -74,4 +75,6 @@ public interface JcsPhotoGalleryViewInterface {
 	boolean askForDeleteConfirmation();
 
 	void showHelp();
+
+	JPanel getLeftPanel();
 }

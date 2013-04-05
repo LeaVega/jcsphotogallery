@@ -62,13 +62,14 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface, RightClickPopUpInterface {
-	//TODO on Mac OS - icons/imgNotFound.png File not found
-	//TODO add version
-	//TODO on linux, issue with OpenJDK when import images
-	//TODO add undo function for remove actions
+	// TODO on Mac OS - icons/imgNotFound.png File not found
+	// TODO on linux, issue with OpenJDK when import images
+	// TODO add undo function for remove actions
+	// TODO after delete an album, move the selection on the above album
 	private JcsPhotoGalleryModelInterface model;
 	private JcsPhotoGalleryViewInterface view;
 	private RightClickPopUp rightClickPopUp;
+	private File currentFolder = new java.io.File(".");
 
 	public JcsPhotoGalleryController(JcsPhotoGalleryModelInterface model, JcsPhotoGalleryViewInterface view) {
 		this.model = model;
@@ -133,7 +134,6 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				folderChooser.setDialogTitle("Choose the folder to create gallery.");
 				folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-
 					createNewGallery(folderChooser.getSelectedFile());
 				}
 			}
@@ -202,7 +202,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		if (model.isGallerySaved(view.getTree())) {
 			exitApplication();
 		} else {
-			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them",
+					"Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (exitQuestion == JOptionPane.YES_OPTION) {
 				saveGalleryChanges();
 			}
@@ -245,6 +246,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 	private void addListenersToTree() {
 		view.getTree().addMouseListener(mouseListener);
+		view.getLeftPanel().addMouseListener(mouseListener);
 		view.getTree().addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
 				TreePath treePath = tse.getPath();
@@ -256,25 +258,25 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 			}
 		});
 		view.getTree().addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_DELETE){
+				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 					TreePath treePath = view.getTree().getSelectionPath();
 					if (null != treePath) {
 						DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
 						deleteImage(treeNode);
 					}
 				}
-				
+
 			}
 		});
 	}
@@ -308,8 +310,12 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 				} else {
 					rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
 				}
-				rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
+			} else {
+				TreePath pathForRow = view.getTree().getPathForRow(0);
+				DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) pathForRow.getPathComponent(0);
+				rightClickPopUp.enableMenus(RightClickPopUp.ROOT, treeNode);
 			}
+			rightClickPopUp.show(e.getComponent(), loc.x, loc.y);
 			return true;
 		}
 		return false;
@@ -318,12 +324,14 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	@Override
 	public void addNewAlbum() {
 		JFileChooser folderChooser = new JFileChooser();
-		folderChooser.setCurrentDirectory(new java.io.File("."));
+		folderChooser.setCurrentDirectory(currentFolder);
 		folderChooser.setDialogTitle("Select the jpg files. Multi-selection is allowed.");
 		folderChooser.setAcceptAllFileFilterUsed(false);
 		folderChooser.setFileFilter(new PictureFilter());
 		folderChooser.setMultiSelectionEnabled(true);
 		if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File[] selectedFiles = folderChooser.getSelectedFiles();
+			currentFolder = selectedFiles[0].getParentFile();
 			new TaskImportPicturesToNewAlbum(folderChooser.getSelectedFiles()).execute();
 		}
 	}
@@ -352,12 +360,13 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	public void addNewImage(DefaultMutableTreeNode treeNode) {
 		if (treeNode.getUserObject() instanceof AlbumBean) {
 			JFileChooser folderChooser = new JFileChooser();
-			folderChooser.setCurrentDirectory(new java.io.File("."));
+			folderChooser.setCurrentDirectory(currentFolder);
 			folderChooser.setDialogTitle("Select the jpg files. Multi-selection is allowed.");
 			folderChooser.setAcceptAllFileFilterUsed(false);
 			folderChooser.setFileFilter(new PictureFilter());
 			folderChooser.setMultiSelectionEnabled(true);
 			if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				currentFolder = folderChooser.getSelectedFile().getParentFile();
 				new TaskImportPicturesToExistingAlbum(folderChooser.getSelectedFiles(), treeNode).execute();
 			}
 		}
