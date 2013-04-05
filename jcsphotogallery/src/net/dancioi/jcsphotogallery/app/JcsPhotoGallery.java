@@ -42,6 +42,13 @@ import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
+
+// TODO allow right click to add album anywhere in app's frame
+// TODO keep the last path when add new album or new photos
+// FIXME if delete the picture that is also thumbnail, set the next one.
+// TODO show already added tags in new album tags (to do not duplicate one by misspelling)
+// TODO add version in ...About
+
 public class JcsPhotoGallery {
 
 	private String osName;

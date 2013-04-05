@@ -201,7 +201,7 @@ public class JcsPhotoGalleryView extends View {
 	@Override
 	public void noGalleryToShow() {
 		bottomPanel.setLeftCornerLabelAlertMode();
-		showAlertMessage("The selected tags togheter returns no albums!\nPlease remove one of the tags by selecting again \"Sort Albums by tag\".");
+		showAlertMessage("The selected tags togheter returns no albums!\nPlease remove one of the tags already selected \nby selecting one of it again from \"Sort Albums by tag\".");
 	}
 
 	@Override
