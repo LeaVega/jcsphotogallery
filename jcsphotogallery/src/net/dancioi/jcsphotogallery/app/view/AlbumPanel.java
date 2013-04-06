@@ -25,20 +25,31 @@
 package net.dancioi.jcsphotogallery.app.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.Constants;
 
 /**
  * Panel to edit the photos' album.
@@ -57,6 +68,8 @@ public class AlbumPanel extends JPanel implements FocusListener {
 
 	private JTextField albumNameTextField;
 	private JTextField albumTagsTextField;
+	private JTextArea existingTags;
+	private SortedSet<String> allCurrentTags;
 
 	private AlbumBean editedAlbum;
 	private DefaultMutableTreeNode treeNode;
@@ -75,43 +88,74 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		JPanel editPanel = new JPanel();
 		editPanel.setLayout(new GridBagLayout());
 
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.ipadx = 50;
-		editPanel.add(new JLabel("Tags:"), c);
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 5;
-		c.ipady = 0;
-		c.ipadx = 200;
+		GridBagConstraints constraints = new GridBagConstraints();
+
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.ipadx = 50;
+		editPanel.add(new JLabel("Gallery's Tags:"), constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.gridwidth = 5;
+		constraints.ipady = 0;
+		constraints.ipadx = 200;
+		editPanel.add(getExistingTagsArea(), constraints);
+
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.ipadx = 50;
+		editPanel.add(new JLabel("Album's Tags:"), constraints);
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.gridwidth = 5;
+		constraints.ipady = 0;
+		constraints.ipadx = 200;
 		albumTagsTextField = new JTextField();
 		albumTagsTextField.setToolTipText("add tags separated by ';'");
 		albumTagsTextField.addFocusListener(this);
 		albumTagsTextField.setPreferredSize(new Dimension(200, 32));
-		editPanel.add(albumTagsTextField, c);
+		albumTagsTextField.addKeyListener(new KeyListener() {
 
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 5;
-		c.ipady = 210;
-		c.ipadx = 210;
+			@Override
+			public void keyTyped(KeyEvent e) {
+				showCorrespondingTagsByTypedKey(e.getKeyChar());
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+			}
+		});
+		editPanel.add(albumTagsTextField, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.gridwidth = 5;
+		constraints.ipady = 210;
+		constraints.ipadx = 210;
 		imageViewer = new ImageViewer();
-		editPanel.add(imageViewer, c);
+		editPanel.add(imageViewer, constraints);
 
-		c.gridx = 0;
-		c.gridy = 2;
-		c.ipady = 0;
-		c.ipadx = 50;
-		editPanel.add(new JLabel("Album Name:"), c);
-		c.gridx = 1;
-		c.gridy = 2;
-		c.gridwidth = 5;
-		c.ipadx = 200;
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.ipady = 0;
+		constraints.ipadx = 50;
+		editPanel.add(new JLabel("Album's Name:"), constraints);
+		constraints.gridx = 1;
+		constraints.gridy = 3;
+		constraints.gridwidth = 5;
+		constraints.ipadx = 200;
 		albumNameTextField = new JTextField();
 		albumNameTextField.setPreferredSize(new Dimension(200, 32));
 		albumNameTextField.addFocusListener(this);
-		editPanel.add(albumNameTextField, c);
+		editPanel.add(albumNameTextField, constraints);
 
 		return editPanel;
 	}
@@ -129,6 +173,23 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		albumBean = album;
 		albumNameTextField.setText(album.getName());
 		albumTagsTextField.setText(album.getTags() == null ? "no tag" : album.getTagsInOneLine());
+
+		allCurrentTags = getAllGalleryTags();
+		existingTags.setText(allCurrentTags.toString());
+	}
+
+	private SortedSet<String> getAllGalleryTags() {
+		Enumeration<DefaultMutableTreeNode> children = treeNode.getParent().children();
+		SortedSet<String> currentTags = new TreeSet<String>();
+		while (children.hasMoreElements()) {
+			DefaultMutableTreeNode nextElement = (DefaultMutableTreeNode) children.nextElement();
+			AlbumBean ab = (AlbumBean) nextElement.getUserObject();
+			String[] abTags = ab.getTags();
+			for (String abTag : abTags) {
+				currentTags.add(abTag);
+			}
+		}
+		return currentTags;
 	}
 
 	@Override
@@ -158,7 +219,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		if (!InputTextValidator.validateText(albumTagsTextField.getText()))
 			InfoPanel.setInfoMessage("Error: " + "Tags field for album: " + editedAlbum.getName() + " is not a valid text", InfoPanel.RED);
 		else {
-			String[] tags = albumTagsTextField.getText().split(";");
+			String[] tags = albumTagsTextField.getText().split(Constants.ALBUM_SEPARATOR);
 			for (int i = 0; i < tags.length; i++)
 				tags[i] = tags[i].trim();// remove whitespace between tags (if there are any).
 			editedAlbum.setTags(tags);
@@ -168,6 +229,74 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		treeNode.setUserObject(editedAlbum);
 		tree.updateNode(treeNode);
 		editedAlbum = null;
+	}
+
+	private Component getExistingTagsArea() {
+		existingTags = getExistingTagsText();
+		JScrollPane existingTagsScrollPanel = new JScrollPane(existingTags);
+		existingTagsScrollPanel.setPreferredSize(new Dimension(200, 80));
+		existingTagsScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		existingTagsScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		return existingTagsScrollPanel;
+	}
+
+	private JTextArea getExistingTagsText() {
+		JTextArea existingTagsText = new JTextArea();
+		existingTagsText.setBackground(this.getBackground());
+		existingTagsText.setText("");
+		existingTagsText.setEditable(false);
+		return existingTagsText;
+	}
+
+	/*
+	 * Shows the tags that begin with typed character. Do that just if the typed character is the last from albumTagsTextField, or typed in the character sequence with no ';' after.
+	 */
+	private void showCorrespondingTagsByTypedKey(char typedChar) {
+		if (typedChar == KeyEvent.VK_BACK_SPACE || typedChar == KeyEvent.VK_DELETE) {
+			typedChar = ' '; // if backspace or delete is used, then set it to empty space
+		}
+		String albumTagsText = albumTagsTextField.getText() + typedChar;
+		int albumTagsTextCaretPosition = albumTagsTextField.getCaretPosition();
+		Set<String> possibleTags = allCurrentTags;
+		if (!Character.toString(typedChar).equalsIgnoreCase(Constants.ALBUM_SEPARATOR)) {
+			int lastIndex = albumTagsText.lastIndexOf(Constants.ALBUM_SEPARATOR);
+			if (lastIndex < albumTagsTextCaretPosition) {// normal case, separator before cursor, otherwise show all tags.
+				String incompleteTag = albumTagsText.substring(lastIndex + 1).trim();
+				if (!incompleteTag.isEmpty()) {
+					char[] charArray = incompleteTag.toCharArray();
+					possibleTags = getCandidateTags(charArray, allCurrentTags, "");
+				}
+			}
+		}
+		existingTags.setText(possibleTags.toString());
+	}
+
+	private Set<String> getCandidateTags(char[] charArray, Set<String> tagsToChooseFrom, String prefix) {
+		Set<String> possibleTags = new TreeSet<String>();
+		if (charArray.length > 0) {
+			boolean itemDetected = false;
+			Iterator<String> iterator = tagsToChooseFrom.iterator();
+			while (iterator.hasNext()) {
+				boolean currentItemDetected = false;
+				String tag = (String) iterator.next();
+				String typed = "" + charArray[0];
+				if (tag.toLowerCase().startsWith((prefix + typed).toLowerCase())) {
+					possibleTags.add(tag);
+					currentItemDetected = true;
+					itemDetected = true;
+				}
+				if (itemDetected && !currentItemDetected) {
+					break;
+				}
+
+			}
+		}
+		if (charArray.length > 1 && possibleTags.size() > 0) {
+			char[] nextChars = Arrays.copyOfRange(charArray, 1, charArray.length);
+			return getCandidateTags(nextChars, possibleTags, prefix + charArray[0]);
+		} else {
+			return possibleTags;
+		}
 	}
 
 }

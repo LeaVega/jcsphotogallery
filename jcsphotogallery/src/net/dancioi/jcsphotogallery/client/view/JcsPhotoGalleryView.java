@@ -24,6 +24,7 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
+import net.dancioi.jcsphotogallery.client.shared.Constants;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
 
@@ -42,7 +43,6 @@ public class JcsPhotoGalleryView extends View {
 	// TODO improve info message when gallery is missing
 	// TODO for version 1.1.2, add function to remove tag by clicking on it.
 	// TODO catch possible error if the user put ";" in tag
-	private String galleryVersion = "1.1.2 beta";
 
 	private Label headerLabel;
 	private TopPanel topPanel;
@@ -101,7 +101,7 @@ public class JcsPhotoGalleryView extends View {
 	}
 
 	private void addAppVersion() {
-		versionPanel = new VersionPanel(galleryVersion);
+		versionPanel = new VersionPanel(Constants.APP_VERSION);
 		RootPanel.get("versionPanel").add(versionPanel);
 	}
 

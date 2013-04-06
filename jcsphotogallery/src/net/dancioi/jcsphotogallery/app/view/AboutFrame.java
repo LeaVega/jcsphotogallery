@@ -33,6 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import net.dancioi.jcsphotogallery.client.shared.Constants;
+
 /**
  * The About modal dialog.
  * 
@@ -51,7 +53,7 @@ public class AboutFrame extends JFrame {
 		this.pack();
 		this.setTitle("About...");
 		this.setLocationRelativeTo(null);
-		this.setSize(460, 200);
+		this.setSize(460, 240);
 		this.setResizable(false);
 		this.setLayout(new FlowLayout());
 		JPanel panel = new JPanel();
@@ -59,17 +61,19 @@ public class AboutFrame extends JFrame {
 		this.getContentPane().add(panel);
 	}
 
-	private Component getAboutArea(){
+	private Component getAboutArea() {
 		JScrollPane aboutScrollPanel = new JScrollPane(getAboutText());
-		aboutScrollPanel.setPreferredSize(new Dimension(420, 150));
+		aboutScrollPanel.setPreferredSize(new Dimension(420, 180));
 		aboutScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		aboutScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		return aboutScrollPanel;
 	}
-	
+
 	private JTextArea getAboutText() {
 		JTextArea aboutText = new JTextArea();
-		aboutText.setText("\n JcsPhotoGallery desktop application, \n a pictures manager for JcsPhototGallery client application \n The application is  released as free software\n under the GNU General Public License (GPL). \n\n For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ ");
+		aboutText.setText("\n JcsPhotoGallery desktop application, \n a pictures manager for JcsPhototGallery client application \n"
+				+ "The application is  released as free software\n under the GNU General Public License (GPL). \n\n "
+				+ "For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ \n\n Current version is " + Constants.APP_VERSION);
 		aboutText.setEditable(false);
 		return aboutText;
 	}

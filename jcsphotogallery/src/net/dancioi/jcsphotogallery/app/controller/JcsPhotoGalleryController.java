@@ -62,7 +62,7 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface, RightClickPopUpInterface {
-	// TODO on Mac OS - icons/imgNotFound.png File not found
+	// TODO on Mac OS - icons/imgNotFound.png File not found (icon's path issue just on Mac OS)
 	// TODO on linux, issue with OpenJDK when import images
 	// TODO add undo function for remove actions
 	// TODO after delete an album, move the selection on the above album

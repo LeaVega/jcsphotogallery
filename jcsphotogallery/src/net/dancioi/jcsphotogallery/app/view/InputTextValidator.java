@@ -38,7 +38,7 @@ public class InputTextValidator {
 	 * Validate text to do not contain xml entities.
 	 * 
 	 * @param text
-	 * @return
+	 * @return true if valid, otherwise false
 	 */
 	public static boolean validateText(String text) {
 		for (CharSequence invalidCharacter : invalidCharacters) {

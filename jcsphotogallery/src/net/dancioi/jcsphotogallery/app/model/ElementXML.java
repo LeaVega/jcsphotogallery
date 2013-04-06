@@ -25,6 +25,7 @@
 package net.dancioi.jcsphotogallery.app.model;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.Constants;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -62,7 +63,7 @@ public abstract class ElementXML {
 			Element elAlbum = (Element) albums.item(i);
 
 			String allCategories = elAlbum.getAttribute("tags");
-			tags = allCategories.split(";");
+			tags = allCategories.split(Constants.ALBUM_SEPARATOR);
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"), elAlbum.getAttribute("name"), tags, i);
 			photoAlbums[i].setParent(galleryAlbums);
 		}

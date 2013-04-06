@@ -35,6 +35,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.client.shared.Constants;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -96,7 +97,7 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 	}
 
 	public void editAlbum(AlbumBean album, BufferedImage albumThumbnail, DefaultMutableTreeNode treeNode) {
-		infoMessage("Info: " + "Use character ; to separate tags");
+		infoMessage("Info: " + "Use character " + Constants.ALBUM_SEPARATOR + " to separate tags");
 		showPanel(EditPanel.ALBUM);
 		albumPanel.setCurrentAlbum(album, albumThumbnail, treeNode);
 	}
@@ -106,8 +107,8 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 		showPanel(EditPanel.PICTURE);
 		picturePanel.fillUpParameters(pictureBean, picture, treeNode);
 	}
-	
-	public void showHelp(){
+
+	public void showHelp() {
 		infoMessage("Help...");
 		showPanel(EditPanel.HELP);
 	}
@@ -117,14 +118,6 @@ public class AppPanelRight extends JPanel implements UpdateTree {
 			frontPanel = editPanel;
 			switchPanel.show(panels, editPanel.toString());
 		}
-	}
-
-	public GalleryPanel getGalleryPanel() {
-		return galleryPanel;
-	}
-
-	public AlbumPanel getAlbumPanel() {
-		return albumPanel;
 	}
 
 	public PicturePanel getPicturePanel() {
