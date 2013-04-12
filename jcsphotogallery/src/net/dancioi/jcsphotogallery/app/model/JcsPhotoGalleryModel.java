@@ -120,17 +120,17 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
-				if(fis!=null)
-				fis.close();
-				if(ois!=null)
-				ois.close();
+				if (fis != null)
+					fis.close();
+				if (ois != null)
+					ois.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return previousConfigs;
 	}
 
@@ -148,10 +148,10 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 			System.out.println("configs.ini could not be found");
 		} catch (IOException e) {
 			System.out.println("error reading configs.ini");
-		} finally{
+		} finally {
 			try {
-				if(configsIni!=null)
-				configsIni.close();
+				if (configsIni != null)
+					configsIni.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -172,10 +172,10 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
-				if(oos!=null)
-				oos.close();
+				if (oos != null)
+					oos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -431,7 +431,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	private void selectAlbum(DefaultMutableTreeNode treeNode) {
 		if (treeNode != null && treeNode.getUserObject() instanceof AlbumBean) {
 			AlbumBean album = (AlbumBean) treeNode.getUserObject();
-			String thumbnailFileName = album.getImgThumbnail() == null || album.getImgThumbnail().isEmpty() ? "icons/albumThumbnail.png" : album.getImgThumbnail();
+			String thumbnailFileName = album.getImgThumbnail() == null || album.getImgThumbnail().isEmpty() ? "icons/albumThumbnailNotFound.png" : album.getImgThumbnail();
 			PictureBean pictureBean = new PictureBean("Album Thumbnail", thumbnailFileName, "the current album's thumbnail", album.getImgThumbnail());
 			pictureBean.setParent(album);
 			BufferedImage picture = getPicture(pictureBean, 200);

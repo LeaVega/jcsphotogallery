@@ -51,9 +51,7 @@ public class ViewHandlers {
 		addResizeBrowserListener();
 	}
 
-	private native String getUserAgent() /*-{
-		return navigator.userAgent.toLowerCase();
-	}-*/;
+	private native String getUserAgent(); 
 
 	private void addResizeBrowserListener() {
 		keepBottomPanelVisible(Window.getClientWidth(), Window.getClientHeight(), currentScrollPosition);

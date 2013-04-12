@@ -211,7 +211,8 @@ public class PopUpImgShow extends PopupGeneric {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				// take as movement event just if the mouse is moved with +-5 pixels than previous position
-				if ((event.getClientX() < currentMousePositionX - ingnore || event.getClientX() > currentMousePositionX + ingnore) || (event.getClientY() < currentMousePositionY - ingnore || event.getClientY() > currentMousePositionY + ingnore)) {
+				if ((event.getClientX() < currentMousePositionX - ingnore || event.getClientX() > currentMousePositionX + ingnore)
+						|| (event.getClientY() < currentMousePositionY - ingnore || event.getClientY() > currentMousePositionY + ingnore)) {
 					triggerMovement();
 				}
 				currentMousePositionX = event.getClientX();
@@ -299,9 +300,8 @@ public class PopUpImgShow extends PopupGeneric {
 	}
 
 	/*
-	 * Method to add image to the panel. Because the image size method from the image class can't return the values until the image is fully loaded by browser, this method add the image on the popup
-	 * panel's bottom right corner (making the image invisible and creating the background loading effect). When the image is complete downloaded, get the image's size and the it's added to the popup
-	 * panel.
+	 * Method to add image to the panel. Because the image size method from the image class can't return the values until the image is fully loaded by browser, this method add the image on the popup panel's bottom right corner (making the image invisible and creating the
+	 * background loading effect). When the image is complete downloaded, get the image's size and the it's added to the popup panel.
 	 */
 	private void addImage(String imagePath) {
 		showLoadingProcess(true);

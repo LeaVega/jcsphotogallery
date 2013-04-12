@@ -51,6 +51,8 @@ public class ImagePopUp extends Image {
 		if (event.getTypeInt() == Event.ONLOAD && !loaded) {
 			loaded = true;
 			pi.scaleImg(this);
+		} else if (event.getTypeInt() == Event.ONERROR) {
+			this.setUrl("template/ext/imgNotFound.png");
 		}
 	}
 

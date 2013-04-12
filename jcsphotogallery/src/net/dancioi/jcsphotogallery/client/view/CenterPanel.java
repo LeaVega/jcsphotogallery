@@ -28,6 +28,8 @@ import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ErrorEvent;
+import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
@@ -87,6 +89,13 @@ public class CenterPanel extends Grid {
 			for (int w = 0; w < 3; w++) {
 				if (cellID < thumbnails.length) {
 					cell[cellID] = new Image(imagesPath + thumbnails[imgId].getImgThumbnail());
+					cell[cellID].addErrorHandler(new ErrorHandler() {
+						@Override
+						public void onError(ErrorEvent event) {
+							// if image is missing then show the next one
+							((Image) (event.getSource())).setUrl("template/ext/albumThumbnailNotFound.png");
+						}
+					});
 					cell[cellID].setTitle(thumbnails[imgId].getName());
 
 					cellOn[cellID] = true;

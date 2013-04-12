@@ -44,7 +44,6 @@ import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
  */
 
 // FIXME if delete the picture that is also thumbnail, set the next one.
-// TODO add version in ...About
 // TODO Change the buttons' icons
 
 public class JcsPhotoGallery {

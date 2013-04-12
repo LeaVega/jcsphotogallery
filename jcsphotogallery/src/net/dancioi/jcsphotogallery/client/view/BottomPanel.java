@@ -73,7 +73,7 @@ public class BottomPanel extends AbsolutePanel {
 		});
 		add(buttonIconRight, 630, 3);
 
-		buttonIconUp = new Image("template/ext/albums.gif"); // BACK to albums
+		buttonIconUp = new Image("template/ext/backToAlbums.gif"); // BACK to albums
 		buttonIconUp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				upButtonClicked();
