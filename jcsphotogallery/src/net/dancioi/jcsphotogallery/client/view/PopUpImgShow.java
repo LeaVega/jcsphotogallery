@@ -42,16 +42,13 @@ import com.google.gwt.user.client.ui.Label;
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-/* No MVP pattern implemented here. It works so well as it is :p */
 public class PopUpImgShow extends PopupGeneric {
 
-	private AbsolutePanel ap;
 	private int popUpSizeX;
 	private int popUpSizeY;
 	private AbsolutePanel imgPanel;
 	private int imgPanelSizeX;
 	private int imgPanelSizeY;
-	private AbsolutePanel bottomPanel;
 
 	private PictureBean[] pictures;
 
@@ -72,14 +69,7 @@ public class PopUpImgShow extends PopupGeneric {
 	private String loading;
 	private Label loadingLabel;
 	private int ind = 1;
-	private Timer t;
-
-	// cache the next and previous image.
-	// Just brings the images in browser's cache.
-	@SuppressWarnings("unused")
-	private Image imgCacheN;
-	@SuppressWarnings("unused")
-	private Image imgCacheP;
+	private Timer loadingTimer;
 
 	// Button play; // button AUTO PLAY
 	private Image play;
@@ -101,11 +91,10 @@ public class PopUpImgShow extends PopupGeneric {
 		setGlassStyleName("gwt-PopupPanelGlass");
 		setGlassEnabled(true);
 
-		getMaximSquareSize();
-
+		computeMaximSquareSize();
 		setPosition();
 
-		ap = new AbsolutePanel();
+		AbsolutePanel ap = new AbsolutePanel();
 		ap.setPixelSize(popUpSizeX, popUpSizeY);
 		ap.setStyleName("popUpPanel");
 
@@ -114,18 +103,45 @@ public class PopUpImgShow extends PopupGeneric {
 		imgPanelSizeY = popUpSizeY;
 		imgPanel.setPixelSize(imgPanelSizeX, imgPanelSizeY);
 
-		ClickHandler clickHandler = new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				nextImg();
-			}
-		};
+	
 		imgPanel.sinkEvents(Event.ONCLICK);
-		imgPanel.addHandler(clickHandler, ClickEvent.getType());
+		imgPanel.addHandler(getImageClickHandler(), ClickEvent.getType());
 
 		ap.add(imgPanel, 1, 1);
 
-		bottomPanel = new AbsolutePanel();
+
+		AbsolutePanel bottomPanel = getBottomControllPanel();
+		ap.add(bottomPanel, 1, popUpSizeY - 40);
+
+		setWidget(ap);
+
+		attachMouseHandlers(bottomPanel);
+				
+		addImage(imgPath + pictures[imgStart].getFileName());
+
+		checkStartImg();
+	}
+	
+	/*
+	 * Add click handler on the shown image. User click on image and jump to next/previous image.
+	 */
+	private ClickHandler getImageClickHandler(){
+		ClickHandler clickHandler = new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if(event.getClientX() > getBrowserWindowWidth() /2){	// if the user clicks on image-right side, then go to next image. Left side for previous image.
+					nextImg();
+				}
+				else{
+					previousImg();
+				}
+			}
+		};
+		return clickHandler;
+	}
+
+	private AbsolutePanel getBottomControllPanel(){
+		AbsolutePanel bottomPanel = new AbsolutePanel();
 		bottomPanel.setPixelSize(popUpSizeX, 50);
 		bottomPanel.setStyleName("bottomPanel");
 
@@ -190,13 +206,14 @@ public class PopUpImgShow extends PopupGeneric {
 
 		playMode = new Label();
 		bottomPanel.add(playMode, popUpSizeX / 2, 22);
-
-		ap.add(bottomPanel, 1, popUpSizeY - 40);
-
-		setWidget(ap);
+		
+		return bottomPanel;
+	}
+	
+	private void attachMouseHandlers(final AbsolutePanel controllPanel){
 
 		this.addDomHandler(new MouseMoveHandler() {
-
+			
 			private int currentMousePositionX = 0;
 			private int currentMousePositionY = 0;
 			private int ingnore = 5;
@@ -204,7 +221,7 @@ public class PopUpImgShow extends PopupGeneric {
 			Timer hideBottomPanelTimer = new Timer() {
 				@Override
 				public void run() {
-					bottomPanel.setVisible(false);
+					controllPanel.setVisible(false);
 				}
 			};
 
@@ -220,20 +237,16 @@ public class PopUpImgShow extends PopupGeneric {
 			}
 
 			private void triggerMovement() {
-				if (!bottomPanel.isVisible()) {
-					bottomPanel.setVisible(true);
+				if (!controllPanel.isVisible()) {
+					controllPanel.setVisible(true);
 				}
 				hideBottomPanelTimer.schedule(5000);
 
 			}
 
 		}, MouseMoveEvent.getType());
-
-		addImage(imgPath + pictures[imgStart].getFileName());
-
-		checkStartImg();
 	}
-
+	
 	private void stopAutoPlay() {
 		autoPlay(false);
 		play.setUrl("template/ext/play.gif");
@@ -336,10 +349,10 @@ public class PopUpImgShow extends PopupGeneric {
 	}
 
 	/*
-	 * Method to get the maxim popup size. The dimension should be the same (square).
+	 * Method to set the maxim popup size. The dimension should be the same (square).
 	 */
-	private void getMaximSquareSize() {
-		getWindowSize();
+	private void computeMaximSquareSize() {
+		//setPosition();
 		int maxX = getBrowserWindowWidth();
 		int maxY = getBrowserWindowHeight();
 		if (maxX <= maxY) {
@@ -372,11 +385,10 @@ public class PopUpImgShow extends PopupGeneric {
 	private void showLoadingProcess(boolean show) {
 		if (show) {
 			// show the loading bar
-
 			ind = 1;
 			loadingLabel.setText(loading.substring(0, ind));
 
-			t = new Timer() {
+			loadingTimer = new Timer() {
 				@Override
 				public void run() {
 					if (ind < loading.length()) {
@@ -388,24 +400,25 @@ public class PopUpImgShow extends PopupGeneric {
 				}
 			};
 
-			t.scheduleRepeating(500);
+			loadingTimer.scheduleRepeating(500);
 		} else {
 			// hide the loading bar
-			t.cancel();
+			loadingTimer.cancel();
 			loadingLabel.setText("");
 		}
 	}
 
 	/*
 	 * Cache the next and previous pictures to reduce the loading time.
-	 * 
+	 * cache the next and previous image.
+	 * Just brings the images in browser's cache.
 	 * @param i picture id
 	 */
 	private void getNextAndPrevious(int i) {
 		if (i < pictures.length - 1)
-			imgCacheN = new Image(imgPath + pictures[i + 1].getFileName());
+			new Image(imgPath + pictures[i + 1].getFileName());
 		if (i > 0)
-			imgCacheP = new Image(imgPath + pictures[i - 1].getFileName());
+			new Image(imgPath + pictures[i - 1].getFileName());
 	}
 
 	/*

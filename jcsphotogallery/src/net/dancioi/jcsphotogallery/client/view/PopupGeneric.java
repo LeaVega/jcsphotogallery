@@ -37,8 +37,11 @@ public class PopupGeneric extends PopupPanel {
 
 	private int popUpSizeW; // popup size on X
 	private int popUpSizeH; // popup size on Y
-	private int browserWindowW; // browser window size on X
-	private int browserWindowH; // browser window size on Y
+	private int browserWindowWidth; // browser window size on X
+	private int browserWindowHeight; // browser window size on Y
+	private int browserScrollLeft; // on small screen scroll is used
+	private int browserScrollTop;
+	
 
 	/**
 	 * 
@@ -46,9 +49,10 @@ public class PopupGeneric extends PopupPanel {
 	 * @param sizeY
 	 */
 	public PopupGeneric(int sizeX, int sizeY) {
-		super(true);
+		this();
 		popUpSizeW = sizeX;
 		popUpSizeH = sizeY;
+		initialize();
 	}
 
 	/**
@@ -56,23 +60,24 @@ public class PopupGeneric extends PopupPanel {
 	 */
 	public PopupGeneric() {
 		super(true);
+		initialize();
 	}
 
+	
+	private void initialize(){
+		browserWindowWidth = Window.getClientWidth();
+		browserWindowHeight = Window.getClientHeight();
+		browserScrollLeft = Window.getScrollLeft();
+		browserScrollTop = Window.getScrollTop();		
+	}
+	
 	/**
 	 * Method to set the popup panel position.
 	 */
 	protected void setPosition() {
-		getWindowSize();
-		setPopupPosition((browserWindowW - popUpSizeW) / 2, (browserWindowH - popUpSizeH) / 2);
+		setPopupPosition((browserWindowWidth - popUpSizeW) / 2+browserScrollLeft, (browserWindowHeight - popUpSizeH) / 2 +browserScrollTop);
 	}
 
-	/**
-	 * Method to get the visible browser window's size.
-	 */
-	protected void getWindowSize() {
-		browserWindowW = Window.getClientWidth();
-		browserWindowH = Window.getClientHeight();
-	}
 
 	/**
 	 * Method to set the popup width size.
@@ -116,7 +121,7 @@ public class PopupGeneric extends PopupPanel {
 	 * @return
 	 */
 	protected int getBrowserWindowWidth() {
-		return browserWindowW;
+		return browserWindowWidth;
 	}
 
 	/**
@@ -125,7 +130,17 @@ public class PopupGeneric extends PopupPanel {
 	 * @return
 	 */
 	protected int getBrowserWindowHeight() {
-		return browserWindowH;
+		return browserWindowHeight;
 	}
+
+	protected int getBrowserScrollLeft() {
+		return browserScrollLeft;
+	}
+
+	protected int getBrowserScrollTop() {
+		return browserScrollTop;
+	}
+	
+	
 
 }

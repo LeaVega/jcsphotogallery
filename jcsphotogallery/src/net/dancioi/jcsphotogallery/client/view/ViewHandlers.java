@@ -51,7 +51,9 @@ public class ViewHandlers {
 		addResizeBrowserListener();
 	}
 
-	private native String getUserAgent(); 
+	private native String getUserAgent() /*-{
+	  	return $wnd.navigator.appName;
+	}-*/;
 
 	private void addResizeBrowserListener() {
 		keepBottomPanelVisible(Window.getClientWidth(), Window.getClientHeight(), currentScrollPosition);
