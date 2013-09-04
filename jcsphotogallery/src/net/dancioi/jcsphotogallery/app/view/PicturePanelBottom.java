@@ -71,18 +71,18 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 
 	private void initialize() {
 		this.setLayout(new GridLayout(2, 1));
-		add(imageEditPanel());
-		add(controllPanel());
+		add(getImageEditPanel());
+		add(getControllPanel());
 	}
 
-	private JPanel controllPanel() {
+	private JPanel getControllPanel() {
 		JPanel controll = new JPanel();
-		controll.add(navigateButtons(), BorderLayout.LINE_START);
-		controll.add(rotateButtons(), BorderLayout.LINE_END);
+		controll.add(getNavigationButtons(), BorderLayout.LINE_START);
+		controll.add(getRotationButtons(), BorderLayout.LINE_END);
 		return controll;
 	}
 
-	private JPanel navigateButtons() {
+	private JPanel getNavigationButtons() {
 		JPanel navigatePanel = new JPanel();
 		previous = new JButton();
 		previous.setPreferredSize(new Dimension(76, 34));
@@ -98,7 +98,7 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		return navigatePanel;
 	}
 
-	private JPanel rotateButtons() {
+	private JPanel getRotationButtons() {
 		JPanel rotatePanel = new JPanel();
 		rotateClockwise = new JButton();
 		rotateClockwise.setPreferredSize(new Dimension(76, 34));
@@ -114,7 +114,7 @@ public class PicturePanelBottom extends JPanel implements FocusListener {
 		return rotatePanel;
 	}
 
-	private JPanel imageEditPanel() {
+	private JPanel getImageEditPanel() {
 		JPanel edit = new JPanel();
 		JLabel nameLabel = new JLabel("Name:");
 		nameTextField = new JTextField();

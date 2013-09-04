@@ -103,7 +103,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * @return JPanel
 	 */
 	private JSplitPane getMainPanel() {
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, addLeftPanel(), addRightPanel());
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getLeftPanel(), getRightPanel());
 		splitPane.setOneTouchExpandable(false);
 		splitPane.setDividerLocation(250);
 		return splitPane;
@@ -114,7 +114,7 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * 
 	 * @return JPanel
 	 */
-	private JPanel addRightPanel() {
+	private JPanel getRightPanel() {
 		panelRight = new AppPanelRight(this);
 		return panelRight;
 	}
@@ -124,13 +124,11 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	 * 
 	 * @return JPanel
 	 */
-	private JPanel addLeftPanel() {
-		panelLeft = new AppPanelLeft(this);
-		return panelLeft;
-	}
-
 	@Override
 	public JPanel getLeftPanel() {
+		if (panelLeft == null) {
+			panelLeft = new AppPanelLeft(this);
+		}
 		return panelLeft;
 	}
 
@@ -139,7 +137,6 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 		this.setJMenuBar(menuBar);
 	}
 
-	// TODO show a dialog if there is any issue with write permission on chose folder.
 	@Override
 	public void populateTree(DefaultMutableTreeNode[] treeNodes) {
 		panelLeft.addGalleryAlbums(treeNodes);
@@ -220,9 +217,14 @@ public class JcsPhotoGalleryView extends JFrame implements JcsPhotoGalleryViewIn
 	}
 
 	@Override
-	public boolean askForDeleteConfirmation() {
+	public boolean isDeleteConfirmed() {
 		int confirmation = JOptionPane.showConfirmDialog(null, "Should also be deleted the jpg files for removed pictures?", "Delete question", JOptionPane.YES_NO_OPTION);
 		return confirmation == 0 ? true : false;
+	}
+
+	@Override
+	public void showMessageToUser(String messageToUser) {
+		JOptionPane.showMessageDialog(this, messageToUser, "An Exception has occurred!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

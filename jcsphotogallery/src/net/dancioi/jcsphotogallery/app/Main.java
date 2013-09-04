@@ -32,10 +32,7 @@ package net.dancioi.jcsphotogallery.app;
  *          (Tue, 20 Mar 2012) $, by: $Author$
  */
 public class Main {
-
-	public void detectOS() {
-	}
-
+//TODO check if gallery folder exists in selection, catch exception, don't create another gallery folder in the selected gallery folder
 	public static void main(String[] arg) {
 		String osName = new CheckOS().getOS();
 		new JcsPhotoGallery(osName);

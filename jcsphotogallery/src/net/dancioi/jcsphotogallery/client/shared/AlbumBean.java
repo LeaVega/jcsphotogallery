@@ -104,7 +104,7 @@ public class AlbumBean implements Thumbnails {
 		StringBuilder lineTags = new StringBuilder();
 		for (String tag : tags) {
 			lineTags.append(tag);
-			lineTags.append(Constants.ALBUM_SEPARATOR);
+			lineTags.append(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
 		}
 		return lineTags.toString();
 	}

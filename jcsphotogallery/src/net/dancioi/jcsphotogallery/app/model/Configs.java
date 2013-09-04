@@ -74,7 +74,7 @@ public class Configs implements Serializable {
 			return false;
 		else {
 			if(preferences)return false;
-			boolean confirmDeleteFiles = deleteConfirmation.confirmDeleteFiles();
+			boolean confirmDeleteFiles = deleteConfirmation.isConfirmedTheDeleteFilesAction();
 			removePictures = confirmDeleteFiles ? 1 : 0;
 			return confirmDeleteFiles;
 		}

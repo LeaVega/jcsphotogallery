@@ -53,7 +53,7 @@ public class PicturePanel extends JPanel implements UpdateTree {
 
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-		this.add(addCenterPanel(), BorderLayout.CENTER);
+		this.add(getCenterPanel(), BorderLayout.CENTER);
 		panelBottom = new PicturePanelBottom(this);
 		add(panelBottom, BorderLayout.PAGE_END);
 
@@ -64,7 +64,7 @@ public class PicturePanel extends JPanel implements UpdateTree {
 	 * 
 	 * @return
 	 */
-	private JPanel addCenterPanel() {
+	private JPanel getCenterPanel() {
 		panelCenter = new PicturePanelCenter();
 		return panelCenter;
 	}

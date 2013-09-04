@@ -38,6 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.dancioi.jcsphotogallery.app.model.Configs;
 
@@ -51,9 +53,9 @@ public class Preferences extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Configs configs;
-	private JTextField sizeWidth;
-	private JTextField sizeHeight;
-	private JCheckBox checkBoxRemoveJpgFiles;
+	private JTextField widthSizeTextField;
+	private JTextField heightSizeTextField;
+	private JCheckBox removeJpgFilesCheckBox;
 	private JLabel validationInfo;
 
 	public Preferences(Configs configs) {
@@ -62,103 +64,150 @@ public class Preferences extends JFrame {
 		this.setMinimumSize(new Dimension(450, 220));
 		this.setLocationRelativeTo(null);
 
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-
-		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveSettings();
-			}
-		});
-		btnSave.setBounds(341, 160, 91, 23);
-		panel.add(btnSave);
-
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnCancel.setBounds(209, 160, 91, 23);
-		panel.add(btnCancel);
-
-		checkBoxRemoveJpgFiles = new JCheckBox("Remove also the .jpg files for deleted pictures");
-		checkBoxRemoveJpgFiles.setBounds(30, 80, 426, 44);
-		panel.add(checkBoxRemoveJpgFiles);
-
-		validationInfo = new JLabel();
-		validationInfo.setBounds(30, 115, 400, 44);
-		validationInfo.setForeground(Color.red);
-		panel.add(validationInfo);
-
-		JPanel panelPictureSize = new JPanel();
-		panelPictureSize.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Picture size (px)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panelPictureSize.setBounds(30, 11, 383, 68);
-		panel.add(panelPictureSize);
-		panelPictureSize.setLayout(null);
-
-		JLabel lblConvertImportedPictures = new JLabel("Convert imported pictures to size:");
-		lblConvertImportedPictures.setBounds(50, 11, 220, 23);
-		panelPictureSize.add(lblConvertImportedPictures);
-
-		sizeWidth = new JTextField();
-		sizeWidth.setBounds(77, 37, 69, 20);
-		panelPictureSize.add(sizeWidth);
-		sizeWidth.setColumns(10);
-
-		sizeHeight = new JTextField();
-		sizeHeight.setBounds(268, 37, 69, 20);
-		panelPictureSize.add(sizeHeight);
-		sizeHeight.setEditable(false);
-		sizeHeight.setColumns(10);
-
-		JLabel lblPictureWidth = new JLabel("Width");
-		lblPictureWidth.setBounds(30, 37, 46, 20);
-		panelPictureSize.add(lblPictureWidth);
-
-		JLabel lblPx = new JLabel("px");
-		lblPx.setBounds(156, 37, 26, 20);
-		panelPictureSize.add(lblPx);
-
-		JLabel lblPictureHeight = new JLabel("Height");
-		lblPictureHeight.setBounds(212, 37, 46, 20);
-		panelPictureSize.add(lblPictureHeight);
-
-		JLabel lblPx_1 = new JLabel("px");
-		lblPx_1.setBounds(347, 37, 26, 20);
-		panelPictureSize.add(lblPx_1);
-
 		intialize();
 	}
 
 	private void intialize() {
-		setPreviousValues();
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
 
+		panel.add(getSaveButton());
+		panel.add(getCancelButton());
+
+		removeJpgFilesCheckBox = new JCheckBox("Remove the .jpg files for deleted pictures");
+		removeJpgFilesCheckBox.setBounds(30, 80, 426, 44);
+		panel.add(removeJpgFilesCheckBox);
+
+		validationInfo = new JLabel();
+		validationInfo.setBounds(30, 110, 400, 44);
+		validationInfo.setForeground(Color.red);
+		panel.add(validationInfo);
+
+		panel.add(getPictureSizePanel());
+
+		setPreviousValues();
 		setVisible(true);
 	}
 
-	private void setPreviousValues() {
-		sizeWidth.setText("" + (int) configs.getPictureDimension().getWidth());
-		sizeHeight.setText("" + (int) configs.getPictureDimension().getHeight());
-		checkBoxRemoveJpgFiles.setSelected(configs.isRemovePictures(true));
+	private JPanel getPictureSizePanel() {
+		JPanel panelPictureSize = new JPanel();
+		panelPictureSize.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Picture size (px)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelPictureSize.setBounds(30, 11, 383, 68);
+		panelPictureSize.setLayout(null);
+
+		panelPictureSize.add(getPictureSizeBorderTitleLabel());
+		panelPictureSize.add(getWidthSizeTextField());
+		panelPictureSize.add(getHeightTextField());
+		panelPictureSize.add(getLabel("Width", 30, 37, 46));
+		panelPictureSize.add(getLabel("(px)", 156, 37, 26));
+		panelPictureSize.add(getLabel("Height", 212, 37, 46));
+		panelPictureSize.add(getLabel("(px)", 347, 37, 26));
+
+		return panelPictureSize;
 	}
 
-	private void saveSettings() {
-		try {
-			Integer newWidth = Integer.valueOf(sizeWidth.getText());
-			if (newWidth < 2500 && newWidth > 500) {
-				Integer newHeight = (int) (newWidth * 0.75);
+	private JLabel getPictureSizeBorderTitleLabel() {
+		JLabel lblConvertImportedPictures = new JLabel("Convert imported pictures to size:");
+		lblConvertImportedPictures.setBounds(50, 11, 220, 23);
+		return lblConvertImportedPictures;
+	}
 
-				configs.setPictureDimension(new Dimension(newWidth, newHeight));
-				configs.setRemovePictures(checkBoxRemoveJpgFiles.isSelected());
-				dispose();
+	private JTextField getHeightTextField() {
+		heightSizeTextField = new JTextField();
+		heightSizeTextField.setBounds(268, 37, 69, 20);
+		heightSizeTextField.setEditable(false);
+		heightSizeTextField.setColumns(10);
+
+		return heightSizeTextField;
+	}
+
+	private JTextField getWidthSizeTextField() {
+		widthSizeTextField = new JTextField();
+		widthSizeTextField.setBounds(77, 37, 69, 20);
+		widthSizeTextField.setColumns(10);
+		widthSizeTextField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				isIntroducedValueValid(widthSizeTextField.getText());
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				isIntroducedValueValid(widthSizeTextField.getText());
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				isIntroducedValueValid(widthSizeTextField.getText());
+			}
+		});
+		return widthSizeTextField;
+	}
+
+	private boolean isIntroducedValueValid(String value) {
+		try {
+			Integer newWidth = Integer.valueOf(value);
+			if (newWidth < 2500 && newWidth > 500) {
+				validationInfo.setText("");
+				heightSizeTextField.setText("" + getNewDimensions(value).height);
+				return true;
 			} else {
 				validationInfo.setText("The Width value is out of limits: 500 - 2500 px");
 			}
 		} catch (NumberFormatException e) {
 			validationInfo.setText("The Width value is not an integer number");
 		}
+		return false;
 	}
+
+	private Dimension getNewDimensions(String width) {
+		int newWidth = Integer.valueOf(width);
+		int newHeight = (int) (newWidth * 0.75);
+		return new Dimension(newWidth, newHeight);
+	}
+
+	private JLabel getLabel(String text, int positionX, int positionY, int width) {
+		JLabel label = new JLabel(text);
+		label.setBounds(positionX, positionY, width, 20);
+		return label;
+	}
+
+	private JButton getCancelButton() {
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnCancel.setBounds(200, 150, 91, 23);
+		return btnCancel;
+	}
+
+	private JButton getSaveButton() {
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveSettings();
+			}
+		});
+		btnSave.setBounds(320, 150, 91, 23);
+		return btnSave;
+	}
+
+	private void setPreviousValues() {
+		widthSizeTextField.setText("" + (int) configs.getPictureDimension().getWidth());
+		heightSizeTextField.setText("" + (int) configs.getPictureDimension().getHeight());
+		removeJpgFilesCheckBox.setSelected(configs.isRemovePictures(true));
+	}
+
+	private void saveSettings() {
+		String newIntroducedText = widthSizeTextField.getText();
+		if (isIntroducedValueValid(newIntroducedText)) {
+			configs.setPictureDimension(getNewDimensions(newIntroducedText));
+			configs.setRemovePictures(removeJpgFilesCheckBox.isSelected());
+			dispose();
+		}
+	}
+
 }

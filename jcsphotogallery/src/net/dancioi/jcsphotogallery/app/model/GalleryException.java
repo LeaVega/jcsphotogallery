@@ -1,7 +1,7 @@
 /*	
- * 	File    : DeleteConfirmation.java
+ * 	File    : GalleryException.java
  * 
- * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2013 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -24,12 +24,21 @@
 package net.dancioi.jcsphotogallery.app.model;
 
 /**
- * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision: 43 $ Last modified: $Date: 2013-09-04 22:39:16 +0200 (Tue, 04 Sep 2013) $, by: $Author: dan.cioi@gmail.com $
  */
-public interface DeleteConfirmation {
-//TODO preference has default delete file true
-	boolean isConfirmedTheDeleteFilesAction();
+public class GalleryException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	public GalleryException(Exception exception) {
+		super(exception.getMessage(), exception);
+		logMessage(exception);
+	}
+
+	private void logMessage(Exception exception) {
+		exception.printStackTrace();
+		// add log file if it will be required
+	}
 
 }

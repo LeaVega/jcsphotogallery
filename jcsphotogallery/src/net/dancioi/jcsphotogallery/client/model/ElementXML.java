@@ -24,7 +24,7 @@
 package net.dancioi.jcsphotogallery.client.model;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.Constants;
+import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
@@ -72,7 +72,7 @@ public abstract class ElementXML {
 			} else {
 				Window.alert("Incompatibility between JcsPhotoGallery Web Application and Gallery xml files. \nPlease use JcsPhotoGallery desktop application to correct this.");
 			}
-			tags = allCategories.split(Constants.ALBUM_SEPARATOR);
+			tags = allCategories.split(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
 			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("folderName") + "/" + elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"),
 					elAlbum.getAttribute("name"), tags, i);
 		}

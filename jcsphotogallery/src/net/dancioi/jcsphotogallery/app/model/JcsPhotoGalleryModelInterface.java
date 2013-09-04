@@ -44,15 +44,15 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  */
 public interface JcsPhotoGalleryModelInterface {
 
-	DefaultMutableTreeNode[] loadGallery(File galleryPath);
+	DefaultMutableTreeNode[] getGalleryTreeNodes(File galleryPath);
 
-	DefaultMutableTreeNode[] createNewGallery(File galleryPath);
+	DefaultMutableTreeNode[] getNewGalleryTreeNodes(File galleryPath);
 
 	BufferedImage getPicture(PictureBean picture, int maxSize);
 
-	DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles, JProgressBar progressBar);
+	DefaultMutableTreeNode getPicturesTreeNodeAddedToNewAlbum(File[] selectedFiles, JProgressBar progressBar);
 
-	DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode treeNode, JProgressBar progressBar);
+	DefaultMutableTreeNode getPicturesTreeNodesAddedToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode treeNode, JProgressBar progressBar);
 
 	void saveGalleryChanges(JTree jTree);
 
@@ -68,7 +68,7 @@ public interface JcsPhotoGalleryModelInterface {
 
 	void deletePicture(PictureBean picture);
 
-	public void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination);
+	void copyPicture(PictureBean picture, AlbumBean albumSource, AlbumBean albumDestination);
 
 	void deleteImage(DefaultMutableTreeNode treeNode);
 

@@ -26,7 +26,7 @@ package net.dancioi.jcsphotogallery.client.presenter;
 
 import net.dancioi.jcsphotogallery.client.model.Model;
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.Constants;
+import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
@@ -98,11 +98,11 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 			public void onValueChange(ValueChangeEvent<String> event) {
 				String token = History.getToken();
 				if (token.startsWith("a")) {
-					String[] split = token.split(Constants.ALBUM_SEPARATOR);
+					String[] split = token.split(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
 					int parseInt = Integer.parseInt(split[1]);
 					getAlbumNr(parseInt);
 				} else if (token.startsWith("t")) {
-					String[] split = token.split(Constants.ALBUM_SEPARATOR);
+					String[] split = token.split(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
 					if (split.length > 2) {
 						showAlbumsByTag(split[2], Integer.parseInt(split[1]));
 					}
@@ -194,7 +194,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	@Override
 	public void upPagesEvent() {
 		currentThumbnailsPage = galleryAlbumsCurrentPage;
-		History.newItem("t;" + galleryAlbumsCurrentPage + Constants.ALBUM_SEPARATOR + currentSelectedTags);
+		History.newItem("t;" + galleryAlbumsCurrentPage + JcsPhotoGalleryConstants.ALBUM_SEPARATOR + currentSelectedTags);
 	}
 
 	private void showPageNr(int page, int pages) {
@@ -234,7 +234,7 @@ public class JcsPhotoGalleryPresenter extends Presenter {
 	@Override
 	public void showAlbumsByTag(String selectedTags) {
 		currentSelectedTags = selectedTags;
-		History.newItem("t;" + currentThumbnailsPage + Constants.ALBUM_SEPARATOR + selectedTags); // add tag history.
+		History.newItem("t;" + currentThumbnailsPage + JcsPhotoGalleryConstants.ALBUM_SEPARATOR + selectedTags); // add tag history.
 	}
 
 	private void showAlbumsByTag(String selectedTags, int lastPage) {

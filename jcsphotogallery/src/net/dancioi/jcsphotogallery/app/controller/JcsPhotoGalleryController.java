@@ -59,10 +59,12 @@ import net.dancioi.jcsphotogallery.client.shared.PictureBean;
  * JcsPhotoGallery's Controller.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2013-04-07 02:54:26 +0300
+ *          (Sun, 07 Apr 2013) $, by: $Author$
  */
 public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface, RightClickPopUpInterface {
-	// TODO on Mac OS - icons/imgNotFound.png File not found (icon's path issue just on Mac OS)
+	// TODO on Mac OS - icons/imgNotFound.png File not found (icon's path issue
+	// just on Mac OS)
 	// TODO on linux, issue with OpenJDK when import images
 	// TODO add undo function for remove actions
 	// TODO after delete an album, move the selection on the above album
@@ -93,8 +95,9 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		view.setVisible(true);
 
 		// load the last imported gallery
-		if (model.getConfigs().getGalleryPath() != null) {
-			openGallery(model.getConfigs().getGalleryPath());
+		File previousGalleryPath = model.getConfigs().getGalleryPath();
+		if (previousGalleryPath != null) {
+			openGallery(previousGalleryPath);
 		}
 	}
 
@@ -142,7 +145,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	}
 
 	private void createNewGallery(File galleryPath) {
-		view.populateTree(model.createNewGallery(galleryPath));
+		view.populateTree(model.getNewGalleryTreeNodes(galleryPath));
 	}
 
 	private JMenuItem getMenuOpenGallery() {
@@ -165,7 +168,10 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 	}
 
 	private void openGallery(File galleryPath) {
-		view.populateTree(model.loadGallery(galleryPath));
+		DefaultMutableTreeNode[] galleryTree = model.getGalleryTreeNodes(galleryPath);
+		if (galleryTree != null) {
+			view.populateTree(galleryTree);
+		}
 	}
 
 	private JMenuItem getMenuSaveGallery() {
@@ -202,8 +208,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		if (model.isGallerySaved(view.getTree())) {
 			exitApplication();
 		} else {
-			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them",
-					"Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int exitQuestion = JOptionPane.showConfirmDialog(null, "The changes you have made are not saved\n" + "Press YES to saved it!!! \nor NO to exit without saving them", "Exit question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (exitQuestion == JOptionPane.YES_OPTION) {
 				saveGalleryChanges();
 			}
@@ -288,7 +293,8 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			// some times the click event is missed, mousePressed is used instead.
+			// some times the click event is missed, mousePressed is used
+			// instead.
 		};
 
 		public void mouseReleased(MouseEvent e) {
@@ -345,7 +351,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 		@Override
 		protected Void doInBackground() {
-			DefaultMutableTreeNode picturesToNewAlbum = model.addPicturesToNewAlbum(files, view.getProgressBar());
+			DefaultMutableTreeNode picturesToNewAlbum = model.getPicturesTreeNodeAddedToNewAlbum(files, view.getProgressBar());
 			view.addNewAlbumToGallery(picturesToNewAlbum);
 			return null;
 		}
@@ -383,7 +389,7 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 
 		@Override
 		protected Void doInBackground() {
-			DefaultMutableTreeNode picturesToExistingAlbum = model.addPicturesToExistingAlbum(files, treeNode, view.getProgressBar());
+			DefaultMutableTreeNode picturesToExistingAlbum = model.getPicturesTreeNodesAddedToExistingAlbum(files, treeNode, view.getProgressBar());
 			view.addPicturesToAnExistingAlbum(picturesToExistingAlbum);
 			return null;
 		}

@@ -43,15 +43,14 @@ import javax.media.jai.RenderedOp;
  * Gallery Input/Output.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2012-06-23 11:17:37 +0300
- *          (Sat, 23 Jun 2012) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class GalleryIO {
 
 	/**
 	 * Loads picture by filepath.
 	 */
-	protected PlanarImage loadPicture(String picturePath) {
+	protected PlanarImage getLoadedPicture(String picturePath) {
 		PlanarImage picture = null;
 		try {
 			picture = JAI.create("fileload", picturePath);
@@ -69,8 +68,7 @@ public class GalleryIO {
 	 * @param rotDegree
 	 * @return
 	 */
-	protected BufferedImage rotatePicture(BufferedImage bufferedImage,
-			int rotDegree) {
+	protected BufferedImage getRotatedPicture(BufferedImage bufferedImage, int rotDegree) {
 		float angle = (float) (rotDegree * (Math.PI / 180.0F));
 		ParameterBlock pb = new ParameterBlock();
 		pb.addSource(bufferedImage);
@@ -85,45 +83,39 @@ public class GalleryIO {
 	/**
 	 * Writes the picture as jpeg file to gallery.
 	 */
-	protected boolean writePicture(BufferedImage picture, String picturePath) {
-		return writeImageWithJAI(picture, picturePath);
+	protected void writePicture(BufferedImage picture, String picturePath) {
+		writeImageWithJAI(picture, picturePath);
 	}
 
 	/**
 	 * Writes the thumbnail.
 	 */
-	protected boolean writeThumbnail(BufferedImage picture, String picturePath) {
-		return writeImageWithJAI(picture, picturePath);
+	protected void writeThumbnail(BufferedImage picture, String picturePath) {
+		writeImageWithJAI(picture, picturePath);
 	}
 
-	private boolean writeImageWithJAI(BufferedImage picture, String picturePath) {
+	private void writeImageWithJAI(BufferedImage picture, String picturePath) {
 		try {
-			BufferedOutputStream output = new BufferedOutputStream(
-					new FileOutputStream(picturePath));
+			BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(picturePath));
 			JAI.create("encode", picture, output, "JPEG", null);
 			output.flush();
 			output.close();
-			return true;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			new UserNotificationException(e.getMessage(), e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			new UserNotificationException(e.getMessage(), e);
 		}
 
-		return false;
 	}
 
 	@SuppressWarnings("unused")
-	private boolean writeFileWithImageIO(BufferedImage img, String fileName) {
+	private void writeFileWithImageIO(BufferedImage img, String fileName) {
 		try {
 			File outputfile = new File(fileName);
 			ImageIO.write(img, "jpg", outputfile);
-			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			new UserNotificationException(e.getMessage(), e);
 		}
-		return false;
-
 	}
 
 }

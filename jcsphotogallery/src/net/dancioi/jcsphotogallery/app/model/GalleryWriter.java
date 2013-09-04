@@ -44,6 +44,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
 import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 
 import org.w3c.dom.Comment;
@@ -138,13 +139,13 @@ public class GalleryWriter extends ElementXML {
 				if (picture.getParent().getImgThumbnail() != null && picture.getParent().getImgThumbnail().equals(picture.getImgThumbnail()))
 					picture.getParent().setImgThumbnail("TR" + picture.getFileName());
 
-				PlanarImage loadedPicture = galleryIO.loadPicture(picturePath + picture.getFileName());
-				BufferedImage rotatedPicture = galleryIO.rotatePicture(loadedPicture.getAsBufferedImage(), picture.getRotateDegree());
+				PlanarImage loadedPicture = galleryIO.getLoadedPicture(picturePath + picture.getFileName());
+				BufferedImage rotatedPicture = galleryIO.getRotatedPicture(loadedPicture.getAsBufferedImage(), picture.getRotateDegree());
 				picture.setFileName("R" + picture.getFileName());
 				galleryIO.writePicture(rotatedPicture, picturePath + picture.getFileName());
 
-				PlanarImage loadedPictureThumbnail = galleryIO.loadPicture(picturePath + picture.getImgThumbnail());
-				BufferedImage rotatedPictureThumbnail = galleryIO.rotatePicture(loadedPictureThumbnail.getAsBufferedImage(), picture.getRotateDegree());
+				PlanarImage loadedPictureThumbnail = galleryIO.getLoadedPicture(picturePath + picture.getImgThumbnail());
+				BufferedImage rotatedPictureThumbnail = galleryIO.getRotatedPicture(loadedPictureThumbnail.getAsBufferedImage(), picture.getRotateDegree());
 				picture.setImgThumbnail("T" + picture.getFileName());
 				galleryIO.writePicture(rotatedPictureThumbnail, picturePath + picture.getImgThumbnail());
 
@@ -181,7 +182,7 @@ public class GalleryWriter extends ElementXML {
 		root.appendChild(noCache);
 
 		Element version = doc.createElement("version");
-		version.appendChild(doc.createTextNode("1.1.1"));
+		version.appendChild(doc.createTextNode(JcsPhotoGalleryConstants.APP_VERSION));
 		root.appendChild(version);
 
 		return doc;

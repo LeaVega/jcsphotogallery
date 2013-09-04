@@ -63,7 +63,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	private PicturesImporter picturesImport;
 	private GalleryAlbums galleryAlbums;
 	private GalleryFiles galleryFiles;
-	private JcsPhotoGalleryViewInterface view;
+	private static JcsPhotoGalleryViewInterface view;
 	private DefaultMutableTreeNode currentNode;
 	private File configsCfgFile;
 
@@ -79,7 +79,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 
 	@Override
 	public void bindView(JcsPhotoGalleryViewInterface view) {
-		this.view = view;
+		JcsPhotoGalleryModel.view = view;
 	}
 
 	/**
@@ -89,7 +89,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 		configsCfgFile = new File("configs.cfg");
 		Configs previousConfigs = getConfigs(configsCfgFile);
 		if (previousConfigs == null) {
-			File configsIniFile = getConfigsIni(new File("configs.ini")); // added to win. Because in Program Files can't be added a new file "configs.cfg" after setup, the UserAppData is used instead. A configs.ini file with the path to configs.cfg is added at setup.
+			File configsIniFile = getConfigsIni(new File("configs.ini")); // added to win. Because inProgramFilescan'tbe added a new file "configs.cfg" after setup, the UserAppData is used instead. A configs.ini file with the path to configs.cfg is added at setup.
+
 			if (configsIniFile != null) {
 				configsCfgFile = configsIniFile;
 				previousConfigs = getConfigs(configsIniFile);
@@ -210,24 +211,31 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	}
 
 	@Override
-	public DefaultMutableTreeNode[] loadGallery(File galleryPath) {
-		appGalleryPath = galleryPath;
-		ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
-		galleryAlbums = new GalleryReader().getAlbums(new File(appGalleryPath.getAbsoluteFile() + File.separator + "albums.xml"));
-		AlbumBean[] allAlbums = galleryAlbums.getAllAlbums();
+	public DefaultMutableTreeNode[] getGalleryTreeNodes(File galleryPath) {
+		try {
+			appGalleryPath = galleryPath;
+			ArrayList<DefaultMutableTreeNode> root = new ArrayList<DefaultMutableTreeNode>();
+			galleryAlbums = new GalleryReader().getAlbums(new File(appGalleryPath.getAbsoluteFile() + File.separator + "albums.xml"));
 
-		for (AlbumBean album : allAlbums) {
-			DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(album);
-			root.add(albumNode);
-			for (PictureBean picture : album.getPictures()) {
-				picture.setParent(album);
-				albumNode.add(new DefaultMutableTreeNode(picture));
+			AlbumBean[] allAlbums = galleryAlbums.getAllAlbums();
+
+			for (AlbumBean album : allAlbums) {
+				DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(album);
+				root.add(albumNode);
+				for (PictureBean picture : album.getPictures()) {
+					picture.setParent(album);
+					albumNode.add(new DefaultMutableTreeNode(picture));
+				}
 			}
+
+			configs.setGalleryPath(galleryPath);
+
+			return (DefaultMutableTreeNode[]) root.toArray(new DefaultMutableTreeNode[root.size()]);
+
+		} catch (GalleryException e) {
+			new UserNotificationException(e.getMessage(), e);
+			return null;
 		}
-
-		configs.setGalleryPath(galleryPath);
-
-		return (DefaultMutableTreeNode[]) root.toArray(new DefaultMutableTreeNode[root.size()]);
 	}
 
 	@Override
@@ -237,7 +245,7 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 		return picturesImport.getPicture(getPicturePath(picture), maxSize, picture.getRotateDegree());
 	}
 
-	public DefaultMutableTreeNode[] createNewGallery(File galleryPath) {
+	public DefaultMutableTreeNode[] getNewGalleryTreeNodes(File galleryPath) {
 		File galleryFolder = new File(galleryPath.getAbsolutePath() + File.separator + "gallery");
 		if (galleryFolder.mkdir()) {
 			appGalleryPath = galleryFolder;
@@ -248,14 +256,14 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 
 			configs.setGalleryPath(galleryFolder);
 
-			return new DefaultMutableTreeNode[] { addPicturesToNewAlbum(null, null) };
+			return new DefaultMutableTreeNode[] { getPicturesTreeNodeAddedToNewAlbum(null, null) };
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public DefaultMutableTreeNode addPicturesToNewAlbum(File[] selectedFiles, JProgressBar progressBar) {
+	public DefaultMutableTreeNode getPicturesTreeNodeAddedToNewAlbum(File[] selectedFiles, JProgressBar progressBar) {
 		AlbumBean newAlbum = new AlbumBean();
 		newAlbum.setEdited(true);
 		galleryAlbums.setEdited(true);
@@ -279,9 +287,10 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 				float progressBarIncrement = 100 / (float) selectedFiles.length;
 				float progressBarValue = 0;
 				for (File picturePath : selectedFiles) {
-					PictureBean picture = importPicture(newAlbum, albumFolder, picturePath);
+					PictureBean picture = getImportedPicture(newAlbum, albumFolder, picturePath);
 					progressBarValue += progressBarIncrement;
-					progressBar.setValue(Math.round(progressBarValue)); // TODO for version 1.1.2, show one progress value if more than one task are running concomitantly
+					progressBar.setValue(Math.round(progressBarValue));
+					// TODO for version 1.1.2, show one progress value if more than one task are running concomitantly
 					if (null != picture) {
 						albumNode.add(new DefaultMutableTreeNode(picture));
 						newAlbum.setImgThumbnail(picture.getImgThumbnail());
@@ -308,8 +317,8 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 
 	}
 
-	private PictureBean importPicture(AlbumBean album, File destinationFolder, File origPicture) {
-		PictureBean picture = picturesImport.addPicture(origPicture, destinationFolder);
+	private PictureBean getImportedPicture(AlbumBean album, File destinationFolder, File origPicture) {
+		PictureBean picture = picturesImport.getPictureBean(origPicture, destinationFolder);
 		picture.setParent(album);
 		return picture;
 	}
@@ -319,13 +328,13 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	}
 
 	@Override
-	public DefaultMutableTreeNode addPicturesToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode albumNode, JProgressBar progressBar) {
+	public DefaultMutableTreeNode getPicturesTreeNodesAddedToExistingAlbum(File[] selectedFiles, DefaultMutableTreeNode albumNode, JProgressBar progressBar) {
 		AlbumBean album = (AlbumBean) albumNode.getUserObject();
 		album.setEdited(true);
 		float progressBarIncrement = 100 / (float) selectedFiles.length;
 		float progressBarValue = 0;
 		for (File picturePath : selectedFiles) {
-			PictureBean picture = importPicture(album, new File(appGalleryPath + File.separator + album.getFolderName()), picturePath);
+			PictureBean picture = getImportedPicture(album, new File(appGalleryPath + File.separator + album.getFolderName()), picturePath);
 			progressBarValue += progressBarIncrement;
 			progressBar.setValue(Math.round(progressBarValue));
 			if (null != picture) {
@@ -483,8 +492,14 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 	}
 
 	@Override
-	public boolean confirmDeleteFiles() {
-		return view.askForDeleteConfirmation();
+	public boolean isConfirmedTheDeleteFilesAction() {
+		return view.isDeleteConfirmed();
+	}
+
+	public static void noticeUserOfException(String messageToUser) {
+		if (view != null) {
+			view.showMessageToUser(messageToUser);
+		}
 	}
 
 }

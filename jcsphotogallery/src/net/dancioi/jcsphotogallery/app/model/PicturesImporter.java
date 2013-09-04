@@ -57,20 +57,20 @@ public class PicturesImporter extends GalleryIO {
 	 */
 	public BufferedImage getPicture(String picturePath, int maxSize, int rotDegree) {
 		// System.out.println("PICTURE PATH = " + picturePath);
-		PlanarImage picture = loadPicture(picturePath);
+		PlanarImage picture = getLoadedPicture(picturePath);
 		double scale = picture.getWidth() < picture.getHeight() ? maxSize / (double) picture.getHeight() : maxSize / (double) picture.getWidth();
-		BufferedImage resizePicture = resizePicture(picture, scale);
+		BufferedImage resizePicture = getResizedPicture(picture, scale);
 		if (rotDegree == 0)
 			return resizePicture;
 		else
-			return rotatePicture(resizePicture, rotDegree);
+			return getRotatedPicture(resizePicture, rotDegree);
 
 	}
 
 	/*
 	 * Resizes the picture with scale factor.
 	 */
-	private BufferedImage resizePicture(PlanarImage picture, double scale) {
+	private BufferedImage getResizedPicture(PlanarImage picture, double scale) {
 		if (scale > 1)
 			scale = 1;
 		// System.out.println("SCALE=" + scale);
@@ -80,21 +80,21 @@ public class PicturesImporter extends GalleryIO {
 	}
 
 	/**
-	 * Adds picture to gallery.
+	 * Adds picture to gallery and return a picture bean.
 	 * 
 	 * @param sourcePath
 	 * @param destinationFolder
 	 */
-	public PictureBean addPicture(File sourcePicture, File destinationFolder) {
+	public PictureBean getPictureBean(File sourcePicture, File destinationFolder) {
 		long fileName = System.currentTimeMillis() - 1336300000000l;
-		PlanarImage picture = loadPicture(sourcePicture.getAbsolutePath());
+		PlanarImage picture = getLoadedPicture(sourcePicture.getAbsolutePath());
 		int width = picture.getWidth();
 		int height = picture.getHeight();
 		double scale = 1;
 		scale = width > height ? configs.getPictureDimension().getWidth() / (double) width : configs.getPictureDimension().getWidth() / (double) height;
-		writePicture(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + ".jpg");
+		writePicture(getResizedPicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + fileName + ".jpg");
 		scale = width > height ? 200 / (double) width : 200 / (double) height;
-		writeThumbnail(resizePicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + "T" + fileName + ".jpg");
+		writeThumbnail(getResizedPicture(picture, scale), destinationFolder.getAbsolutePath() + File.separator + "T" + fileName + ".jpg");
 
 		String[] pictureName = sourcePicture.getName().toLowerCase().split(".jpg");
 		PictureBean pictureBean = new PictureBean(pictureName[0], fileName + ".jpg", "", "T" + fileName + ".jpg");

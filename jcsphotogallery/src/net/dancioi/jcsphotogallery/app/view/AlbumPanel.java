@@ -49,7 +49,7 @@ import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.Constants;
+import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
 
 /**
  * Panel to edit the photos' album.
@@ -219,7 +219,7 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		if (!InputTextValidator.validateText(albumTagsTextField.getText()))
 			InfoPanel.setInfoMessage("Error: " + "Tags field for album: " + editedAlbum.getName() + " is not a valid text", InfoPanel.RED);
 		else {
-			String[] tags = albumTagsTextField.getText().split(Constants.ALBUM_SEPARATOR);
+			String[] tags = albumTagsTextField.getText().split(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
 			for (int i = 0; i < tags.length; i++)
 				tags[i] = tags[i].trim();// remove whitespace between tags (if there are any).
 			editedAlbum.setTags(tags);
@@ -258,8 +258,8 @@ public class AlbumPanel extends JPanel implements FocusListener {
 		String albumTagsText = albumTagsTextField.getText() + typedChar;
 		int albumTagsTextCaretPosition = albumTagsTextField.getCaretPosition();
 		Set<String> possibleTags = allCurrentTags;
-		if (!Character.toString(typedChar).equalsIgnoreCase(Constants.ALBUM_SEPARATOR)) {
-			int lastIndex = albumTagsText.lastIndexOf(Constants.ALBUM_SEPARATOR);
+		if (!Character.toString(typedChar).equalsIgnoreCase(JcsPhotoGalleryConstants.ALBUM_SEPARATOR)) {
+			int lastIndex = albumTagsText.lastIndexOf(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
 			if (lastIndex < albumTagsTextCaretPosition) {// normal case, separator before cursor, otherwise show all tags.
 				String incompleteTag = albumTagsText.substring(lastIndex + 1).trim();
 				if (!incompleteTag.isEmpty()) {

@@ -53,11 +53,14 @@ public class DeleteReport extends JFrame {
 		this.setTitle("Delete result");
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
+		add(getTextArea(), BorderLayout.CENTER);
+		this.setVisible(true);
+	}
+
+	private JScrollPane getTextArea() {
 		JTextArea textArea = new JTextArea(result.toString());
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		add(scrollPane, BorderLayout.CENTER);
-
-		this.setVisible(true);
+		return scrollPane;
 	}
 
 }

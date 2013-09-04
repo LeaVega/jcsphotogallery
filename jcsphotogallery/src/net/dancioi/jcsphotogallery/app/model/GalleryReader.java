@@ -47,16 +47,17 @@ import org.xml.sax.SAXException;
  */
 public class GalleryReader extends ElementXML {
 
-	public GalleryAlbums getAlbums(File xmlFile) {
-		GalleryAlbums galleryAlbums = super.getAlbums(readFileXML(xmlFile));
+	public GalleryAlbums getAlbums(File xmlFile) throws GalleryException{
+		Element elementFromXMLFile = getElementFromXMLFile(xmlFile);
+		GalleryAlbums galleryAlbums = super.getAlbums(elementFromXMLFile);
 		for (AlbumBean album : galleryAlbums.getAllAlbums()) {
-			album.setPictures(getAlbumPhotos(readFileXML(new File(xmlFile.getParentFile().getAbsolutePath() + File.separatorChar + album.getFolderName() + File.separator + "album.xml"))));
+			album.setPictures(getAlbumPhotos(getElementFromXMLFile(new File(xmlFile.getParentFile().getAbsolutePath() + File.separatorChar + album.getFolderName() + File.separator + "album.xml"))));
 		}
 
 		return galleryAlbums;
 	}
 
-	private Element readFileXML(File xmlFile) {
+	private Element getElementFromXMLFile(File xmlFile) throws GalleryException{
 		Element element = null;
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -66,11 +67,11 @@ public class GalleryReader extends ElementXML {
 			Document document = builder.parse(xmlFile);
 			element = document.getDocumentElement();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			throw new GalleryException(e);
 		} catch (SAXException e) {
-			e.printStackTrace();
+			throw new GalleryException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GalleryException(e);
 		}
 
 		return element;

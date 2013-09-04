@@ -1,5 +1,5 @@
 /*	
- * 	File    : Constants.java
+ * 	File    : JcsPhotoGalleryConstants.java
  * 
  * 	Copyright (C) 2013 Daniel Cioi <dan@dancioi.net>
  *                              
@@ -29,7 +29,7 @@ package net.dancioi.jcsphotogallery.client.shared;
  * @author Daniel Cioi <dan@dancioi.net>
  * @version $Revision: 97 $ Last modified: $Date: 2013-04-05 23:53:11 +0300 (Fri, 05 Apr 2013) $, by: $Author: dan.cioi $
  */
-public abstract class Constants {
+public abstract class JcsPhotoGalleryConstants {
 
 	public static String APP_VERSION = "1.1.2 beta";
 	public static String ALBUM_SEPARATOR = ";";

@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import net.dancioi.jcsphotogallery.client.shared.Constants;
+import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
 import net.dancioi.jcsphotogallery.client.shared.PictureBean;
 import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
 
@@ -101,7 +101,7 @@ public class JcsPhotoGalleryView extends View {
 	}
 
 	private void addAppVersion() {
-		versionPanel = new VersionPanel(Constants.APP_VERSION);
+		versionPanel = new VersionPanel(JcsPhotoGalleryConstants.APP_VERSION);
 		RootPanel.get("versionPanel").add(versionPanel);
 	}
 

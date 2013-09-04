@@ -58,15 +58,15 @@ public class GalleryFiles {
 		StringBuilder result = new StringBuilder();
 		int queSize = deleteQueue.size();
 		for (int i = 0; i < queSize; i++) {
-			deleteFile(deleteQueue.remove(), result);
+			deleteFileAndReturnResult(deleteQueue.remove(), result);
 		}
 		checkDeleteReport(result);
 	}
 
-	private StringBuilder deleteFile(File file, StringBuilder result) {
+	private StringBuilder deleteFileAndReturnResult(File file, StringBuilder result) {
 		if (file.isDirectory()) {
 			for (File child : file.listFiles()) {
-				deleteFile(child, result);
+				deleteFileAndReturnResult(child, result);
 			}
 		}
 

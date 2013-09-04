@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.dancioi.jcsphotogallery.client.shared.Constants;
+import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
 
 /**
  * The About modal dialog.
@@ -73,7 +73,7 @@ public class AboutFrame extends JFrame {
 		JTextArea aboutText = new JTextArea();
 		aboutText.setText("\n JcsPhotoGallery desktop application, \n a pictures manager for JcsPhototGallery client application \n"
 				+ "The application is  released as free software\n under the GNU General Public License (GPL). \n\n "
-				+ "For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ \n\n Current version is " + Constants.APP_VERSION);
+				+ "For more info please see:\n http://www.dancioi.net/projects/jcsphotogallery/ \n\n Current version is " + JcsPhotoGalleryConstants.APP_VERSION);
 		aboutText.setEditable(false);
 		return aboutText;
 	}

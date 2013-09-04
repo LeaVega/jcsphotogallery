@@ -72,9 +72,11 @@ public interface JcsPhotoGalleryViewInterface {
 
 	int getMinPictureViewSize();
 
-	boolean askForDeleteConfirmation();
+	boolean isDeleteConfirmed();
 
 	void showHelp();
 
 	JPanel getLeftPanel();
+
+	void showMessageToUser(String messageToUser);
 }
