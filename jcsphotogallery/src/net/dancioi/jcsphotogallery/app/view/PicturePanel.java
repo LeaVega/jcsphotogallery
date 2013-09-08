@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * Panel to edit the picture.

@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
+import net.dancioi.jcsphotogallery.shared.Thumbnails;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

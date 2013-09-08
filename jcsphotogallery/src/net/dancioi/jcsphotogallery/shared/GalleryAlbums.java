@@ -22,7 +22,8 @@
  * 
  */
 
-package net.dancioi.jcsphotogallery.client.shared;
+package net.dancioi.jcsphotogallery.shared;
+
 
 /**
  * The class to keep the albums data.

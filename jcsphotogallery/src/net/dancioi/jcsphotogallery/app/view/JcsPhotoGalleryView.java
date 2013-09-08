@@ -44,9 +44,9 @@ import javax.swing.tree.TreePath;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's View

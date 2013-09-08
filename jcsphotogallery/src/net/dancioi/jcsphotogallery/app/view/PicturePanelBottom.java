@@ -38,7 +38,7 @@ import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dancioi.jcsphotogallery.app.controller.JcsPhotoGalleryControllerInterface;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * Class that shows the selected picture and allow to edit name and description .

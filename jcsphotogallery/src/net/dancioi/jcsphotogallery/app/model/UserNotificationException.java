@@ -33,6 +33,10 @@ public class UserNotificationException extends GalleryException {
 
 	private static final long serialVersionUID = 1L;
 
+	public UserNotificationException(Exception exception) {
+		this(exception.getMessage(), exception);
+	}
+
 	public UserNotificationException(String messageToShow, Exception exception) {
 		super(exception);
 		showMessage(messageToShow);

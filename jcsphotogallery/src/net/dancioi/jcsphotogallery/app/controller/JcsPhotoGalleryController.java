@@ -48,19 +48,20 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import net.dancioi.jcsphotogallery.app.model.GalleryException;
 import net.dancioi.jcsphotogallery.app.model.JcsPhotoGalleryModelInterface;
+import net.dancioi.jcsphotogallery.app.model.UserNotificationException;
 import net.dancioi.jcsphotogallery.app.view.AboutFrame;
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
 import net.dancioi.jcsphotogallery.app.view.Preferences;
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's Controller.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date: 2013-04-07 02:54:26 +0300
- *          (Sun, 07 Apr 2013) $, by: $Author$
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
 public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInterface, RightClickPopUpInterface {
 	// TODO on Mac OS - icons/imgNotFound.png File not found (icon's path issue
@@ -132,20 +133,30 @@ public class JcsPhotoGalleryController implements JcsPhotoGalleryControllerInter
 		menuNewGallery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser folderChooser = new JFileChooser();
-				folderChooser.setCurrentDirectory(new java.io.File("."));
-				folderChooser.setDialogTitle("Choose the folder to create gallery.");
-				folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					createNewGallery(folderChooser.getSelectedFile());
-				}
+				showFolderChooserDialog();
 			}
 		});
 		return menuNewGallery;
 	}
 
+	private void showFolderChooserDialog() {
+		JFileChooser folderChooser = new JFileChooser();
+		folderChooser.setCurrentDirectory(new java.io.File("."));
+		folderChooser.setDialogTitle("Choose the folder to create gallery.");
+		folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		if (folderChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			createNewGallery(folderChooser.getSelectedFile());
+		}
+	}
+
 	private void createNewGallery(File galleryPath) {
-		view.populateTree(model.getNewGalleryTreeNodes(galleryPath));
+		try {
+			DefaultMutableTreeNode[] galleryTreeNodesFromNewGallery = model.getGalleryTreeNodesFromNewGallery(galleryPath);
+			view.populateTree(galleryTreeNodesFromNewGallery);
+		} catch (GalleryException e) {
+			new UserNotificationException(e);
+			showFolderChooserDialog();
+		}
 	}
 
 	private JMenuItem getMenuOpenGallery() {

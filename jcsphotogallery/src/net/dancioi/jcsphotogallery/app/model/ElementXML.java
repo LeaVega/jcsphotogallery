@@ -24,10 +24,10 @@
 
 package net.dancioi.jcsphotogallery.app.model;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

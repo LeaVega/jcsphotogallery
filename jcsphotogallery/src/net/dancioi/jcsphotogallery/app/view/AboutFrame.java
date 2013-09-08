@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
+import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
 
 /**
  * The About modal dialog.

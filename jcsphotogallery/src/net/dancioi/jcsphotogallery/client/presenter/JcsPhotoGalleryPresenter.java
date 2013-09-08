@@ -25,12 +25,12 @@
 package net.dancioi.jcsphotogallery.client.presenter;
 
 import net.dancioi.jcsphotogallery.client.model.Model;
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
-import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
 import net.dancioi.jcsphotogallery.client.view.View;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.Thumbnails;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

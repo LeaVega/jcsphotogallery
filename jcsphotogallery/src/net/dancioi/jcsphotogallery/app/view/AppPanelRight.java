@@ -34,10 +34,10 @@ import javax.swing.JProgressBar;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * The Application's right side.

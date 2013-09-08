@@ -26,7 +26,7 @@ package net.dancioi.jcsphotogallery.client.presenter;
 
 import java.util.ArrayList;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
 
 /**
  * Class to keep albums' index for each tag.

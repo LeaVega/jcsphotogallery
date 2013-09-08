@@ -24,7 +24,7 @@
 
 package net.dancioi.jcsphotogallery.client.model;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
 
 import com.google.gwt.xml.client.Element;
 

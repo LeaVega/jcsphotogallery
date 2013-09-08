@@ -24,9 +24,9 @@
 
 package net.dancioi.jcsphotogallery.client.view;
 
-import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
-import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
+import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.Thumbnails;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;

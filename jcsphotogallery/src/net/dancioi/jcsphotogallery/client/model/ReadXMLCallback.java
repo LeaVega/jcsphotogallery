@@ -23,8 +23,8 @@
  */
 package net.dancioi.jcsphotogallery.client.model;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
 
 /**
  * Interface for XML file reading callback.

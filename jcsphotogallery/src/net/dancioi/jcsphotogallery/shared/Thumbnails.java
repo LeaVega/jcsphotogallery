@@ -1,7 +1,7 @@
 /*	
- * 	File    : JcsPhotoGalleryConstants.java
+ * 	File    : Thumbnails.java
  * 
- * 	Copyright (C) 2013 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2011 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -21,17 +21,21 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package net.dancioi.jcsphotogallery.client.shared;
+
+package net.dancioi.jcsphotogallery.shared;
 
 /**
- * JcsPhotoGallery's constants
+ * Interface to show the image thumbnail.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 97 $ Last modified: $Date: 2013-04-05 23:53:11 +0300 (Fri, 05 Apr 2013) $, by: $Author: dan.cioi $
+ * @version $Revision$ Last modified: $Date$, by: $Author$
  */
-public abstract class JcsPhotoGalleryConstants {
+public interface Thumbnails {
 
-	public static String APP_VERSION = "1.1.2 beta";
-	public static String ALBUM_SEPARATOR = ";";
+	String getImgThumbnail();
+
+	String getName();
+
+	int getIndex();
 
 }

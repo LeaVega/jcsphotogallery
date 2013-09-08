@@ -48,8 +48,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.JcsPhotoGalleryConstants;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
 
 /**
  * Panel to edit the photos' album.

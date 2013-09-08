@@ -36,7 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
 
 /**
  * Panel to edit the gallery.

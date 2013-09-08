@@ -31,8 +31,8 @@ import java.nio.channels.FileChannel;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * Files manipulation.

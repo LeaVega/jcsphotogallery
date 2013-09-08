@@ -46,9 +46,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import net.dancioi.jcsphotogallery.app.view.JcsPhotoGalleryViewInterface;
-import net.dancioi.jcsphotogallery.client.shared.AlbumBean;
-import net.dancioi.jcsphotogallery.client.shared.GalleryAlbums;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.AlbumBean;
+import net.dancioi.jcsphotogallery.shared.GalleryAlbums;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * JcsPhotoGallery's Model.
@@ -245,20 +245,29 @@ public class JcsPhotoGalleryModel implements JcsPhotoGalleryModelInterface, Dele
 		return picturesImport.getPicture(getPicturePath(picture), maxSize, picture.getRotateDegree());
 	}
 
-	public DefaultMutableTreeNode[] getNewGalleryTreeNodes(File galleryPath) {
+	public DefaultMutableTreeNode[] getGalleryTreeNodesFromNewGallery(File galleryPath) throws GalleryException {
 		File galleryFolder = new File(galleryPath.getAbsolutePath() + File.separator + "gallery");
-		if (galleryFolder.mkdir()) {
-			appGalleryPath = galleryFolder;
-			galleryAlbums = new GalleryAlbums();
-			galleryAlbums.setGalleryName("Change this");
-			galleryAlbums.setGalleryHomePage("http://www.changeThis.com");
-			galleryAlbums.setEdited(true);
+		createNewGalleryRootFolder(galleryFolder);
+		appGalleryPath = galleryFolder;
+		galleryAlbums = new GalleryAlbums();
+		galleryAlbums.setGalleryName("Change this");
+		galleryAlbums.setGalleryHomePage("http://www.changeThis.com");
+		galleryAlbums.setEdited(true);
 
-			configs.setGalleryPath(galleryFolder);
+		configs.setGalleryPath(galleryFolder);
 
-			return new DefaultMutableTreeNode[] { getPicturesTreeNodeAddedToNewAlbum(null, null) };
+		return new DefaultMutableTreeNode[] { getPicturesTreeNodeAddedToNewAlbum(null, null) };
+
+	}
+
+	private void createNewGalleryRootFolder(File galleryPath) throws GalleryException {
+		boolean folderCreated = galleryPath.mkdir();
+		if (folderCreated) {
+			return;
+		} else if (galleryPath.exists() && galleryPath.list().length == 0) {
+			return;
 		} else {
-			return null;
+			throw new GalleryException(new Exception("The Gallery's folder could not be created! Please choose another path."));
 		}
 	}
 

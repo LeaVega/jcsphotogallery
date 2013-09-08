@@ -25,8 +25,8 @@
 package net.dancioi.jcsphotogallery.client.view;
 
 import net.dancioi.jcsphotogallery.client.presenter.Presenter;
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
-import net.dancioi.jcsphotogallery.client.shared.Thumbnails;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.Thumbnails;
 
 /**
  * JcsPhotoGallery's view.

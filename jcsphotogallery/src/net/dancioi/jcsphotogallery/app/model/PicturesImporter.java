@@ -32,7 +32,7 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.SubsampleAverageDescriptor;
 
-import net.dancioi.jcsphotogallery.client.shared.PictureBean;
+import net.dancioi.jcsphotogallery.shared.PictureBean;
 
 /**
  * This class imports resizes and writes a picture .
