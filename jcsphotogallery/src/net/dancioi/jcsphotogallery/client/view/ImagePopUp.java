@@ -31,7 +31,8 @@ import com.google.gwt.user.client.ui.Image;
  * The image class to generate a event when the image is fully loaded.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2013-04-12 21:49:30 +0200
+ *          (Fri, 12 Apr 2013) $, by: $Author$
  */
 public class ImagePopUp extends Image {
 

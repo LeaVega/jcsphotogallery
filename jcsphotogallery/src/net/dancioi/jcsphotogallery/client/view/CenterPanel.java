@@ -40,13 +40,15 @@ import com.google.gwt.user.client.ui.Image;
  * The application contains 3 panels (top, center, bottom).
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2013-09-08 22:50:02 +0200
+ *          (Sun, 08 Sep 2013) $, by: $Author$
  */
 public class CenterPanel extends Grid {
 
 	private JcsPhotoGalleryView pgw;
 	private Image[] cell = new Image[9]; // 3x3 matrix.
-	private boolean[] cellOn = new boolean[9]; // flag to know which cells have images attached
+	private boolean[] cellOn = new boolean[9]; // flag to know which cells have
+												// images attached
 
 	public CenterPanel(JcsPhotoGalleryView pgw) {
 		super(3, 3);
@@ -71,7 +73,8 @@ public class CenterPanel extends Grid {
 		for (int h = 0; h < 3; h++) {
 			for (int w = 0; w < 3; w++) {
 
-				getCellFormatter().setHorizontalAlignment(h, w, HasHorizontalAlignment.ALIGN_CENTER);
+				getCellFormatter().setHorizontalAlignment(h, w,
+						HasHorizontalAlignment.ALIGN_CENTER);
 				getCellFormatter().setStyleName(h, w, "gridCell-format");
 				getCellFormatter().setHeight(h, w, "210px");
 				getCellFormatter().setWidth(h, w, "240px");
@@ -88,19 +91,22 @@ public class CenterPanel extends Grid {
 		for (int h = 0; h < 3; h++) {
 			for (int w = 0; w < 3; w++) {
 				if (cellID < thumbnails.length) {
-					cell[cellID] = new Image(imagesPath + thumbnails[imgId].getImgThumbnail());
+					cell[cellID] = new Image(imagesPath
+							+ thumbnails[imgId].getImgThumbnail());
 					cell[cellID].addErrorHandler(new ErrorHandler() {
 						@Override
 						public void onError(ErrorEvent event) {
 							// if image is missing then show the next one
-							((Image) (event.getSource())).setUrl("template/ext/albumThumbnailNotFound.png");
+							((Image) (event.getSource()))
+									.setUrl("template/ext/albumThumbnailNotFound.png");
 						}
 					});
 					cell[cellID].setTitle(thumbnails[imgId].getName());
 
 					cellOn[cellID] = true;
 					imgId++;
-				} else { // for less than 9 thumbnails, fill it with empty image.
+				} else { // for less than 9 thumbnails, fill it with empty
+							// image.
 					cell[cellID] = new Image("template/ext/cellBackground.gif");
 					cellOn[cellID] = false;
 				}

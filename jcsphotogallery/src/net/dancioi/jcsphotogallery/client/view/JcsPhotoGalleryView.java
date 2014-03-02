@@ -1,7 +1,7 @@
 /*	
  * 	File    : JcsPhotoGalleryView.java
  * 
- * 	Copyright (C) 2012 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2014 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -21,44 +21,18 @@
  *  along with Jcsphotogallery.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
 package net.dancioi.jcsphotogallery.client.view;
 
-import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
-import net.dancioi.jcsphotogallery.shared.PictureBean;
-import net.dancioi.jcsphotogallery.shared.Thumbnails;
+public abstract class JcsPhotoGalleryView extends View {
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-
-/**
- * JcsPhotoGallery's view.
- * 
- * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
- */
-public class JcsPhotoGalleryView extends View {
-
-	// TODO improve info message when gallery is missing
-	// TODO for version 1.1.2, add function to remove tag by clicking on it.
-	// TODO catch possible error if the user put ";" in tag
-
-	private Label headerLabel;
-	private TopPanel topPanel;
-
-	private CenterPanel centerPanel;
-	private BottomPanel bottomPanel;
-	private VersionPanel versionPanel;
-
-	public JcsPhotoGalleryView() {
+	protected JcsPhotoGalleryView() {
 		initialize();
 	}
 
-	/**
+	/*
 	 * Initialize
 	 */
-	public void initialize() {
+	private void initialize() {
 		addHeader();
 		addTopPanel();
 		addBottomPanel();
@@ -67,145 +41,18 @@ public class JcsPhotoGalleryView extends View {
 		addHandlers();
 	}
 
-	/*
-	 * Adds the header where a text with the owner gallery will be shown.
-	 */
-	private void addHeader() {
-		headerLabel = new Label("jcsPhotoGallery");
-		headerLabel.setStyleName("h1");
-		RootPanel.get("header").add(headerLabel);
-	}
+	protected abstract void addHeader();
 
-	/*
-	 * Adds the center panel.
-	 */
-	private void addCenterPanel() {
-		centerPanel = new CenterPanel(this);
-		RootPanel.get("images").add(centerPanel);
-	}
+	protected abstract void addTopPanel();
 
-	/*
-	 * Adds the top panel.
-	 */
-	private void addTopPanel() {
-		topPanel = new TopPanel(this);
-		RootPanel.get("topPanel").add(topPanel);
-	}
+	protected abstract void addBottomPanel();
 
-	/*
-	 * Adds the bottom panel.
-	 */
-	private void addBottomPanel() {
-		bottomPanel = new BottomPanel(this);
-		RootPanel.get("bottomPanel").add(bottomPanel);
-	}
+	protected abstract void addAppVersion();
 
-	private void addAppVersion() {
-		versionPanel = new VersionPanel(JcsPhotoGalleryConstants.APP_VERSION);
-		RootPanel.get("versionPanel").add(versionPanel);
-	}
+	protected abstract void addCenterPanel();
 
-	private void addHandlers() {
-		new ViewHandlers(bottomPanel, versionPanel);
-	}
+	protected abstract void addHandlers();
 
-	/**
-	 * Sets the owner gallery name and the owner's link to the home web page.
-	 * 
-	 * @param name
-	 *            owner's name
-	 * @param homePage
-	 *            link to the home web page
-	 */
-	@Override
-	public void setGalleryName(String name, String homePage) {
-		setHeader(name);
-		topPanel.setHomePage(name, homePage);
-	}
+	protected abstract void clickEventOnCell(int id);
 
-	/*
-	 * Sets the header owner's gallery.
-	 * 
-	 * @param name owners' name
-	 */
-	private void setHeader(String name) {
-		headerLabel.setText(name + "'s gallery");
-	}
-
-	/**
-	 * Notify the presenter about the click event on a cell.
-	 * 
-	 * @param id
-	 */
-	public void clickEventOnCell(int id) {
-		getPresenter().clickedCellEvent(id);
-	}
-
-	/**
-	 * Shows the popUp with the selected image.
-	 * 
-	 * @param id
-	 */
-	@Override
-	public void showPopUpImg(int id, String imgPath, PictureBean[] pictures) {
-		new PopUpImgShow(id - 1, imgPath, pictures).show();
-	}
-
-	@Override
-	public void setLeftButtonVisible(boolean visible) {
-		bottomPanel.setLeftButtonVisible(visible);
-	}
-
-	@Override
-	public void setRightButtonVisible(boolean visible) {
-		bottomPanel.setRightButtonVisible(visible);
-	}
-
-	@Override
-	public void setUpButtonVisible(boolean visible) {
-		bottomPanel.setUpButtonVisible(visible);
-	}
-
-	@Override
-	public void setPageNr(String pageNr) {
-		bottomPanel.setPageNr(pageNr);
-	}
-
-	/**
-	 * Shows the image on grid (3x3 matrix)
-	 */
-	@Override
-	public void showImagesOnGrid(String imagesPath, Thumbnails[] thumbnails) {
-		centerPanel.showImages(imagesPath, thumbnails);
-	}
-
-	@Override
-	public void setAlbumLabel(String albumName) {
-		bottomPanel.setLeftCornerLabel(albumName);
-	}
-
-	@Override
-	public void setTagsLabel(String selectedTags) {
-		bottomPanel.setLeftCornerLabel(selectedTags);
-	}
-
-	public void showAlbumsByTag(String selectedTags) {
-		getPresenter().showAlbumsByTag(selectedTags);
-	}
-
-	@Override
-	public void setAlbumsTags(String[] tags) {
-		topPanel.addTagsToListBox(tags);
-	}
-
-	@Override
-	public void noGalleryToShow() {
-		bottomPanel.setLeftCornerLabelAlertMode();
-		showAlertMessage("The selected tags togheter returns no albums!\nPlease remove one of the tags already selected \nby selecting one of it again from \"Sort Albums by tag\".");
-	}
-
-	@Override
-	public void showAlertMessage(String msg) {
-		Window.alert(msg);
-	}
 }

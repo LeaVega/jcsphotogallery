@@ -1,7 +1,7 @@
 /*	
  * 	File    : Jcsphotogallery.java
  * 
- * 	Copyright (C) 2010-2011 Daniel Cioi <dan@dancioi.net>
+ * 	Copyright (C) 2010-2014 Daniel Cioi <dan@dancioi.net>
  *                              
  *	www.dancioi.net/projects/Jcsphotogallery
  *
@@ -27,7 +27,6 @@ package net.dancioi.jcsphotogallery.client;
 import net.dancioi.jcsphotogallery.client.model.JcsPhotoGalleryModel;
 import net.dancioi.jcsphotogallery.client.model.Model;
 import net.dancioi.jcsphotogallery.client.presenter.JcsPhotoGalleryPresenter;
-import net.dancioi.jcsphotogallery.client.view.JcsPhotoGalleryView;
 import net.dancioi.jcsphotogallery.client.view.View;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -37,20 +36,26 @@ import com.google.gwt.core.client.EntryPoint;
  * 
  * The Main class of this project :p
  * 
- * For details about this project see the following web pages: http://www.dancioi.net/projects/jcsphotogallery/ http://code.google.com/p/jcsphotogallery/
+ * For details about this project see the following web pages:
+ * http://www.dancioi.net/projects/jcsphotogallery/
+ * http://code.google.com/p/jcsphotogallery/
  * 
- * For a demo of this project see the following web page: http://www.dancioi.net/projects/jcsphotogallery/demo/
+ * For a demo of this project see the following web page:
+ * http://www.dancioi.net/projects/jcsphotogallery/demo/
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2012-06-23 13:45:50 +0200
+ *          (Sat, 23 Jun 2012) $, by: $Author$
  */
-public class Jcsphotogallery implements EntryPoint {
+public abstract class Jcsphotogallery implements EntryPoint {
 
 	public void onModuleLoad() {
 		// MVP pattern
 		Model model = new JcsPhotoGalleryModel();
-		View view = new JcsPhotoGalleryView();
+		View view = getView();
 		new JcsPhotoGalleryPresenter(model, view);
 	}
+
+	protected abstract View getView();
 
 }

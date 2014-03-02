@@ -36,7 +36,8 @@ import com.google.gwt.xml.client.NodeList;
  * Obtains Albums or Album's photos from an XML element.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2013-09-08 22:50:02 +0200
+ *          (Sun, 08 Sep 2013) $, by: $Author$
  */
 public abstract class ElementXML {
 
@@ -47,8 +48,10 @@ public abstract class ElementXML {
 	 * @return Albums
 	 */
 	protected GalleryAlbums getAlbums(Element element) {
-		String galleryName = element.getElementsByTagName("galleryName").item(0).getFirstChild().getNodeValue();
-		String galleryHomePage = element.getElementsByTagName("homePage").item(0).getFirstChild().getNodeValue();
+		String galleryName = element.getElementsByTagName("galleryName")
+				.item(0).getFirstChild().getNodeValue();
+		String galleryHomePage = element.getElementsByTagName("homePage")
+				.item(0).getFirstChild().getNodeValue();
 
 		String xmlVersion = null;
 		NodeList elementVersion = element.getElementsByTagName("version");
@@ -70,10 +73,15 @@ public abstract class ElementXML {
 			if (xmlVersion.startsWith("1.1.")) {
 				allCategories = elAlbum.getAttribute("tags");
 			} else {
-				Window.alert("Incompatibility between JcsPhotoGallery Web Application and Gallery xml files. \nPlease use JcsPhotoGallery desktop application to correct this.");
+				// TODO this should be in view.
+				// Also a decorated alert message...
+				Window.alert("Version incompatibility between the JcsPhotoGallery Web Application and Gallery's xml files. \nThe gallery was generated for version 1.0.X \nPlease use JcsPhotoGallery desktop application to correct this.");
 			}
-			tags = allCategories.split(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
-			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("folderName") + "/" + elAlbum.getAttribute("img"), elAlbum.getAttribute("folderName"),
+			tags = allCategories
+					.split(JcsPhotoGalleryConstants.ALBUM_SEPARATOR);
+			photoAlbums[i] = new AlbumBean(elAlbum.getAttribute("folderName")
+					+ "/" + elAlbum.getAttribute("img"),
+					elAlbum.getAttribute("folderName"),
 					elAlbum.getAttribute("name"), tags, i);
 		}
 
@@ -100,7 +108,10 @@ public abstract class ElementXML {
 		for (int i = 0; i < images.getLength(); i++) {
 			Element elAlbum = (Element) images.item(i);
 
-			pictures[i] = new PictureBean(elAlbum.getAttribute("name"), elAlbum.getAttribute("img"), elAlbum.getAttribute("comment"), "T" + elAlbum.getAttribute("img"));
+			pictures[i] = new PictureBean(elAlbum.getAttribute("name"),
+					elAlbum.getAttribute("img"),
+					elAlbum.getAttribute("comment"), "T"
+							+ elAlbum.getAttribute("img"));
 		}
 
 		AlbumBean albumPhotos = new AlbumBean();

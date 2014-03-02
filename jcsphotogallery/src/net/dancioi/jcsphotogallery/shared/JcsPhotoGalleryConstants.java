@@ -27,11 +27,12 @@ package net.dancioi.jcsphotogallery.shared;
  * JcsPhotoGallery's constants
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision: 97 $ Last modified: $Date: 2013-04-05 23:53:11 +0300 (Fri, 05 Apr 2013) $, by: $Author: dan.cioi $
+ * @version $Revision: 97 $ Last modified: $Date: 2013-04-05 23:53:11 +0300
+ *          (Fri, 05 Apr 2013) $, by: $Author: dan.cioi $
  */
 public abstract class JcsPhotoGalleryConstants {
 
-	public static String APP_VERSION = "1.1.2 beta";
+	public static String APP_VERSION = "1.1.2 b02";
 	public static String ALBUM_SEPARATOR = ";";
 
 }

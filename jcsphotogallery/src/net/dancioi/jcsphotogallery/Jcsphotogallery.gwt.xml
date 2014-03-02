@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='jcsphotogallery'>
 
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.                            -->
-  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  
-  <inherits name="com.google.gwt.xml.XML" />
+	<inherits name='com.google.gwt.user.theme.standard.Standard' />
 
-  <!-- Other module inherits                                      -->
+	<inherits name="com.google.gwt.xml.XML" />
 
-  <!-- Specify the app entry point class.                         -->
-  <entry-point class='net.dancioi.jcsphotogallery.client.Jcsphotogallery'/>
+	<!-- Other module inherits -->
 
-  <!-- Specify the paths for translatable code                    -->
-  <source path='client'/>
-  <source path='shared'/>
+	<!-- Specify the app entry point class. -->
+	<entry-point
+		class='net.dancioi.jcsphotogallery.client.Jcsphotogallery' />
+
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+	<source path='shared' />
+
+	<define-property name="mobile.user.agent" values="mobile, not_mobile" />
+	<property-provider name="mobile.user.agent"><![CDATA[
+  {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.indexOf('android') != -1) { return 'mobile'; }
+    if (ua.indexOf('iphone') != -1) { return 'mobile'; }
+    return 'not_mobile';
+  }
+	]]></property-provider>
+
+
+	<replace-with
+		class="net.dancioi.jcsphotogallery.client.JcsphotogalleryDesktop">
+		<when-type-is class="net.dancioi.jcsphotogallery.client.Jcsphotogallery" />
+		<when-property-is name="mobile.user.agent" value="not_mobile" />
+	</replace-with>
+
+	<replace-with
+		class="net.dancioi.jcsphotogallery.client.JcsphotogalleryMobile">
+		<when-type-is class="net.dancioi.jcsphotogallery.client.Jcsphotogallery" />
+		<when-property-is name="mobile.user.agent" value="mobile" />
+	</replace-with>
+
 
 </module>

@@ -31,9 +31,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * This class is a generic for PopUp panel. Define the center position.
  * 
  * @author Daniel Cioi <dan@dancioi.net>
- * @version $Revision$ Last modified: $Date$, by: $Author$
+ * @version $Revision$ Last modified: $Date: 2013-08-25 23:36:20 +0200
+ *          (Sun, 25 Aug 2013) $, by: $Author$
  */
-public class PopupGeneric extends PopupPanel {
+public abstract class PopupGeneric extends PopupPanel {
 
 	private int popUpSizeW; // popup size on X
 	private int popUpSizeH; // popup size on Y
@@ -41,7 +42,6 @@ public class PopupGeneric extends PopupPanel {
 	private int browserWindowHeight; // browser window size on Y
 	private int browserScrollLeft; // on small screen scroll is used
 	private int browserScrollTop;
-	
 
 	/**
 	 * 
@@ -63,21 +63,21 @@ public class PopupGeneric extends PopupPanel {
 		initialize();
 	}
 
-	
-	private void initialize(){
+	private void initialize() {
 		browserWindowWidth = Window.getClientWidth();
 		browserWindowHeight = Window.getClientHeight();
 		browserScrollLeft = Window.getScrollLeft();
-		browserScrollTop = Window.getScrollTop();		
+		browserScrollTop = Window.getScrollTop();
 	}
-	
+
 	/**
 	 * Method to set the popup panel position.
 	 */
 	protected void setPosition() {
-		setPopupPosition((browserWindowWidth - popUpSizeW) / 2+browserScrollLeft, (browserWindowHeight - popUpSizeH) / 2 +browserScrollTop);
+		setPopupPosition((browserWindowWidth - popUpSizeW) / 2
+				+ browserScrollLeft, (browserWindowHeight - popUpSizeH) / 2
+				+ browserScrollTop);
 	}
-
 
 	/**
 	 * Method to set the popup width size.
@@ -140,7 +140,5 @@ public class PopupGeneric extends PopupPanel {
 	protected int getBrowserScrollTop() {
 		return browserScrollTop;
 	}
-	
-	
 
 }
