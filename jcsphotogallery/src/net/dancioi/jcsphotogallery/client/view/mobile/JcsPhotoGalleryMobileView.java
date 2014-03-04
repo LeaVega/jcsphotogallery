@@ -30,6 +30,8 @@ import net.dancioi.jcsphotogallery.shared.JcsPhotoGalleryConstants;
 import net.dancioi.jcsphotogallery.shared.PictureBean;
 import net.dancioi.jcsphotogallery.shared.Thumbnails;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -49,6 +51,10 @@ public class JcsPhotoGalleryMobileView extends JcsPhotoGalleryView {
 	private CenterPanel centerPanel;
 	private BottomPanel bottomPanel;
 	private VersionPanel versionPanel;
+
+	private PopUpImgShowMobile popUpImgShow = null;
+	private String currentImgPath;
+	private PictureBean[] currentPictures;
 
 	/*
 	 * Adds the header where a text with the owner gallery will be shown.
@@ -96,6 +102,17 @@ public class JcsPhotoGalleryMobileView extends JcsPhotoGalleryView {
 	@Override
 	protected void addHandlers() {
 		// new ViewHandlers(bottomPanel, versionPanel);
+
+		Window.addResizeHandler(new ResizeHandler() {
+
+			@Override
+			public void onResize(ResizeEvent event) {
+				if (popUpImgShow != null && popUpImgShow.isShowing()) {
+					screenRotationEvent(popUpImgShow.getCurentImgId());
+
+				}
+			}
+		});
 	}
 
 	/**
@@ -137,7 +154,18 @@ public class JcsPhotoGalleryMobileView extends JcsPhotoGalleryView {
 	 */
 	@Override
 	public void showPopUpImg(int id, String imgPath, PictureBean[] pictures) {
-		new PopUpImgShowMobile(id - 1, imgPath, pictures).show();
+		currentImgPath = imgPath;
+		currentPictures = pictures;
+		showImgOneByOne(id - 1, imgPath, pictures);
+	}
+
+	private void showImgOneByOne(int id, String imgPath, PictureBean[] pictures) {
+		if (popUpImgShow != null) {// TODO check what is happen with this one!
+									// is destroyed or?
+			popUpImgShow.removeFromParent();
+		}
+		popUpImgShow = new PopUpImgShowMobile(id, imgPath, pictures);
+		popUpImgShow.show();
 	}
 
 	@Override
@@ -196,6 +224,10 @@ public class JcsPhotoGalleryMobileView extends JcsPhotoGalleryView {
 	@Override
 	public void showAlertMessage(String msg) {
 		Window.alert(msg);
+	}
+
+	public void screenRotationEvent(int imgId) {
+		showImgOneByOne(imgId, currentImgPath, currentPictures);
 	}
 
 }

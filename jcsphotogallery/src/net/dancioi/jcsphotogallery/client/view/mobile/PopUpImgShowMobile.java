@@ -51,8 +51,6 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 	private int popUpSizeX;
 	private int popUpSizeY;
 	private AbsolutePanel imgPanel;
-	private int imgPanelSizeX;
-	private int imgPanelSizeY;
 
 	private PictureBean[] pictures;
 
@@ -100,9 +98,7 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 		ap.setStyleName("popUpPanel");
 
 		imgPanel = new AbsolutePanel();
-		imgPanelSizeX = popUpSizeX;
-		imgPanelSizeY = popUpSizeY;
-		imgPanel.setPixelSize(imgPanelSizeX, imgPanelSizeY);
+		imgPanel.setPixelSize(popUpSizeX, popUpSizeY);
 
 		ap.add(imgPanel, 1, 1);
 
@@ -141,14 +137,14 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 		Touch touch = event.getTouches().get(0);
 		int movedX = startPositionX - touch.getClientX();
 		int movedY = startPositionY - touch.getClientY();
-		if (movedX > 15) {
+		if (movedX > 50) {
 			nextImg();
 		}
-		if (movedX < -15) {
+		if (movedX < -50) {
 			previousImg();
 		}
 
-		if (movedY > 15) {
+		if (movedY > 50) {
 			closeImg();
 		}
 	}
@@ -162,7 +158,7 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 	// TODO make the bottom panel bigger (text and close button)
 	private AbsolutePanel getBottomControllPanel() {
 		AbsolutePanel bottomPanel = new AbsolutePanel();
-		bottomPanel.setPixelSize(popUpSizeX, 50);
+		bottomPanel.setPixelSize(popUpSizeX, 200);
 		bottomPanel.setStyleName("bottomPanel");
 
 		closeIcon = new Image("template/ext/close.gif");
@@ -171,7 +167,8 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 				closeImg();
 			}
 		});
-		bottomPanel.add(closeIcon, popUpSizeX - 70, 3);
+		closeIcon.setPixelSize(150, 150);
+		bottomPanel.add(closeIcon, popUpSizeX - 170, 10);
 
 		lImgName = new Label();
 		bottomPanel.add(lImgName, 20, 2);
@@ -227,7 +224,7 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 	private void addImage(String imagePath) {
 		showLoadingProcess(true);
 		img = new ImagePopUp(imagePath, this);
-		imgPanel.add(img, imgPanelSizeX, imgPanelSizeY);
+		imgPanel.add(img, popUpSizeX, popUpSizeY);
 	}
 
 	/**
@@ -240,8 +237,8 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 		int iox = im.getWidth();
 		int ioy = im.getHeight();
 
-		float scaleX = (float) imgPanelSizeX / iox;
-		float scaleY = (float) imgPanelSizeY / ioy;
+		float scaleX = (float) popUpSizeX / iox;
+		float scaleY = (float) popUpSizeY / ioy;
 		// TODO change if the phone is rotated
 		// catch the event and adjust according
 		float scalef = scaleX <= scaleY ? scaleX : scaleY;
@@ -253,7 +250,7 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 		lImgComment.setText(pictures[currentImg].getDescription());
 
 		clearImg();
-		imgPanel.add(img, (imgPanelSizeX - ix) / 2, (imgPanelSizeY - iy) / 2);
+		imgPanel.add(img, (popUpSizeX - ix) / 2, (popUpSizeY - iy) / 2);
 
 		getNextAndPrevious(currentImg); // cache the next and previous pictures;
 	}
@@ -319,6 +316,10 @@ public class PopUpImgShowMobile extends PopUpImgShow {
 			new Image(imgPath + pictures[i + 1].getFileName());
 		if (i > 0)
 			new Image(imgPath + pictures[i - 1].getFileName());
+	}
+
+	public int getCurentImgId() {
+		return currentImg;
 	}
 
 }
